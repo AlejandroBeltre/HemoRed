@@ -8,6 +8,6 @@ namespace backend.Models
     public class tblBloodType
     {
         public int BloodTypeID { get; set; }
-        public required string BloodType { get; set; }
+        public string BloodType { get; set; }
     }
 }
