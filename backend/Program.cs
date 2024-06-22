@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 
 namespace backend
 {
@@ -15,6 +18,9 @@ namespace backend
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            var connection = new MySqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")!);
+            builder.Services.AddDbContext<ApplicationContext>(options => 
+            options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
 
             var app = builder.Build();
 
