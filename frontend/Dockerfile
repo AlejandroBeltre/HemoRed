@@ -1,12 +1,11 @@
-# Stage 1: Build the React app
-FROM node:18-alpine AS build
+FROM node:22.3.0-alpine AS build
+USER root
 WORKDIR /app
-COPY frontend/package.json frontend/package-lock.json ./
+COPY frontend/package*.json ./
 RUN npm install
 COPY frontend ./
 RUN npm run build
 
-# Stage 2: Serve the React app using Nginx
 FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 EXPOSE 80
