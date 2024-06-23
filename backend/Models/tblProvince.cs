@@ -7,7 +7,7 @@ namespace backend.Models
 {
     public class tblProvince
     {
-        public int ProvinceID { get; set; }
-        public required string Province { get; set; }
+        public int provinceID { get; set; }
+        public required string provinceName { get; set; }
     }
 }

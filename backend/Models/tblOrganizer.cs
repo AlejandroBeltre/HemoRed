@@ -7,12 +7,12 @@ namespace backend.Models
 {
     public class tblOrganizer
     {
-        public int OrganizerID { get; set; }
-        public int? AddressID { get; set; }
-        public required string OrganizerName { get; set; }
-        public required string Email { get; set; }
-        public required string Phone { get; set; }
+        public int organizerID { get; set; }
+        public int? addressID { get; set; }
+        public required string organizerName { get; set; }
+        public required string email { get; set; }
+        public required string phone { get; set; }
 
-        public tblAddress? Address { get; set; }
+        public tblAddress? address { get; set; }
     }
 }

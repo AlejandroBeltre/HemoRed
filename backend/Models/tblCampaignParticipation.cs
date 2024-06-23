@@ -7,11 +7,11 @@ namespace backend.Models
 {
     public class tblCampaignParticipation
     {
-        public int CampaignID { get; set; }
-        public int OrganizerID { get; set; }
-        public int DonationID { get; set; }
-        public required tblCampaign Campaign { get; set; }
-        public required tblOrganizer Organizer { get; set; }
-        public required tblDonation Donation { get; set; }
+        public int campaignID { get; set; }
+        public int organizerID { get; set; }
+        public int donationID { get; set; }
+        public required tblCampaign tblCampaign { get; set; }
+        public required tblOrganizer tblOrganizer { get; set; }
+        public required tblDonation tblDonation { get; set; }
     }
 }

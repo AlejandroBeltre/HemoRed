@@ -7,9 +7,9 @@ namespace backend.Models
 {
     public class tblUserCampaign
     {
-        public int CampaignID { get; set; }
-        public required string UserDocument { get; set; }
-        public required tblCampaign Campaign { get; set; }
-        public required tblUser User { get; set; }
+        public int campaignID { get; set; }
+        public required string userDocument { get; set; }
+        public required tblCampaign tblCampaign { get; set; }
+        public required tblUser tblUser { get; set; }
     }
 }

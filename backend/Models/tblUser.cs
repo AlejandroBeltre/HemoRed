@@ -1,27 +1,29 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
+using backend.Enums;
 
 namespace backend.Models
 {
     public class tblUser
     {
-        public required string DocumentNumber { get; set; }
-        public required string DocumentType { get; set; }
-        public int BloodTypeID { get; set; }
-        public int? AddressID { get; set; }
-        public required string FullName { get; set; }
-        public required string Email { get; set; }
-        public required string Password { get; set; }
-        public required DateTime BirthDate { get; set; }
-        public required string Gender { get; set; }
-        public string? Phone { get; set; }
-        public required string UserRole { get; set; }
-        public DateTime? LastDonationDate { get; set; }
-        public string? Image { get; set; }
+        public required string documentNumber { get; set; }
+        public required DocumentType documentType { get; set; }
+        public int bloodTypeID { get; set; }
+        public int? addressID { get; set; }
+        public required string fullName { get; set; }
+        public required string email { get; set; }
+        public required string password { get; set; }
+        public required DateOnly birthDate { get; set; }
+        public required Gender gender { get; set; }
+        public string? phone { get; set; }
+        public required UserRole userRole { get; set; }
+        public DateOnly? lastDonationDate { get; set; }
+        public string? image { get; set; }
 
-        public required tblBloodType BloodType { get; set; }
-        public tblAddress? Address { get; set; }
+        public required tblBloodType tblBloodType { get; set; }
+        public tblAddress? tblAddress { get; set; }
     }
 }

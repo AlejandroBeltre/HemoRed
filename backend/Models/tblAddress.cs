@@ -7,13 +7,13 @@ namespace backend.Models
 {
     public class tblAddress
     {
-        public int AddressID { get; set; }
-        public int MunicipalityID { get; set; }
-        public int ProvinceID { get; set; }
-        public required string Street { get; set; }
-        public required int BuildingNumber { get; set; }
+        public int addressID { get; set; }
+        public int municipalityID { get; set; }
+        public int provinceID { get; set; }
+        public required string street { get; set; }
+        public required int buildingNumber { get; set; }
 
-        public required tblMunicipality Municipality { get; set; }
-        public required tblProvince Province { get; set; }
+        public required tblMunicipality tblMunicipality { get; set; }
+        public required tblProvince tblProvince { get; set; }
     }
 }

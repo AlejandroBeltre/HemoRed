@@ -7,9 +7,9 @@ namespace backend.Models
 {
     public class tblEula
     {
-        public int EulaID { get; set; }
-        public required string Version { get; set; }
-        public required DateTime UpdateDate { get; set; }
-        public required string Content { get; set; }
+        public int eulaID { get; set; }
+        public required string version { get; set; }
+        public required DateOnly updateDate { get; set; }
+        public required string content { get; set; }
     }
 }

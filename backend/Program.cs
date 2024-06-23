@@ -19,9 +19,9 @@ namespace backend
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            var connection = new MySqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")!);
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<ApplicationContext>(options => 
-            options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
             var app = builder.Build();
 
@@ -38,7 +38,7 @@ namespace backend
 
             app.MapControllers();
 
-            app.Run("http://0.0.0.0:80");
+            app.Run();
         }
     }
 }

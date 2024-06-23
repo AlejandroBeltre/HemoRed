@@ -7,15 +7,15 @@ namespace backend.Models
 {
     public class tblBloodBag
     {
-        public int BagID { get; set; }
-        public int BloodTypeID { get; set; }
-        public int BloodBankID { get; set; }
-        public int DonationID { get; set; }
-        public required DateTime ExpirationDate { get; set; }
-        public bool IsReserved { get; set; }
+        public int bagID { get; set; }
+        public int bloodTypeID { get; set; }
+        public int bloodBankID { get; set; }
+        public int donationID { get; set; }
+        public required DateOnly expirationDate { get; set; }
+        public bool isReserved { get; set; }
 
-        public required tblBloodType BloodType { get; set; }
-        public required tblBloodBank BloodBank { get; set; }
-        public required tblDonation Donation { get; set; }
+        public required tblBloodType tblBloodType { get; set; }
+        public required tblBloodBank tblBloodBank { get; set; }
+        public required tblDonation tblDonation { get; set; }
     }
 }

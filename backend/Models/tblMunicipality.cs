@@ -7,10 +7,10 @@ namespace backend.Models
 {
     public class tblMunicipality
     {
-        public int MunicipalityID { get; set; }
-        public int ProvinceID { get; set; }
-        public required string MunicipalityName { get; set; }
+        public int municipalityID { get; set; }
+        public int provinceID { get; set; }
+        public required string municipalityName { get; set; }
 
-        public required tblProvince Province { get; set; }
+        public required tblProvince tblProvince { get; set; }
     }
 }

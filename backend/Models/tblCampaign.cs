@@ -7,16 +7,16 @@ namespace backend.Models
 {
     public class tblCampaign
     {
-        public int CampaignID { get; set; }
-        public int? AddressID { get; set; }
-        public int OrganizerID { get; set; }
-        public required string CampaignName { get; set; }
-         public required string Description { get; set; }
-        public required DateTime StartTimestamp { get; set; }
-        public required DateTime EndTimestamp { get; set; }
-        public string? Image { get; set; }
+        public int campaignID { get; set; }
+        public int? addressID { get; set; }
+        public int organizerID { get; set; }
+        public required string campaignName { get; set; }
+         public required string description { get; set; }
+        public required DateTime startTimestamp { get; set; }
+        public required DateTime endTimestamp { get; set; }
+        public string? image { get; set; }
 
-        public tblAddress? Address { get; set; }
-        public required tblOrganizer Organizer { get; set; }
+        public tblAddress? tblAddress { get; set; }
+        public required tblOrganizer tblOrganizer { get; set; }
     }
 }
