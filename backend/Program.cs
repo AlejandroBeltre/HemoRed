@@ -8,6 +8,7 @@ using backend.Context;
 using backend.Models;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace backend
 {
@@ -28,6 +29,18 @@ namespace backend
                 // File upload support
                 c.OperationFilter<FileUploadOperationFilter>();
             });
+            
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
+            
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<ApplicationContext>(options => 
@@ -41,14 +54,13 @@ namespace backend
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseHttpsRedirection();
-
             app.UseAuthorization();
 
             app.MapControllers();
 
-            app.Run("http://0.0.0.0:80");
+            app.UseCors("AllowAll");
+
+            app.Run();
         }
     }
 }
