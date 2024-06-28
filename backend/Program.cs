@@ -5,6 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using backend.Context;
+using backend.Models;
+using Microsoft.OpenApi;
+using Microsoft.OpenApi.Models;
 
 namespace backend
 {
@@ -18,7 +21,14 @@ namespace backend
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+                // File upload support
+                c.OperationFilter<FileUploadOperationFilter>();
+            });
+
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<ApplicationContext>(options => 
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -38,7 +48,7 @@ namespace backend
 
             app.MapControllers();
 
-            app.Run();
+            app.Run("http://0.0.0.0:80");
         }
     }
 }
