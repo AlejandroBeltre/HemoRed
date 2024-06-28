@@ -50,11 +50,16 @@ dotnet restore
 4. **SetUp MySQL con Server**
 
   a. Tener MySQL Workbench e iniciarlo.
-  b. En la sección de MySQL Connections dar clic en el botón de más para agregar una conección, ver imagen adjuntada para ayuda gráfica.
+  b. En la sección de MySQL Connections dar clic en el botón de más para agregar una conección.
     
-    ![image](https://github.com/AlejandroBeltre/HemoRed/assets/127040596/d41280dc-adcc-466e-8cdd-1842b1c2654a)
+  ![image](https://github.com/AlejandroBeltre/HemoRed/assets/127040596/d41280dc-adcc-466e-8cdd-1842b1c2654a)
 
-  c. 
+  c. Agregar el nombre de la conexión que desee, agregar la IP: 159.203.103.67 en el espacio de Hostname, agregar el Puerto: 3307, el username se queda en root y la contraseña es AsuntadorSupremo1234.
+
+  ![image](https://github.com/AlejandroBeltre/HemoRed/assets/127040596/ae25ee1c-4a28-4078-908c-1528c2371e8a)
+
+  d. Luego de esto validar que la conexión fue correcta en el botón de "Probar conexión" o "Test connection".
+
 
 ## Ejecutar la Aplicación
 
