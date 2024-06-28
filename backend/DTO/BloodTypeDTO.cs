@@ -1,3 +1,4 @@
+using backend.Enums;
 namespace backend.DTO;
 
 public class BloodTypeDto

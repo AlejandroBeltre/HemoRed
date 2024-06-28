@@ -5,6 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using backend.Context;
+using backend.Models;
+using Microsoft.OpenApi;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace backend
 {
@@ -18,7 +22,26 @@ namespace backend
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+                // File upload support
+                c.OperationFilter<FileUploadOperationFilter>();
+            });
+            
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
+            
+
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<ApplicationContext>(options => 
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -31,12 +54,11 @@ namespace backend
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseHttpsRedirection();
-
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.UseCors("AllowAll");
 
             app.Run();
         }
