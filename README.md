@@ -51,9 +51,8 @@ dotnet restore
 
   a. Tener MySQL Workbench e iniciarlo.
   b. En la sección de MySQL Connections dar clic en el botón de más para agregar una conección, ver imagen adjuntada para ayuda gráfica.
-  <div markdown=1>
+    
     ![image](https://github.com/AlejandroBeltre/HemoRed/assets/127040596/d41280dc-adcc-466e-8cdd-1842b1c2654a)
-  </div>
 
   c. 
 
