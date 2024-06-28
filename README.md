@@ -51,6 +51,7 @@ dotnet restore
 4. **SetUp MySQL con Server**
 
   a. Tener MySQL Workbench e iniciarlo.
+  
   b. En la sección de MySQL Connections dar clic en el botón de más para agregar una conección.
     
   ![image](https://github.com/AlejandroBeltre/HemoRed/assets/127040596/d41280dc-adcc-466e-8cdd-1842b1c2654a)
@@ -95,6 +96,14 @@ docker-compose up --build
 ```
 
 2. Ir a Docker Desktop para validar el contenedor de la app corriendo correctamente en el se pueden validar las imagenes y las rutas de donde se esta ejecutando el contenedor, desde este mismo UI podemos acceder a esta.
+
+3. **Puertos de las aplicaciones y la base de datos:**
+
+```bash
+backend-1: 8000:80
+frontend-1: 80:80
+mysql-1: 3308:3306
+```
 
 ## Contribuir
 
