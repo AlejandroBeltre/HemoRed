@@ -23,3 +23,27 @@ Este proyecto fue creado con [Create React App](https://github.com/facebook/crea
 - [dotnet](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
 - [MySQL](https://dev.mysql.com/doc/)
 
+## Instalación
+1. **Clonar el repositorio:**
+
+```bash
+git clone https://github.com/AlejandroBeltre/HemoRed.git
+
+cd HemoRed
+```
+
+2. **Instalar dependencias del frontend:**
+
+```bash
+cd frontend 
+
+npm install
+```
+
+3. **Instalar dependencias del backend:**
+
+```bash
+cd backend
+
+dotnet restore
+```
