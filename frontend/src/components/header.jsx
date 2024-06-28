@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Dropdown from './dropdownMenu'
 import DownOutlined from '@ant-design/icons/DownOutlined'
+import { Link } from 'react-router-dom'
+import  logo  from '../assets/images/HemoRedLogo.png'
 import './header.css'
 
 function Headers() {
@@ -17,7 +19,7 @@ function Headers() {
     return (
         <header>
             <div className="container">
-                <h1>Herr Red</h1>
+                <img src={logo} alt="Logo" className='logo'/>
                 <nav>
                     <ul>
                         <li 
@@ -33,6 +35,7 @@ function Headers() {
                             onMouseLeave={handleMouseLeave}
                         >
                             Solicitudes
+                            <DownOutlined className='down-icon' />
                             <Dropdown visible={activeDropdown === 'solicitudes'} />
                         </li>
                         <li 
@@ -40,6 +43,7 @@ function Headers() {
                             onMouseLeave={handleMouseLeave}
                         >
                             Gestión
+                            <DownOutlined className='down-icon' />
                             <Dropdown visible={activeDropdown === 'gestion'} />
                         </li>
                         <li 
@@ -47,6 +51,7 @@ function Headers() {
                             onMouseLeave={handleMouseLeave}
                         >
                             Campañas
+                            <DownOutlined className='down-icon' />
                             <Dropdown visible={activeDropdown === 'campanas'} />
                         </li>
                         <li 
@@ -54,6 +59,7 @@ function Headers() {
                             onMouseLeave={handleMouseLeave}
                         >
                             Cuenta
+                            <DownOutlined className='down-icon' />
                             <Dropdown visible={activeDropdown === 'cuenta'} />
                         </li>
                     </ul>

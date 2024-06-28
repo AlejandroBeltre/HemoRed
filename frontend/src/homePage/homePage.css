@@ -41,26 +41,19 @@
     margin-left: 1rem;
   }
   
-  /* Main Content */
-  main {
-    margin-top: 2rem;
-  }
-  
   /* Hero Section */
-  .hero-section {
-    height: 300px;
-    background-image: '';
-    background-size: cover;
-    background-position: center;
-    margin-bottom: 2rem;
+  .hero-image {
+    width: 100%;
   }
   
   /* Blood Types */
   .blood-types {
+    margin-top: 2rem;
     margin-bottom: 2rem;
   }
   
   .blood-types h2 {
+    color: #153440;
     font-size: 1.5rem;
     margin-bottom: 1rem;
   }

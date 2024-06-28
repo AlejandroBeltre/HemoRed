@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Instagram, Facebook, Twitter, MessageCircle } from 'lucide-react'
 import './footer.css'
+import logo from '../assets/images/HemoRedLogo.png'
 
 function Footer() {
     return (
@@ -8,7 +9,7 @@ function Footer() {
             <div className="container">
                 <div className="footer-content">
                     <div className="footer-links">
-                        <h2>Herr Red</h2>
+                        <img src={logo} alt="Logo" className='logo' />
                         <ul className='footer-list'>
                             <li>DONAR</li>
                             <li>COMPRAR SANGRE</li>

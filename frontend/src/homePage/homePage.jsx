@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Instagram, Facebook, Twitter, MessageCircle } from 'lucide-react';
 import '../App.css';
 import './homePage.css';
 import Dropdown from '../components/dropdownMenu';
 import Footer from '../components/footer';
 import Headers from '../components/header';
+import background from '../assets/images/HomePageBackground.png';
 
 function HomePage() {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -16,8 +16,8 @@ function HomePage() {
             {/* Main Content */}
             <main>
                 {/* Hero Section */}
-                <section className="hero-section">
-                    {/* Background image is set in CSS */}
+                <section>
+                    <img src={background} alt="Blood donation" className="hero-image" />
                 </section>
 
                 {/* Blood Types */}

@@ -30,10 +30,12 @@ header nav ul li {
     margin-left: 1rem;
     position: relative;
     padding: 0.5rem 0;
+    font-size: 17px;
 }
 
 header li:hover {
     cursor: pointer;
+    color: black;
 }
 
 header nav ul li {
@@ -49,4 +51,9 @@ header li:hover {
 .down-icon {
     margin-left: 2px;
     font-size: 13px; /* Adjust the size as needed */
+}
+
+.logo{
+    width: 200px;
+    height: 80px;
 }
