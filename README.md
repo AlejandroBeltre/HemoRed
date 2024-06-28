@@ -70,7 +70,7 @@ dotnet restore
 ```bash
 cd backend
 
-dotnet run or dotnet watch
+dotnet run o dotnet watch
 ```
 
 2. **Iniciar el frontend:**
