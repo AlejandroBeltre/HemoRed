@@ -1,4 +1,4 @@
-# HenoRed
+# HemoRed
 HemoRed es una plataforma web diseñada para optimizar los procesos de donación de sangre y mejorar la gestión de los bancos de sangre. Este proyecto tiene como objetivo conectar donantes con bancos de sangre, facilitar la adquisición de sangre y administrar campañas de donación.
 
 ## Tabla de contenidos
