@@ -59,6 +59,7 @@ dotnet restore
   ![image](https://github.com/AlejandroBeltre/HemoRed/assets/127040596/ae25ee1c-4a28-4078-908c-1528c2371e8a)
 
   d. Luego de esto validar que la conexión fue correcta en el botón de "Probar conexión" o "Test connection".
+  
   e. Si este paso fue exitoso puede entrar a la conexión en donde se encuentra la base de datos del proyecto llamada "HemoRedDB" y verificar que posee los datos.
 
 
