@@ -21,6 +21,7 @@ Este proyecto fue creado con [Create React App](https://github.com/facebook/crea
 - [.NET SDK](https://dotnet.microsoft.com/download)
 - [dotnet](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
 - [MySQL](https://dev.mysql.com/doc/)
+- [Docker](https://www.docker.com/products/docker-desktop/)
 
 ## Instalación
 1. **Clonar el repositorio:**
@@ -83,7 +84,18 @@ npm start
 
 ## Docker
 
+El docker del proyecto ya se encuentra confirgurado, se debe de tener una cuenta en Docker Hub logeada al Docker Desktop para poder ejecutar sin problemas. Este se utilizara para el deploy de la aplicación o correr en ambientes que no soporten nuestra aplicación.
 
+1. **Ejecutar el docker compose:**
+
+```bash
+cd HemoRed --volver al root del proyecto.
+
+docker-compose up --build
+```
+
+2. Ir a Docker Desktop para validar el contenedor de la app corriendo correctamente en el se pueden validar las imagenes y las rutas de donde se esta ejecutando el contenedor, desde este mismo UI podemos acceder a esta.
 
 ## Contribuir
 
+Por la naturaleza del proyecto a la hora de contribuir al proyecto se debe de seguir los Issues asignado a su User. A la hora de desarrollar dichos issues debe de crear una Branch nueva con el nombre del issue que esta solucionando, tras solucionar el issue y pushear su codigo debe de generar un pull request a la branch "Develop", la misma branch la usará el main developer en este caso [Alejandro Beltre](https://github.com/AlejandroBeltre). Luego de esto debe de esperar la aprobación del pull request para solucionar su issue, el mismo no debe de ser marcado solucionado hasta que sea aprobado.
