@@ -7,7 +7,6 @@ HemoRed es una plataforma web diseñada para optimizar los procesos de donación
 - [Requisitos Previos](#requisitos-previos)
 - [Instalación](#instalación)
 - [Ejecutar la Aplicación](#ejecutar-la-aplicación)
-- [SetUp MySQL](#setup-mysql)
 - [Docker](#docker)
 - [Contribuir](#contribuir)
 
@@ -46,4 +45,32 @@ npm install
 cd backend
 
 dotnet restore
+```
+
+4. **SetUp MySQL con Server**
+
+  a. Tener MySQL Workbench e iniciarlo.
+  b. En la sección de MySQL Connections dar clic en el botón de más para agregar una conección, ver imagen adjuntada para ayuda gráfica.
+  <div markdown=1>
+    ![image](https://github.com/AlejandroBeltre/HemoRed/assets/127040596/d41280dc-adcc-466e-8cdd-1842b1c2654a)
+  </div>
+
+  c. 
+
+## Ejecutar la Aplicación
+
+1. **Iniciar el backend:**
+
+```bash
+cd backend
+
+dotnet run or dotnet watch
+```
+
+2. **Iniciar el frontend:**
+
+```bash
+cd ../frontend
+
+npm start
 ```
