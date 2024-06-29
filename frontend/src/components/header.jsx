@@ -23,7 +23,9 @@ function Headers() {
     return (
         <header>
             <div className="container">
-                <img src={logo} alt="Logo" className='logo'/>
+                <Link to="/" style={{textDecoration: 'none', color: 'inherit'}}>
+                    <img src={logo} alt="Logo" className='logo'/>
+                </Link>
                 <nav>
                     <ul>
                         <li 

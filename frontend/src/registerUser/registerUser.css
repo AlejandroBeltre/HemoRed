@@ -1,0 +1,200 @@
+.register-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .register-form-container {
+    position: relative;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .register-form-container  h1,
+  .register-form-container p{
+    text-align: justify;
+    margin-inline-start: 2rem;
+  }
+
+  .register-form-container p {
+    font-size: 24px;
+  }
+
+  .back {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    text-align: left;
+    font-size: 32px;
+    color: #79858C;
+    cursor: pointer;
+    margin: 1rem
+  }
+
+  
+  .register-form {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 4rem;
+    text-align: left;
+    column-gap: 4rem;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 768px) {
+    .register-form {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .side-by-side {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 768px) {
+    .side-by-side {
+        grid-template-columns: 1fr; /* Stacks the fields vertically on smaller screens */
+    }
+}
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="password"],
+  input[type="date"],
+  select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+  
+  .radio-group {
+    display: flex;
+    gap: 40px;
+  }
+
+  label > input[type="radio"] {
+    margin-right: 1rem; 
+  }
+  
+  .register-button {
+    background-color: transparent;
+    color: #BF2C32;
+    border-color: #BF2C32;
+    padding: 10px;
+    border: 1px solid #BF2C32;
+    border-radius: 4px;
+    cursor: pointer;
+    position: flex;
+    align-self: center;
+    width: 30%;
+    margin: 0 auto;
+    grid-column: 1/-1;
+  }
+  
+  .login-link {
+    position: absolute;
+    bottom: 20px; /* Adjust this value to control the distance from the bottom */
+    left: 42%;
+    transform: translateX(-50%);
+    width: 50%;
+    transform: translateY(50%);
+    color: #79858C;
+    font-size: 14px!important; 
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .password-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .password-input input {
+    width: 100%;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 20px ;
+  }
+
+  .file-input {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .file-input input[type="file"]{
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    transform: none;
+    cursor: pointer;
+  }
+
+  .file-input-text {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    pointer-events: none;
+  }
+
+  .file-input-icon {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    pointer-events: none;
+  }
+
+  .notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
