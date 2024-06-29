@@ -1,17 +1,16 @@
 import React from 'react';
-import './dropdownMenu.css';
+import './dropdownMenuConsultas.css';
+import { Link } from 'react-router-dom';
 
 const Dropdown = ({ visible }) => {
   if (!visible) return null;
   return (
     <div className="dropdown-menu">
       <ul>
-        <li>Submenu 1</li>
-        <li>Submenu 2</li>
-        <li>Submenu 3</li>
+        <li><Link to="registerUser" style={{textDecoration: 'none', color: 'inherit'}}>Registro</Link></li>
       </ul>
     </div>
-  );
+  ); 
 };
 
 export default Dropdown;

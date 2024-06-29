@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Instagram, Facebook, Twitter, MessageCircle } from 'lucide-react'
+import { XOutlined, InstagramFilled, FacebookFilled } from '@ant-design/icons'
 import './footer.css'
 import logo from '../assets/images/HemoRedLogo.png'
 
@@ -17,10 +17,9 @@ function Footer() {
                         </ul>
                     </div>
                     <div className="social-icons">
-                        <Instagram />
-                        <Facebook />
-                        <Twitter />
-                        <MessageCircle />
+                        <InstagramFilled />
+                        <FacebookFilled />
+                        <XOutlined />
                     </div>
                 </div>
                 <div className="footer-bottom">

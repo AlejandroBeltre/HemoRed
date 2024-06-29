@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../App.css';
 import './homePage.css';
-import Dropdown from '../components/dropdownMenu';
 import Footer from '../components/footer';
 import Headers from '../components/header';
 import background from '../assets/images/HomePageBackground.png';

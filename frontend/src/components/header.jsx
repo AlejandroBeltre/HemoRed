@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
-import Dropdown from './dropdownMenu'
+import DropdownConsultas from './dropdownMenuConsultas'
+import DropdownSolicitudes from './dropdownMenuSolicitudes'
+import DropdownGestion from './dropdownMenuGestion'
+import DropdownCampañas from './dropdownMenuCampañas'
+import DropdownCuenta from './dropdownMenuCuenta'
 import DownOutlined from '@ant-design/icons/DownOutlined'
 import { Link } from 'react-router-dom'
 import  logo  from '../assets/images/HemoRedLogo.png'
@@ -28,7 +32,7 @@ function Headers() {
                         >
                             Consultas
                             <DownOutlined className='down-icon' />
-                            <Dropdown visible={activeDropdown === 'consultas'} />
+                            <DropdownConsultas visible={activeDropdown === 'consultas'} />
                         </li>
                         <li 
                             onMouseEnter={() => handleMouseEnter('solicitudes')} 
@@ -36,7 +40,7 @@ function Headers() {
                         >
                             Solicitudes
                             <DownOutlined className='down-icon' />
-                            <Dropdown visible={activeDropdown === 'solicitudes'} />
+                            <DropdownSolicitudes visible={activeDropdown === 'solicitudes'} />
                         </li>
                         <li 
                             onMouseEnter={() => handleMouseEnter('gestion')} 
@@ -44,15 +48,15 @@ function Headers() {
                         >
                             Gestión
                             <DownOutlined className='down-icon' />
-                            <Dropdown visible={activeDropdown === 'gestion'} />
+                            <DropdownGestion visible={activeDropdown === 'gestion'} />
                         </li>
                         <li 
-                            onMouseEnter={() => handleMouseEnter('campanas')} 
+                            onMouseEnter={() => handleMouseEnter('campañas')} 
                             onMouseLeave={handleMouseLeave}
                         >
                             Campañas
                             <DownOutlined className='down-icon' />
-                            <Dropdown visible={activeDropdown === 'campanas'} />
+                            <DropdownCampañas visible={activeDropdown === 'campañas'} />
                         </li>
                         <li 
                             onMouseEnter={() => handleMouseEnter('cuenta')} 
@@ -60,7 +64,7 @@ function Headers() {
                         >
                             Cuenta
                             <DownOutlined className='down-icon' />
-                            <Dropdown visible={activeDropdown === 'cuenta'} />
+                            <DropdownCuenta visible={activeDropdown === 'cuenta'} />
                         </li>
                     </ul>
                 </nav>
