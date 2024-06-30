@@ -6,7 +6,7 @@ import logo from '../assets/images/HemoRedLogo.png'
 function Footer() {
     return (
         <footer>
-            <div className="container">
+            <div className="container-footer">
                 <div className="footer-content">
                     <div className="footer-links">
                         <img src={logo} alt="Logo" className='logo' />
@@ -22,7 +22,7 @@ function Footer() {
                         <XOutlined />
                     </div>
                 </div>
-                <div className="footer-bottom">
+                <div className="footer-bottom-foot">
                     <p>Grupo 02 | 2024 | Aseguramiento de la calidad</p>
                 </div>
             </div>

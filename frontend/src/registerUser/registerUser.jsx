@@ -323,7 +323,7 @@ function RegisterUser() {
             <button type="submit" className="register-button">Registrarse</button>
             </form>
             <p className="login-link">
-                <Link to="/login" style={{color: 'inherit'}}>¿Ya tienes una cuenta?</Link>
+                <Link to="/loginUser" style={{color: 'inherit'}}>¿Ya tienes una cuenta?</Link>
             </p>
         </div>
         <Footer />
