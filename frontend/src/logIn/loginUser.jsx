@@ -65,7 +65,7 @@ function LoginUser() {
                 </div>
                 <p className='recover-account'><Link to="/recoverPassword" style={{color: 'inherit'}}>Recuperar Contraseña</Link></p>
             </div>
-                <button type="submit" className="submit-button">Iniciar sesión</button>
+                <button type="submit" className="submit-button" onClick={handleSubmit}>Iniciar sesión</button>
                 <p className='no-account'><Link to="/registerUser" style={{color: 'inherit'}}>No tengo cuenta</Link></p>
                 </form>
             </div>
