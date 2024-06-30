@@ -1,0 +1,79 @@
+.viewBankDetails-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .viewBankDetails-body {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .left-column, .right-column {
+    width: 48%;
+  }
+  
+  .blood-types {
+    margin-top: 20px;
+  }
+  
+  .donor-button, .acquire-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  
+  .donor-button {
+    background-color: white;
+    color: #c41e3a;
+    border: 1px solid #c41e3a;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  
+  .acquire-button {
+    background-color: #c41e3a;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  
+  .buttons-banks {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .info-box {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid #c41e3a;
+    margin-top: 10px;
+  }
+
+  .info-box p {
+    color: #c41e3a;
+    margin: 5px 0;
+    line-height: 1.2;
+  }
+
+  .info-box h3 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+  }
+  
+  .map {
+    height: auto;
+    width: auto;
+  }
+
+  .viewBankDetails .left-column .bank-detail-logo {
+    max-width: 100%; /* Ensures the image is not wider than its container */
+    width: 200px; /* Set a fixed width for the image */
+    height: 200px; /* Set a fixed height for the image */
+    display: block; /* Removes bottom space under the image */
+    margin: 0 auto; /* Centers the image */
+    object-fit: contain; /* Ensures the entire image is visible */
+  }
