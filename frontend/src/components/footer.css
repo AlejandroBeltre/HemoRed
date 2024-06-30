@@ -1,7 +1,8 @@
-.container {
+.container-footer {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    color: white;
   }
 
 footer {
@@ -43,10 +44,15 @@ footer {
     font-size: 40px;
   }
   
-  .footer-bottom {
+  .footer-bottom-foot {
     text-align: center;
+    color: white;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 1rem;
+  }
+
+  .footer-bottom-foot p {
+    color: white;
   }
 
   .logo{

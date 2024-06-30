@@ -118,6 +118,7 @@
     left: 42%;
     transform: translateX(-50%);
     width: 50%;
+    top: 96%;
     transform: translateY(50%);
     color: #79858C;
     font-size: 14px!important; 
