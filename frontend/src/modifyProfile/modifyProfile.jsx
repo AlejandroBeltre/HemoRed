@@ -61,7 +61,7 @@ function ModifyProfile() {
         <Headers />
         <ArrowLeftOutlined className="back" onClick={handleBack} />
         <div className="user-modify-form-container">
-        <div className="user-info">
+        <div className="user-info-modify">
           <h1>Perfil</h1>
             <div className="user-image">
                 <img src="https://via.placeholder.com/200" alt="User" />

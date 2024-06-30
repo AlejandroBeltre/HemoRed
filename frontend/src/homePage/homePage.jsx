@@ -33,7 +33,7 @@ function HomePage() {
                 </section>
 
                 {/* Blood Types */}
-                <section className="blood-types">
+                <section className="blood-types-homepage">
                     <h2>TIPOS DE SANGRE</h2>
                     <div className="blood-type-grid">
                         <img src={APositive} alt="A+" />

@@ -47,12 +47,12 @@
   }
   
   /* Blood Types */
-  .blood-types {
+  .blood-types-homepage {
     margin-top: 2rem;
     margin-bottom: 2rem;
   }
   
-  .blood-types h2 {
+  .blood-types-homepage h2 {
     color: #153440;
     font-size: 32px;
     margin-bottom: 1rem;
