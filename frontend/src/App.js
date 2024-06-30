@@ -5,7 +5,10 @@ import HomePage from './homePage/homePage';
 import RegisterUser from './registerUser/registerUser';
 import LoginUser from './logIn/loginUser';
 import RecoverPassword from './recoverPassword/recoverPassword';
-
+import ModifyProfile from './modifyProfile/modifyProfile';
+import ViewDonationHistory from './viewDonationHistory/viewDonationhistory';
+import ViewBanks from './viewBanks/viewBanks';
+  
 function App() {
   return (
     <div className="App">
@@ -13,7 +16,10 @@ function App() {
         <Route path="/" element={<HomePage />}/>
         <Route path="/registerUser" element={<RegisterUser />}/>
         <Route path="/loginUser" element={<LoginUser />}/>  
-        <Route path="/recoverPassword" element={<RecoverPassword />}/>
+        <Route path="/loginUser/recoverPassword" element={<RecoverPassword />}/>
+        <Route path="/modifyProfile" element={<ModifyProfile />}/>
+        <Route path="/viewDonationHistory" element={<ViewDonationHistory />}/>
+        <Route path="/viewBanks" element={<ViewBanks />}/>
       </Routes>
     </div>
   );

@@ -39,7 +39,7 @@ function LoginUser() {
                 <p>Tu apoyo continuo es esencial: sigue donando y juntos construiremos un mundo mejor.</p>
                 <form>
                 <div className="form-group-login">
-                    <label htmlFor="email">Correo electrónico</label>
+                    <label htmlFor="email">Correo electrónico:</label>
                     <input 
                     type="email" 
                     id="email" 
@@ -63,7 +63,7 @@ function LoginUser() {
                   {passwordVisible ? <EyeInvisibleOutlined /> : <EyeOutlined />}
                 </button>
                 </div>
-                <p className='recover-account'><Link to="/recoverPassword" style={{color: 'inherit'}}>Recuperar Contraseña</Link></p>
+                <p className='recover-account'><Link to="/loginUser/recoverPassword" style={{color: 'inherit'}}>Recuperar Contraseña</Link></p>
             </div>
                 <button type="submit" className="submit-button" onClick={handleSubmit}>Iniciar sesión</button>
                 <p className='no-account'><Link to="/registerUser" style={{color: 'inherit'}}>No tengo cuenta</Link></p>
