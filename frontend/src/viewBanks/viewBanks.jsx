@@ -69,7 +69,6 @@ function ViewBanks() {
     const handleBack = () => {
         navigate(-1);
     }
-    
     return(
         <div>
             <Headers />

@@ -9,6 +9,7 @@ import ModifyProfile from './modifyProfile/modifyProfile';
 import ViewDonationHistory from './viewDonationHistory/viewDonationhistory';
 import ViewBanks from './viewBanks/viewBanks';
 import ViewBankDetails from './viewBanks/viewBankDetails';
+import ViewBloodRequestStatus from './viewBloodRequestStatus/viewBloodRequestStatus';
   
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/viewDonationHistory" element={<ViewDonationHistory />}/>
         <Route path="/viewBanks" element={<ViewBanks />}/>
         <Route path="/viewBanks/viewBankDetails/:id" element={<ViewBankDetails />}/>
+        <Route path="/viewBloodRequestStatus" element={<ViewBloodRequestStatus />}/>
       </Routes>
     </div>
   );

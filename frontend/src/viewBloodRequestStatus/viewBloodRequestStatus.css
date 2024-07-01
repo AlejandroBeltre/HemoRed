@@ -1,0 +1,27 @@
+.view-blood-request-status-container h1{
+    color: #333;
+    font-size: 32px;
+}
+
+
+.blood-request-status-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 10px;
+}
+
+.blood-request-status-block {
+    flex: 1;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #BF2C32;
+    border-radius: 5px;
+    width: 30%;
+    margin: 10px;
+}
+
+.blood-request-status-body p{
+    margin: 0;
+}
