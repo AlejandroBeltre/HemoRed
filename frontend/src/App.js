@@ -10,6 +10,7 @@ import ViewDonationHistory from './viewDonationHistory/viewDonationhistory';
 import ViewBanks from './viewBanks/viewBanks';
 import ViewBankDetails from './viewBanks/viewBankDetails';
 import ViewBloodRequestStatus from './viewBloodRequestStatus/viewBloodRequestStatus';
+import ManageBloodInventory from './manageBloodInventory/manageBloodInvetory';
   
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/viewBanks" element={<ViewBanks />}/>
         <Route path="/viewBanks/viewBankDetails/:id" element={<ViewBankDetails />}/>
         <Route path="/viewBloodRequestStatus" element={<ViewBloodRequestStatus />}/>
+        <Route path="/manageBloodInventory" element={<ManageBloodInventory />}/>
       </Routes>
     </div>
   );
