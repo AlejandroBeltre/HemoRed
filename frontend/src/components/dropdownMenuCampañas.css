@@ -22,6 +22,7 @@
     cursor: pointer;
     color: white;
     white-space: nowrap; /* Prevents text wrapping */
+    user-select: none;  
 }
 
 .dropdown-menu li:hover {
