@@ -1,0 +1,114 @@
+/* manageBloodInventory.css */
+
+.view-blood-request-status-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .inventory-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .blood-bank-inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .blood-bank-card {
+    border: 1px solid #153440;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .blood-inventory-bank-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    color: #153440;
+  }
+  
+  .bank-status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+  }
+  
+  .status-active {
+    background-color: #e6f4ea;
+    color: #137333;
+  }
+  
+  .status-inactive {
+    background-color: #fce8e6;
+    color: #c5221f;
+  }
+  
+  .-blood-inventory-card-content {
+    padding: 15px;
+  }
+  
+  .bank-info {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .blood-types-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 5px;
+  }
+  
+  .blood-type-display {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    
+  }
+  
+  .blood-emoji {
+    color: #c5221f;
+    margin-right: 5px;
+  }
+  
+  .blood-type {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  .edit-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #BF2C32;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+  
+  .edit-icon {
+    margin-right: 5px;
+  }
+
+  
