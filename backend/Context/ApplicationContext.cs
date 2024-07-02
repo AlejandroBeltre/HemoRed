@@ -2,6 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
 using backend.Enums;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace backend.Context
 {
@@ -133,6 +134,15 @@ namespace backend.Context
                 entity.HasOne(e => e.tblEula).WithMany().HasForeignKey(e => e.eulaID);
                 entity.HasOne(e => e.tblUser).WithMany().HasForeignKey(e => e.userDocument);
             });
+            base.OnModelCreating(modelBuilder);
+
+            var converter = new ValueConverter<BloodType, string>(
+                v => v.ToDatabaseString(),
+                v => BloodTypeExtensions.FromDatabaseString(v));
+
+            modelBuilder.Entity<tblBloodType>()
+                .Property(e => e.bloodType)
+                .HasConversion(converter);
         }
     }
 }

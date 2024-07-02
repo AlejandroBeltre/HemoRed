@@ -1,7 +1,9 @@
 using backend.Context;
 using backend.DTO;
+using backend.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 
 namespace backend.Controllers;
 
@@ -15,11 +17,11 @@ public class BloodTypeController(ApplicationContext applicationContext) : Contro
     {
         return await applicationContext.tblBloodType.Select(e => new BloodTypeDto
         {
-            BloodType = e.bloodType,
+            BloodType = e.bloodType.ToDatabaseString(),
             BloodTypeID = e.bloodTypeID
         }).ToListAsync();
     }
-
+    
     [HttpGet("get{id}")]
     public async Task<BloodTypeDto?> GetBloodTypeById(int id)
     {
@@ -30,7 +32,7 @@ public class BloodTypeController(ApplicationContext applicationContext) : Contro
         }
         return new BloodTypeDto
         {
-            BloodType = bloodType.bloodType,
+            BloodType = bloodType.bloodType.ToDatabaseString(),
             BloodTypeID = bloodType.bloodTypeID
         };
     }
