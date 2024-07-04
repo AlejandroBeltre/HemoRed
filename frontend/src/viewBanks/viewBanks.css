@@ -40,7 +40,9 @@
   }
 
   .card-content-blood-bank{
-    position: relative;
+    position: flex;
+    flex-direction: column;
+    
   }
   
   .blood-bank-card h2 {

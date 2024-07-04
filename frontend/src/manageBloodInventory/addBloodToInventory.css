@@ -1,0 +1,77 @@
+.form-group-add-blood-to-inventory-form{
+    text-align: left;
+    width: 100%;
+}
+
+.add-blood-to-bank-inventory-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.form-group-add-blood-to-inventory {
+    display: flex;
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* First and last margin adjustments might not be necessary with the new structure */
+.input-continer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.input-container:last-child {
+    margin-bottom: 0;
+    width: 50%;
+}
+
+.input-container:first-child {
+    margin-right: 10px; /* Removes right margin from the last container */
+    width: 50%;
+}
+
+.input-container .form-control {
+    height: 40px; /* Example height, adjust as needed */
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+.button-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    width: 100%; /* Ensures the container spans the full width */
+}
+.accept-button-blood-inventory {
+    background-color: transparent;
+    color: #BF2C32;
+    border-color: #BF2C32;
+    padding: 10px;
+    border: 1px solid #BF2C32;
+    border-radius: 10px;
+    width: 70%;
+    margin-top: 10px;
+}
+
+.accept-button-blood-inventory:hover {
+    background-color: #a6292a; /* Darker shade on hover */
+    color: white;
+}
+
+.add-blood-to-inventory-container {
+    margin-bottom: 4rem;
+}

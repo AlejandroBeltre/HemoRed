@@ -10,9 +10,11 @@
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
+    text-align: left;
   }
   
   .blood-bank-inventory-grid {
+    margin-top: 10px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
@@ -66,6 +68,7 @@
     font-size: 14px;
     color: #666;
     margin-bottom: 10px;
+    text-align: left;
   }
   
   .blood-types-grid {
@@ -111,4 +114,45 @@
     margin-right: 5px;
   }
 
+  .blood-banks-filtering{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border: #BF2C32 1px solid;
+  }
+
+  .bank-selection  {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .add-blood-btn, .blood-banks-filtering {
+    height: 40px; /* Set a specific height */
+    padding: 0 10px; /* Adjust padding as needed */
+    align-items: center; /* This helps align the text or content inside vertically */
+    box-sizing: border-box;
+  }
+
+  .add-blood-btn {
+    background-color: transparent;
+    color: #BF2C32;
+    border-color: #BF2C32;
+    padding: 10px;
+    border: 1px solid #BF2C32;
+    border-radius: 4px;
+    cursor: pointer;
+    position: flex;
+    align-self: center;
+    width: 20%;
+    margin: 0 auto;
+    grid-column: 1/-1;
+    font-size: 14px;
+  }
+
   
+.blood-banks-filtering {
+  margin: 0 0;
+  font-size: 14px; /* Adjust as needed */
+}
