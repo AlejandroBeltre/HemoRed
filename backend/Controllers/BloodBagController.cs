@@ -84,10 +84,7 @@ public class BloodBagController(ApplicationContext context) : ControllerBase
             {
                 return NotFound();
             }
-            else
-            {
-                throw;
-            }
+            throw;
         }
 
         return NoContent();
