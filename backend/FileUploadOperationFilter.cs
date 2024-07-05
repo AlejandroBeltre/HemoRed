@@ -39,17 +39,25 @@ public class FileUploadOperationFilter : IOperationFilter
                 uploadMediaType.Schema.Properties.Add(property.Key, property.Value);
             }
 
-            uploadMediaType.Schema.Properties.Add("image", new OpenApiSchema()
+            // Check if the "image" key already exists
+            if (!uploadMediaType.Schema.Properties.ContainsKey("image"))
             {
-                Description = "Upload File",
-                Type = "string",
-                Format = "binary"
-            });
+                uploadMediaType.Schema.Properties.Add("image", new OpenApiSchema()
+                {
+                    Description = "Upload File",
+                    Type = "string",
+                    Format = "binary"
+                });
+            }
 
-            uploadMediaType.Encoding = new Dictionary<string, OpenApiEncoding>
+            // Check if the "image" key already exists in the Encoding dictionary
+            if (!uploadMediaType.Encoding.ContainsKey("image"))
             {
-                ["image"] = new OpenApiEncoding { Style = ParameterStyle.Form }
-            };
+                uploadMediaType.Encoding = new Dictionary<string, OpenApiEncoding>
+                {
+                    ["image"] = new OpenApiEncoding { Style = ParameterStyle.Form }
+                };
+            }
         }
         else
         {

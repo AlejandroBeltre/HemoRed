@@ -22,7 +22,7 @@ public class BloodTypeController(ApplicationContext applicationContext) : Contro
         }).ToListAsync();
     }
     
-    [HttpGet("get{id}")]
+    [HttpGet("get/{id}")]
     public async Task<BloodTypeDto?> GetBloodTypeById(int id)
     {
         var bloodType = await applicationContext.tblBloodType.FindAsync(id);
@@ -37,7 +37,7 @@ public class BloodTypeController(ApplicationContext applicationContext) : Contro
         };
     }
 
-    [HttpDelete("delete{id}")]
+    [HttpDelete("delete/{id}")]
     public async Task<bool> DeleteBloodType(int id)
     {
         var bloodType = await applicationContext.tblBloodType.FindAsync(id);

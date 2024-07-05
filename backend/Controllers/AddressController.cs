@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Context;
@@ -13,20 +8,13 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
 [ApiController]
-public class AddressController : ControllerBase
+public class AddressController(ApplicationContext context) : ControllerBase
 {
-    private readonly ApplicationContext _context;
-
-    public AddressController(ApplicationContext context)
-    {
-        _context = context;
-    }
-
     // GET: api/Address
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AddressDto>>> GettblAddress()
     {
-        return await _context.tblAddress
+        return await context.tblAddress
             .Select(a => new AddressDto
             {
                 AddressID = a.addressID,
@@ -42,7 +30,7 @@ public class AddressController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<AddressDto>> GettblAddress(int id)
     {
-        var address = await _context.tblAddress
+        var address = await context.tblAddress
             .Where(a => a.addressID == id)
             .Select(a => new AddressDto
             {
@@ -66,7 +54,7 @@ public class AddressController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PuttblAddress(int id, newAddressDTO newAddressDto)
     {
-        var address = await _context.tblAddress.FindAsync(id);
+        var address = await context.tblAddress.FindAsync(id);
         if (address == null)
         {
             return NotFound();
@@ -80,11 +68,11 @@ public class AddressController : ControllerBase
 
         try
         {
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!tblAddressExists(id))
+            if (!TblAddressExists(id))
             {
                 return NotFound();
             }
@@ -111,8 +99,8 @@ public class AddressController : ControllerBase
             tblProvince = null
         };
 
-        _context.tblAddress.Add(address);
-        await _context.SaveChangesAsync();
+        context.tblAddress.Add(address);
+        await context.SaveChangesAsync();
 
         return CreatedAtAction("GettblAddress", new { id = address.addressID }, newAddressDto);
     }
@@ -121,21 +109,21 @@ public class AddressController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletetblAddress(int id)
     {
-        var tblAddress = await _context.tblAddress.FindAsync(id);
+        var tblAddress = await context.tblAddress.FindAsync(id);
         if (tblAddress == null)
         {
             return NotFound();
         }
 
-        _context.tblAddress.Remove(tblAddress);
-        await _context.SaveChangesAsync();
+        context.tblAddress.Remove(tblAddress);
+        await context.SaveChangesAsync();
 
         return NoContent();
     }
 
-    private bool tblAddressExists(int id)
+    private bool TblAddressExists(int id)
     {
-        return _context.tblAddress.Any(e => e.addressID == id);
+        return context.tblAddress.Any(e => e.addressID == id);
     }
 }
 }

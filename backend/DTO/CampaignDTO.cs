@@ -12,7 +12,7 @@ public class CampaignDto
     public string? Image { get; set; }
 }
 
-public class NewCampaignDTO
+public class NewCampaignDto
 {
     public int? AddressID { get; set; }
     public int OrganizerID { get; set; }
