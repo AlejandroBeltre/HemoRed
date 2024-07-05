@@ -6,17 +6,19 @@ public class RequestDto
 {
     public int RequestID { get; set; }
     public string UserDocument { get; set; }
-    public int BloodTypeID { get; set; }
+    public int BloodBank { get; set; }
+    public int BloodTypeId { get; set; }
     public DateTime RequestTimeStamp { get; set; }
     public string RequestReason { get; set; }
     public int RequestedAmount { get; set; }
     public Status Status { get; set; }
 }
 
-public class NewRequestDTO
+public class NewRequestDto
 {
     public string UserDocument { get; set; }
-    public int BloodTypeID { get; set; }
+    public int BloodTypeId { get; set; }
+    public int BloodBank { get; set; }
     public DateTime RequestTimeStamp { get; set; }
     public string RequestReason { get; set; }
     public int RequestedAmount { get; set; }
