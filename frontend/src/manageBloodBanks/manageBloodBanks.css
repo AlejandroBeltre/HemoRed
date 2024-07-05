@@ -1,0 +1,36 @@
+.edit-button-manage-blood-banks{
+    background-color: transparent;
+    color: #153440;
+    border-color: #153440;
+    padding: 10px;
+    border: 1px solid #153440;
+    border-radius: 4px;
+    cursor: pointer;
+    position: flex;
+    align-self: center;
+    width: 50%;
+    margin: 0 auto;
+    font-size: 14px;
+}
+
+.toggle-active-button {
+    background-color: transparent;
+    color: #BF2C32;
+    border-color: #BF2C32;
+    padding: 10px;
+    border: 1px solid #BF2C32;
+    border-radius: 4px;
+    cursor: pointer;
+    position: flex;
+    align-self: center;
+    width: 50%;
+    margin: 10px;
+    font-size: 14px;
+}
+
+
+.toggle-active-button.deactivate {
+    background-color: #BF2C32;
+    border: 1px solid #BF2C32;
+    color: white;
+}
