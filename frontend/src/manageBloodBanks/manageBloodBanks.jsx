@@ -23,7 +23,7 @@ const BloodTypeDisplay = ({ type }) => {
 const BloodBankCard = ({ bank, toggleActiveStatus }) => {
     const navigate = useNavigate();
     const navigateToEditPage = () => {
-        navigate(`/manageBloodInventory/modifyBloodInventory/${bank.id}`);
+        navigate(`/manageBloodBanks/modifyBloodBank/${bank.id}`);
     }
     return (
         <div className="blood-bank-card">
@@ -146,7 +146,7 @@ function ManageBloodBanks() {
 
     const navigate = useNavigate();
     const navigateToAddBloodPage = () => {
-        navigate('/addBloodBank');
+        navigate('/manageBloodBanks/addBloodBank');
     };
     const handleBack = () => {
         navigate(-1);
