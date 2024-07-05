@@ -9,14 +9,14 @@ namespace backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UserController(ApplicationContext applicationContext) : ControllerBase
+public class UserController(ApplicationContext _context) : ControllerBase
 {
 
     // GET: api/Users
     [HttpGet("get")]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
     {
-        return await applicationContext.tblUser
+        return await _context.tblUser
             .Select(u => new UserDto
             {
                 DocumentNumber = u.documentNumber,
@@ -41,7 +41,7 @@ public class UserController(ApplicationContext applicationContext) : ControllerB
     [HttpGet("get/id")]
     public async Task<ActionResult<UserDto>> GetUser(string id)
     {
-        var user = await applicationContext.tblUser.Where(u => u.documentNumber == id).Select(u => new UserDto
+        var user = await _context.tblUser.Where(u => u.documentNumber == id).Select(u => new UserDto
             {
                 DocumentNumber = u.documentNumber,
                 DocumentType= u.documentType,
@@ -81,8 +81,8 @@ public class UserController(ApplicationContext applicationContext) : ControllerB
             await using var stream = new FileStream(imagePath, FileMode.Create);
             await image.CopyToAsync(stream);
         }
-        var address = await applicationContext.tblAddress.FindAsync(newUserDto.AddressID);
-        var bloodType = await applicationContext.tblBloodType.FindAsync(newUserDto.BloodTypeID);
+        var address = await _context.tblAddress.FindAsync(newUserDto.AddressID);
+        var bloodType = await _context.tblBloodType.FindAsync(newUserDto.BloodTypeID);
         
         if (bloodType == null || address == null)
         {
@@ -107,8 +107,8 @@ public class UserController(ApplicationContext applicationContext) : ControllerB
             tblAddress = address
         };
 
-        applicationContext.tblUser.Add(user);
-        await applicationContext.SaveChangesAsync();
+        _context.tblUser.Add(user);
+        await _context.SaveChangesAsync();
 
         var createdUserDto= new UserDto()
         {
@@ -131,7 +131,7 @@ public class UserController(ApplicationContext applicationContext) : ControllerB
     [HttpPut("{id}")]
     public async Task<IActionResult> PutUser(string id, NewUserDTO newUserDto)
     {
-        var user = await applicationContext.tblUser.FindAsync(id);
+        var user = await _context.tblUser.FindAsync(id);
         if (user == null)
         {
             return NotFound();
@@ -152,7 +152,7 @@ public class UserController(ApplicationContext applicationContext) : ControllerB
 
         try
         {
-            await applicationContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -168,14 +168,14 @@ public class UserController(ApplicationContext applicationContext) : ControllerB
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(string id)
     {
-        var user = await applicationContext.tblUser.FindAsync(id);
+        var user = await _context.tblUser.FindAsync(id);
         if (user == null)
         {
             return NotFound();
         }
 
-        applicationContext.tblUser.Remove(user);
-        await applicationContext.SaveChangesAsync();
+        _context.tblUser.Remove(user);
+        await _context.SaveChangesAsync();
 
         return NoContent();
     }
@@ -183,6 +183,6 @@ public class UserController(ApplicationContext applicationContext) : ControllerB
 
     private bool UserExists(string id)
     {
-        return applicationContext.tblUser.Any(e => e.documentNumber == id);
+        return _context.tblUser.Any(e => e.documentNumber == id);
     }
 }

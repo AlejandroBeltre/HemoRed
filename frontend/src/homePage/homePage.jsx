@@ -21,6 +21,10 @@ import NeedBlood from '../assets/images/NeedBlood.png';
 
 function HomePage() {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
+    const navigate = useNavigate();
+    const handleRequestBlood = () => {
+        navigate('/requestBlood');
+    };
     return (
         <div className="blood-donation-page">
             {/* Header */}
@@ -85,7 +89,7 @@ function HomePage() {
                     </div>
                     <div className="need-blood-text">
                         <p>"Para quienes enfrentan situaciones críticas de salud, comprar sangre no es solo una necesidad, sino una esperanza de vida. Cada gota cuenta, y tu ayuda puede marcar la diferencia en su lucha por sobrevivir."</p>
-                        <button className="btn btn-secondary">Adquirir sangre</button>
+                        <button className="btn btn-secondary" onClick={handleRequestBlood}>Adquirir sangre</button>
                     </div>
                 </section>
 

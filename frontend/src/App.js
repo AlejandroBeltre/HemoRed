@@ -14,6 +14,9 @@ import ManageBloodInventory from './manageBloodInventory/manageBloodInvetory';
 import AddBloodToInventory from './manageBloodInventory/addBloodToInventory';
 import ModifyBloodInventory from './manageBloodInventory/modifyBloodInventory';
 import ManageBloodBanks from './manageBloodBanks/manageBloodBanks';
+import AddBloodBank from './manageBloodBanks/addBloodBank';
+import ModifyBloodBank from './manageBloodBanks/modifyBloodBank';
+import RequestBlood from './requestBlood/requestBlood';
   
 function App() {
   return (
@@ -32,6 +35,9 @@ function App() {
         <Route path="/manageBloodInventory/addBloodToInventory" element={<AddBloodToInventory/>}/>
         <Route path="/manageBloodInventory/modifyBloodInventory/:bankId" element={<ModifyBloodInventory/>}/>
         <Route path="/manageBloodBanks" element={<ManageBloodBanks />}/>
+        <Route path="/manageBloodBanks/addBloodBank" element={<AddBloodBank />}/>
+        <Route path="/manageBloodBanks/modifyBloodBank/:bankId" element={<ModifyBloodBank />}/>
+        <Route path="/requestBlood" element={<RequestBlood />}/>
       </Routes>
     </div>
   );

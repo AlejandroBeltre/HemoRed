@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { XOutlined, InstagramFilled, FacebookFilled } from '@ant-design/icons'
 import './footer.css'
 import logo from '../assets/images/HemoRedLogo.png'
+import { Link } from 'react-router-dom';
 
 function Footer() {
     return (
@@ -12,7 +13,7 @@ function Footer() {
                         <img src={logo} alt="Logo" className='logo' />
                         <ul className='footer-list'>
                             <li>DONAR</li>
-                            <li>COMPRAR SANGRE</li>
+                            <li><Link to="/requestBlood" style={{textDecoration: 'none', color: 'inherit'}}>SOLICITAR SANGRE</Link></li>
                             <li>CAPACITACIONES</li>
                         </ul>
                     </div>

@@ -1,0 +1,9 @@
+.submit-button:hover {
+    background-color: white;
+    color: #BF2C32;
+    border: 1px solid #BF2C32;
+}
+
+.submit-button {
+    margin-bottom: 10px;
+}

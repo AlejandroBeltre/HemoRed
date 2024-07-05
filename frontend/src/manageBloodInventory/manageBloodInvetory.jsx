@@ -160,7 +160,6 @@ function ManageBloodInventory() {
                                     onClick={() => handleBankSelect(bank.name)}
                                     className="search-result-item"
                                 >
-                                    {bank.name}
                                 </div>
                             ))}
                         </div>
