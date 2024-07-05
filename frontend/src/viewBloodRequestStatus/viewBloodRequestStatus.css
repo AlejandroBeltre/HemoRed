@@ -3,6 +3,11 @@
     font-size: 32px;
 }
 
+.view-blood-request-status-container .ant-tabs-tab-btn{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 
 .blood-request-status-list{
     display: flex;
@@ -13,15 +18,42 @@
 }
 
 .blood-request-status-block {
-    flex: 1;
-    margin-top: 20px;
-    padding: 20px;
+    flex: 0 0 30%;  
+    padding: 10px;
     border: 1px solid #BF2C32;
-    border-radius: 5px;
-    width: 30%;
-    margin: 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
 }
 
 .blood-request-status-body p{
     margin: 0;
+}
+
+
+.blood-request-status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.blood-request-status-item svg,
+.blood-request-status-item .anticon {
+    margin-right: 8px;
+}
+
+.blood-request-status-item p {
+    margin: 0;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.blood-request-status-item .label{
+    text-align: left;
+}
+
+.blood-request-status-item .value{
+    text-align: right;
 }

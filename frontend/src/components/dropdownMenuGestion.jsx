@@ -8,6 +8,7 @@ const Dropdown = ({ visible }) => {
     <div className="dropdown-menu">
       <ul>
       <li><Link to="/manageBloodInventory" style={{textDecoration: 'none', color: 'inherit'}}>Gestionar Inventario de Sangre</Link></li>
+      <li><Link to="/manageBloodBanks" style={{textDecoration: 'none', color: 'inherit'}}>Gestionar Bancos de Sangre</Link></li>
       </ul>
     </div>
   );
