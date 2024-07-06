@@ -73,10 +73,6 @@
     margin-bottom: 15px;
   }
   
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
   
   input[type="text"],
   input[type="tel"],
@@ -91,8 +87,6 @@
   }
 
   .form-group input[type="date"]::-webkit-calendar-picker-indicator {
-  width: 20px;
-  height: 20px;
   cursor: pointer;
 }
 

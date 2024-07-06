@@ -20,8 +20,8 @@ function ViewDonationHistory(){
     return(
         <div>
       <Headers />
+      <ArrowLeftOutlined className="back" onClick={handleBack}/>
       <div className="donation-history">
-        <ArrowLeftOutlined className="back" onClick={handleBack}/>
         <div className="donation-content">
           <div className="donation-history-info">
             <h1>Mis donaciones</h1>

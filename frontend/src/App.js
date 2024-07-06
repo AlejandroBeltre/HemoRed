@@ -1,6 +1,6 @@
 import './App.css';
-import React, {useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import HomePage from './homePage/homePage';
 import RegisterUser from './registerUser/registerUser';
 import LoginUser from './logIn/loginUser';
@@ -17,6 +17,7 @@ import ManageBloodBanks from './manageBloodBanks/manageBloodBanks';
 import AddBloodBank from './manageBloodBanks/addBloodBank';
 import ModifyBloodBank from './manageBloodBanks/modifyBloodBank';
 import RequestBlood from './requestBlood/requestBlood';
+import ScheduleAppointment from './scheduleAppointment/scheduleAppointment';
   
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/manageBloodBanks/addBloodBank" element={<AddBloodBank />}/>
         <Route path="/manageBloodBanks/modifyBloodBank/:bankId" element={<ModifyBloodBank />}/>
         <Route path="/requestBlood" element={<RequestBlood />}/>
+        <Route path="/scheduleAppointment" element={<ScheduleAppointment />}/>
       </Routes>
     </div>
   );
