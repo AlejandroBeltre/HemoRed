@@ -1,24 +1,16 @@
 .container {
-    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
 }
 
 /* Header */
 header {
     background-color: #e63946;
     color: white;
-    padding: 1rem 0;
 }
 
 header .container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-}
-
-header h1 {
-    font-size: 2rem;
 }
 
 header nav ul {
@@ -27,9 +19,7 @@ header nav ul {
 }
 
 header nav ul li {
-    margin-left: 1rem;
     position: relative;
-    padding: 0.5rem 0;
     font-size: 17px;
 }
 
@@ -39,9 +29,7 @@ header li:hover {
 }
 
 header nav ul li {
-    margin-left: 1rem;
-    position: relative;
-    padding: 0.5rem 0;
+    position: flex;
 }
 
 header li:hover {
@@ -50,7 +38,7 @@ header li:hover {
 
 .down-icon {
     margin-left: 2px;
-    font-size: 13px; /* Adjust the size as needed */
+    font-size: 14px; 
 }
 
 .logo{

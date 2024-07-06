@@ -13,8 +13,7 @@ const EnterpriseSchedule = ({ schedule, setSchedule }) => {
 
   return (
     <div className="schedule-container">
-      <div className="flex items-center mb-2">
-        <span className="w-24 text-sm">Horario</span>
+      <div className="flex items-center mb-2">  
         <div className="time-inputs">
           <input
             type="time"
@@ -22,7 +21,7 @@ const EnterpriseSchedule = ({ schedule, setSchedule }) => {
             onChange={(e) => handleTimeChange('open', e.target.value)}
             className="mr-2 p-1 border rounded"
           />
-          <span className="mx-2">-</span>
+          
           <input
             type="time"
             value={schedule.close || ''}

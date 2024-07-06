@@ -1,4 +1,4 @@
-.blood-request-form-container {
+.schedule-appointment-container {
     width: 70%;
     margin: 0 auto;
     padding: 20px;
@@ -6,43 +6,20 @@
     text-align: left;
 }
 
-.blood-request-form-container h1 {
+.schedule-appointment-container h1 {
     font-size: 24px;
     margin-bottom: 10px;
 }
 
-.blood-request-form-container p {
+.schedule-appointment-container p {
     font-size: 16px;
     margin-bottom: 20px;
 }
 
-.blood-request-form {
+.schedule-appointment-form {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-}
-
-.form-group {
-    flex: 45%;
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.form-group textarea {
-    resize: vertical;
 }
 
 .radio-group {
@@ -69,6 +46,7 @@
     cursor: pointer;    
 }
 
+
 .notification {
     margin-top: 20px;
     padding: 10px;
@@ -76,4 +54,10 @@
     color: #fff;
     border-radius: 4px;
     text-align: center;
+}
+
+.form-group input[type="checkbox"] {
+    margin: 0;
+    margin-right: 5px;
+    width: 1em;
 }
