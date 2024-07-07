@@ -7,36 +7,35 @@ using Microsoft.EntityFrameworkCore;
 namespace backend.Controllers;
 
 [Route("api/[controller]")]
-[ApiController] 
-public class OrganizerController(ApplicationContext applicationContext) : Controller
+[ApiController]
+public class OrganizerController(HemoRedContext _hemoredContext) : Controller
 {
-    
     // GET: api/Users
     [HttpGet("get")]
     public async Task<ActionResult<IEnumerable<OrganizerDto>>> GetOrganizers()
     {
-        return await applicationContext.tblOrganizer
+        return await _hemoredContext.TblOrganizers
             .Select(o => new OrganizerDto
             {
-                OrganizerID = o.organizerID,
-                AddressID = o.addressID,
-                OrganizerName = o.organizerName,
-                Email = o.email,
-                Phone = o.phone
+                OrganizerID = o.OrganizerId,
+                AddressID = o.AddressId,
+                OrganizerName = o.OrganizerName,
+                Email = o.Email,
+                Phone = o.Phone
             }).ToListAsync();
     }
-    
+
     [HttpGet("get/id")]
     public async Task<ActionResult<OrganizerDto>> GetOrganizer(int id)
     {
-        var organizer = await applicationContext.tblOrganizer.Where(o => o.organizerID == id).Select(o => new OrganizerDto
+        var organizer = await _hemoredContext.TblOrganizers.Where(o => o.OrganizerId == id).Select(o => new OrganizerDto
         {
-                OrganizerID = o.organizerID,
-                AddressID = o.addressID,
-                OrganizerName = o.organizerName,
-                Email = o.email,
-                Phone = o.phone
-            }).FirstOrDefaultAsync();
+            OrganizerID = o.OrganizerId,
+            AddressID = o.AddressId,
+            OrganizerName = o.OrganizerName,
+            Email = o.Email,
+            Phone = o.Phone
+        }).FirstOrDefaultAsync();
         if (organizer == null)
         {
             return NotFound();
@@ -44,52 +43,52 @@ public class OrganizerController(ApplicationContext applicationContext) : Contro
 
         return organizer;
     }
-    
+
     // POST: api/BloodBank
     [HttpPost("post")]
-    public async Task<ActionResult<OrganizerDto>> PostUser([FromForm]NewOrganizerDTO newOrganizerDto)
+    public async Task<ActionResult<OrganizerDto>> PostUser([FromForm] NewOrganizerDTO newOrganizerDto)
     {
-        var organizer = new tblOrganizer
+        var organizer = new TblOrganizer
         {
-            organizerName = newOrganizerDto.OrganizerName,
-            email = newOrganizerDto.Email,
-            phone = newOrganizerDto.Phone,
-            addressID = newOrganizerDto.AddressID
+            OrganizerName = newOrganizerDto.OrganizerName,
+            Email = newOrganizerDto.Email,
+            Phone = newOrganizerDto.Phone,
+            AddressId = newOrganizerDto.AddressID
         };
 
-        applicationContext.tblOrganizer.Add(organizer);
-        await applicationContext.SaveChangesAsync();
+        _hemoredContext.TblOrganizers.Add(organizer);
+        await _hemoredContext.SaveChangesAsync();
 
         var createOrganizerDto = new OrganizerDto
         {
-            OrganizerID= organizer.organizerID,
-            AddressID= organizer.addressID,
-            Email = organizer.email,
-            OrganizerName = organizer.organizerName,
-            Phone = organizer.phone
+            OrganizerID = organizer.OrganizerId,
+            AddressID = organizer.AddressId,
+            Email = organizer.Email,
+            OrganizerName = organizer.OrganizerName,
+            Phone = organizer.Phone
         };
 
-        return CreatedAtAction("GetOrganizer", new { id = organizer.organizerID}, createOrganizerDto);
+        return CreatedAtAction("GetOrganizer", new { id = organizer.AddressId }, createOrganizerDto);
     }
-    
-    // PUT: api/BloodBank/5
+
+    // PUT: api/organizer/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutOrganizer(int id, [FromForm]NewOrganizerDTO newOrganizerDto)
+    public async Task<IActionResult> PutOrganizer(int id, [FromForm] NewOrganizerDTO newOrganizerDto)
     {
-        var organizer = await applicationContext.tblOrganizer.FindAsync(id);
+        var organizer = await _hemoredContext.TblOrganizers.FindAsync(id);
         if (organizer == null)
         {
             return NotFound();
         }
-        
-        organizer.addressID = newOrganizerDto.AddressID;
-        organizer.organizerName= newOrganizerDto.OrganizerName;
-        organizer.phone = newOrganizerDto.Phone;
-        organizer.email = newOrganizerDto.Email;
+
+        organizer.AddressId = newOrganizerDto.AddressID;
+        organizer.OrganizerName = newOrganizerDto.OrganizerName;
+        organizer.Phone = newOrganizerDto.Phone;
+        organizer.Email = newOrganizerDto.Email;
 
         try
         {
-            await applicationContext.SaveChangesAsync();
+            await _hemoredContext.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -97,33 +96,31 @@ public class OrganizerController(ApplicationContext applicationContext) : Contro
             {
                 return NotFound();
             }
-            else
-            {
-                throw;
-            }
+
+            throw;
         }
 
         return NoContent();
     }
+
     // DELETE: api/Organizer/id
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteOrganizer(int id)
     {
-        var organizer = await applicationContext.tblOrganizer.FindAsync(id);
+        var organizer = await _hemoredContext.TblOrganizers.FindAsync(id);
         if (organizer == null)
         {
             return NotFound();
         }
 
-        applicationContext.tblOrganizer.Remove(organizer);
-        await applicationContext.SaveChangesAsync();
+        _hemoredContext.TblOrganizers.Remove(organizer);
+        await _hemoredContext.SaveChangesAsync();
 
         return NoContent();
     }
-    
+
     private bool OrganizerExists(int id)
     {
-        return applicationContext.tblOrganizer.Any(e => e.organizerID == id);
+        return _hemoredContext.TblOrganizers.Any(e => e.OrganizerId == id);
     }
- 
 }

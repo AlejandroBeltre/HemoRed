@@ -8,37 +8,37 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
 [ApiController]
-public class AddressController(ApplicationContext context) : ControllerBase
+public class AddressController(HemoRedContext context) : ControllerBase
 {
     // GET: api/Address
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AddressDto>>> GettblAddress()
+    public async Task<ActionResult<IEnumerable<AddressDto>>> GetAddresses()
     {
-        return await context.tblAddress
+        return await context.TblAddresses
             .Select(a => new AddressDto
             {
-                AddressID = a.addressID,
-                MunicipalityID = a.municipalityID,
-                ProvinceID = a.provinceID,
-                Street = a.street,
-                BuildingNumber = a.buildingNumber
+                AddressID = a.AddressId,
+                MunicipalityID = a.MunicipalityId,
+                ProvinceID = a.ProvinceId,
+                Street = a.Street,
+                BuildingNumber = a.BuildingNumber
             })
             .ToListAsync();
     }
 
     // GET: api/Address/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<AddressDto>> GettblAddress(int id)
+    public async Task<ActionResult<AddressDto>> GetAddresses(int id)
     {
-        var address = await context.tblAddress
-            .Where(a => a.addressID == id)
+        var address = await context.TblAddresses
+            .Where(a => a.AddressId == id)
             .Select(a => new AddressDto
             {
-                AddressID = a.addressID,
-                MunicipalityID = a.municipalityID,
-                ProvinceID = a.provinceID,
-                Street = a.street,
-                BuildingNumber = a.buildingNumber
+                AddressID = a.AddressId,
+                MunicipalityID = a.MunicipalityId,
+                ProvinceID = a.ProvinceId,
+                Street = a.Street,
+                BuildingNumber = a.BuildingNumber
             })
             .FirstOrDefaultAsync();
 
@@ -54,17 +54,17 @@ public class AddressController(ApplicationContext context) : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PuttblAddress(int id, newAddressDTO newAddressDto)
     {
-        var address = await context.tblAddress.FindAsync(id);
+        var address = await context.TblAddresses.FindAsync(id);
         if (address == null)
         {
             return NotFound();
         }
 
         // Update the address with the DTO data
-        address.municipalityID = newAddressDto.MunicipalityID;
-        address.provinceID = newAddressDto.ProvinceID;
-        address.street = newAddressDto.Street;
-        address.buildingNumber = newAddressDto.BuildingNumber;
+        address.MunicipalityId = newAddressDto.MunicipalityID;
+        address.ProvinceId= newAddressDto.ProvinceID;
+        address.Street= newAddressDto.Street;
+        address.BuildingNumber = newAddressDto.BuildingNumber;
 
         try
         {
@@ -87,35 +87,34 @@ public class AddressController(ApplicationContext context) : ControllerBase
 
     // POST: api/Address
     [HttpPost]
-    public async Task<ActionResult<AddressDto>> PosttblAddress(newAddressDTO newAddressDto)
+    public async Task<ActionResult<AddressDto>> PostAddress(newAddressDTO newAddressDto)
     {
-        var address = new tblAddress
+        var address = new TblAddress
         {
-            municipalityID = newAddressDto.MunicipalityID,
-            provinceID = newAddressDto.ProvinceID,
-            street = newAddressDto.Street,
-            buildingNumber = newAddressDto.BuildingNumber,
-            tblMunicipality = null,
-            tblProvince = null
+            MunicipalityId= newAddressDto.MunicipalityID,
+            ProvinceId= newAddressDto.ProvinceID,
+            Street= newAddressDto.Street,
+            BuildingNumber = newAddressDto.BuildingNumber,
+            
         };
 
-        context.tblAddress.Add(address);
+        context.TblAddresses.Add(address);
         await context.SaveChangesAsync();
 
-        return CreatedAtAction("GettblAddress", new { id = address.addressID }, newAddressDto);
+        return CreatedAtAction("GetAddresses", new { id = address.AddressId }, newAddressDto);
     }
 
     // DELETE: api/Address/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletetblAddress(int id)
     {
-        var tblAddress = await context.tblAddress.FindAsync(id);
+        var tblAddress = await context.TblAddresses.FindAsync(id);
         if (tblAddress == null)
         {
             return NotFound();
         }
 
-        context.tblAddress.Remove(tblAddress);
+        context.TblAddresses.Remove(tblAddress);
         await context.SaveChangesAsync();
 
         return NoContent();
@@ -123,7 +122,7 @@ public class AddressController(ApplicationContext context) : ControllerBase
 
     private bool TblAddressExists(int id)
     {
-        return context.tblAddress.Any(e => e.addressID == id);
+        return context.TblAddresses.Any(e => e.AddressId == id);
     }
 }
 }

@@ -9,7 +9,7 @@ public class DonationDto
     public int BloodTypeID { get; set; }
     public int BloodBankID { get; set; }
     public DateTime DonationTimestamp { get; set; }
-    public Status Status { get; set; }
+    public Status? Status { get; set; }
 }
 
 public class NewDonationDTO

@@ -13,21 +13,21 @@ namespace backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class BloodBankController(ApplicationContext context) : ControllerBase
+public class BloodBankController(HemoRedContext _hemoredContext) : ControllerBase
 {
     // GET: api/BloodBank
     [HttpGet("get")]
     public async Task<ActionResult<IEnumerable<BloodBankDto>>> GetBloodBanks()
     {
-        return await context.tblBloodBank
+        return await _hemoredContext.TblBloodBanks
             .Select(b => new BloodBankDto
             {
-                BloodBankID = b.bloodBankID,
-                AddressID = b.addressID,
-                BloodBankName = b.bloodBankName,
-                AvailableHours = b.availableHours,
-                Phone = b.phone,
-                Image = b.image
+                BloodBankID = b.BloodBankId,
+                AddressID = b.AddressId,
+                BloodBankName = b.BloodBankName,
+                AvailableHours = b.AvailableHours,
+                Phone = b.Phone,
+                Image = b.Image
             })
             .ToListAsync();
     }
@@ -36,16 +36,16 @@ public class BloodBankController(ApplicationContext context) : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<BloodBankDto>> GetBloodBank(int id)
     {
-        var bloodBank = await context.tblBloodBank
-            .Where(b => b.bloodBankID == id)
+        var bloodBank = await _hemoredContext.TblBloodBanks
+            .Where(b => b.BloodBankId == id)
             .Select(b => new BloodBankDto
             {
-                BloodBankID = b.bloodBankID,
-                AddressID = b.addressID,
-                BloodBankName = b.bloodBankName,
-                AvailableHours = b.availableHours,
-                Phone = b.phone,
-                Image = b.image
+                BloodBankID = b.BloodBankId,
+                AddressID = b.AddressId,
+                BloodBankName = b.BloodBankName,
+                AvailableHours = b.AvailableHours,
+                Phone = b.Phone,
+                Image = b.Image
             })
             .FirstOrDefaultAsync();
 
@@ -74,44 +74,44 @@ public class BloodBankController(ApplicationContext context) : ControllerBase
             await using var stream = new FileStream(imagePath, FileMode.Create);
             await image.CopyToAsync(stream);
         }
-        var address = await context.tblAddress.FindAsync(newBloodBankDto.AddressID);
-        var bloodBank = new tblBloodBank
+        var address = await _hemoredContext.TblAddresses.FindAsync(newBloodBankDto.AddressID);
+        var bloodBank = new TblBloodBank
         {
-            addressID = newBloodBankDto.AddressID,
-            bloodBankName = newBloodBankDto.BloodBankName,
-            availableHours = newBloodBankDto.AvailableHours,
-            phone = newBloodBankDto.Phone,
-            image = imagePath,
-            tblAddress = address
+            AddressId= newBloodBankDto.AddressID,
+            BloodBankName = newBloodBankDto.BloodBankName,
+            AvailableHours = newBloodBankDto.AvailableHours,
+            Phone= newBloodBankDto.Phone,
+            Image= imagePath,
+            Address = address
         };
 
-        context.tblBloodBank.Add(bloodBank);
-        await context.SaveChangesAsync();
+        _hemoredContext.TblBloodBanks.Add(bloodBank);
+        await _hemoredContext.SaveChangesAsync();
 
         var createdBankDto = new BloodBankDto
         {
-            BloodBankID = bloodBank.bloodBankID,
-            AddressID = bloodBank.addressID,
-            BloodBankName = bloodBank.bloodBankName,
-            AvailableHours = bloodBank.availableHours,
-            Phone = bloodBank.phone,
-            Image = bloodBank.image
+            BloodBankID = bloodBank.BloodBankId,
+            AddressID = bloodBank.AddressId,
+            BloodBankName = bloodBank.BloodBankName,
+            AvailableHours = bloodBank.AvailableHours,
+            Phone = bloodBank.Phone,
+            Image = bloodBank.Image
         };
 
-        return CreatedAtAction("GetBloodBank", new { id = bloodBank.bloodBankID }, createdBankDto);
+        return CreatedAtAction("GetBloodBank", new { id = bloodBank.BloodBankId }, createdBankDto);
     }
 
 // PUT: api/BloodBank/5
     [HttpPut("{id}")]
     public async Task<IActionResult> PutBloodBank(int id, [FromForm] NewBloodBankDTO newBloodBankDto, [FromForm] IFormFile? image)
     {
-        var bloodBank = await context.tblBloodBank.FindAsync(id);
+        var bloodBank = await _hemoredContext.TblBloodBanks.FindAsync(id);
         if (bloodBank == null)
         {
             return NotFound();
         }
 
-        string? imagePath = bloodBank.image; // Keep the existing image path if no new image is uploaded
+        string? imagePath = bloodBank.Image; // Keep the existing image path if no new image is uploaded
         if (image != null && image.Length > 0)
         {
             var uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
@@ -129,15 +129,15 @@ public class BloodBankController(ApplicationContext context) : ControllerBase
             }
         }
 
-        bloodBank.addressID = newBloodBankDto.AddressID;
-        bloodBank.bloodBankName = newBloodBankDto.BloodBankName;
-        bloodBank.availableHours = newBloodBankDto.AvailableHours;
-        bloodBank.phone = newBloodBankDto.Phone;
-        bloodBank.image = imagePath;
+        bloodBank.AddressId = newBloodBankDto.AddressID;
+        bloodBank.BloodBankName = newBloodBankDto.BloodBankName;
+        bloodBank.AvailableHours= newBloodBankDto.AvailableHours;
+        bloodBank.Phone= newBloodBankDto.Phone;
+        bloodBank.Image = imagePath;
 
         try
         {
-            await context.SaveChangesAsync();
+            await _hemoredContext.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -145,10 +145,8 @@ public class BloodBankController(ApplicationContext context) : ControllerBase
             {
                 return NotFound();
             }
-            else
-            {
-                throw;
-            }
+
+            throw;
         }
 
         return NoContent();
@@ -158,20 +156,20 @@ public class BloodBankController(ApplicationContext context) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteBloodBank(int id)
     {
-        var bloodBank = await context.tblBloodBank.FindAsync(id);
+        var bloodBank = await _hemoredContext.TblBloodBanks.FindAsync(id);
         if (bloodBank == null)
         {
             return NotFound();
         }
 
-        context.tblBloodBank.Remove(bloodBank);
-        await context.SaveChangesAsync();
+        _hemoredContext.TblBloodBanks.Remove(bloodBank);
+        await _hemoredContext.SaveChangesAsync();
 
         return NoContent();
     }
 
     private bool BloodBankExists(int id)
     {
-        return context.tblBloodBank.Any(e => e.bloodBankID == id);
+        return _hemoredContext.TblBloodBanks.Any(e => e.BloodBankId == id);
     }
-}
+};

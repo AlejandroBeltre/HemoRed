@@ -9,21 +9,21 @@ namespace backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController] 
-public class DonationController(ApplicationContext applicationContext) : Controller
+public class DonationController(HemoRedContext _hemoredContext) : Controller
 {
 // GET: api/BloodBag
     [HttpGet("get")]
     public async Task<ActionResult<IEnumerable<DonationDto>>> GetDonations()
     {
-        return await applicationContext.tblDonation
+        return await _hemoredContext.TblDonations
             .Select(d => new DonationDto
             {
-                DonationID = d.donationID,
-                UserDocument = d.userDocument,
-                BloodTypeID = d.bloodTypeID,
-                BloodBankID = d.bloodBankID,
-                DonationTimestamp = d.donationTimestamp,
-                Status = d.status,
+                DonationID = d.DonationId,
+                UserDocument = d.UserDocument,
+                BloodTypeID = d.BloodTypeId,
+                BloodBankID = d.BloodBankId,
+                DonationTimestamp = d.DonationTimestamp,
+                Status = d.Status,
             }).ToListAsync();
     }
 
@@ -31,14 +31,14 @@ public class DonationController(ApplicationContext applicationContext) : Control
     [HttpGet("get/id")]
     public async Task<ActionResult<DonationDto>> GetDonation(int id)
     {
-        var donation = await applicationContext.tblDonation.Where(d => d.donationID == id).Select(d => new DonationDto
+        var donation = await _hemoredContext.TblDonations.Where(d => d.DonationId == id).Select(d => new DonationDto
             {
-                DonationID = d.donationID,
-                UserDocument = d.userDocument,
-                BloodTypeID = d.bloodTypeID,
-                BloodBankID = d.bloodBankID,
-                DonationTimestamp = d.donationTimestamp,
-                Status = d.status,
+                DonationID = d.DonationId,
+                UserDocument = d.UserDocument,
+                BloodTypeID = d.BloodTypeId,
+                BloodBankID = d.BloodBankId,
+                DonationTimestamp = d.DonationTimestamp,
+                Status = d.Status,
             })
             .FirstOrDefaultAsync();
         if (donation == null)
@@ -54,33 +54,33 @@ public class DonationController(ApplicationContext applicationContext) : Control
     public async Task<ActionResult<BloodBankDto>> PostDonation([FromForm] NewDonationDTO newDonationDto)
     {
         // Fetch related entities
-        var bloodType = await applicationContext.tblBloodType.FindAsync(newDonationDto.BloodTypeID);
-        var userDocument = await applicationContext.tblUser.FindAsync(newDonationDto.UserDocument);
-        var bloodBank = await applicationContext.tblBloodBank.FindAsync(newDonationDto.BloodBankID);
+        var bloodType = await _hemoredContext.TblBloodTypes.FindAsync(newDonationDto.BloodTypeID);
+        var userDocument = await _hemoredContext.TblUsers.FindAsync(newDonationDto.UserDocument);
+        var bloodBank = await _hemoredContext.TblBloodBanks.FindAsync(newDonationDto.BloodBankID);
 
         if (bloodType == null || bloodBank == null || userDocument == null)
         {
             return BadRequest("Invalid BloodTypeID, BloodBankID, or UserDocument");
         }
 
-        var donation = new tblDonation
+        var donation = new TblDonation
         {
-            donationTimestamp = newDonationDto.DonationTimestamp,
-            status = newDonationDto.Status,
-            bloodTypeID = newDonationDto.BloodTypeID,
-            userDocument = newDonationDto.UserDocument,
-            bloodBankID = newDonationDto.BloodBankID,
-            tblBloodType = bloodType,
-            tblBloodBank = bloodBank,
-            tblUser = userDocument
+            DonationTimestamp= newDonationDto.DonationTimestamp,
+            Status= newDonationDto.Status,
+            BloodTypeId = newDonationDto.BloodTypeID,
+            UserDocument = newDonationDto.UserDocument,
+            BloodBankId = newDonationDto.BloodBankID,
+            BloodType = bloodType,
+            BloodBank = bloodBank,
+            UserDocumentNavigation = userDocument
         };
 
-        applicationContext.tblDonation.Add(donation);
-        await applicationContext.SaveChangesAsync();
+        _hemoredContext.TblDonations.Add(donation);
+        await _hemoredContext.SaveChangesAsync();
 
         var donationDto = new DonationDto()
         {
-            DonationID = donation.donationID,
+            DonationID = donation.DonationId,
             BloodBankID = newDonationDto.BloodBankID,
             BloodTypeID = newDonationDto.BloodTypeID,
             DonationTimestamp = newDonationDto.DonationTimestamp,
@@ -88,28 +88,28 @@ public class DonationController(ApplicationContext applicationContext) : Control
             UserDocument = newDonationDto.UserDocument
         };
 
-        return CreatedAtAction("GetDonation", new { id = donation.donationID }, donationDto);
+        return CreatedAtAction("GetDonation", new { id = donation.DonationId }, donationDto);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> PutDonation(int id, DonationDto newDonationDto)
     {
-        var donation = await applicationContext.tblDonation.FindAsync(id);
+        var donation = await _hemoredContext.TblDonations.FindAsync(id);
         if (donation == null)
         {
             return NotFound();
         }
 
         // Update the blood bag with the DTO data
-        donation.userDocument = newDonationDto.UserDocument;
-        donation.donationTimestamp = newDonationDto.DonationTimestamp;
-        donation.bloodTypeID = newDonationDto.BloodTypeID;
-        donation.status = newDonationDto.Status;
-        donation.bloodBankID = newDonationDto.BloodBankID;
+        donation.UserDocument = newDonationDto.UserDocument;
+        donation.DonationTimestamp = newDonationDto.DonationTimestamp;
+        donation.BloodTypeId= newDonationDto.BloodTypeID;
+        donation.Status= newDonationDto.Status;
+        donation.BloodBankId = newDonationDto.BloodBankID;
 
         try
         {
-            await applicationContext.SaveChangesAsync();
+            await _hemoredContext.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -127,14 +127,14 @@ public class DonationController(ApplicationContext applicationContext) : Control
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteDonation(int id)
     {
-        var donation = await applicationContext.tblDonation.FindAsync(id);
+        var donation = await _hemoredContext.TblDonations.FindAsync(id);
         if (donation == null)
         {
             return NotFound();
         }
 
-        applicationContext.tblDonation.Remove(donation);
-        await applicationContext.SaveChangesAsync();
+        _hemoredContext.TblDonations.Remove(donation);
+        await _hemoredContext.SaveChangesAsync();
 
         return NoContent();
     }
@@ -142,6 +142,6 @@ public class DonationController(ApplicationContext applicationContext) : Control
 
     private bool DonationExist(int id)
     {
-        return applicationContext.tblDonation.Any(e => e.donationID == id);
+        return _hemoredContext.TblDonations.Any(e => e.DonationId == id);
     }
 }

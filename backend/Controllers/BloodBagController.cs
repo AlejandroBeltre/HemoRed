@@ -13,21 +13,21 @@ namespace backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class BloodBagController(ApplicationContext context) : ControllerBase
+public class BloodBagController(HemoRedContext _hemoredContext) : ControllerBase
 {
     // GET: api/BloodBag
     [HttpGet("get")]
     public async Task<ActionResult<IEnumerable<BloodBagDto>>> GetBloodBags()
     {
-        return await context.tblBloodBag
+        return await _hemoredContext.TblBloodBags
             .Select(b => new BloodBagDto
             {
-                BagID = b.bagID,
-                BloodTypeID = b.bloodTypeID,
-                BloodBankID = b.bloodBankID,
-                DonationID = b.donationID,
-                ExpirationDate = b.expirationDate,
-                IsReserved = b.isReserved
+                BagID = b.BagId,
+                BloodTypeID = b.BloodTypeId,
+                BloodBankID = b.BloodBankId,
+                DonationID = b.DonationId,
+                ExpirationDate = b.ExpirationDate,
+                IsReserved = b.IsReserved
             })
             .ToListAsync();
     }
@@ -36,16 +36,16 @@ public class BloodBagController(ApplicationContext context) : ControllerBase
     [HttpGet("get/{id}")]
     public async Task<ActionResult<BloodBagDto>> GetBloodBag(int id)
     {
-        var bloodBag = await context.tblBloodBag
-            .Where(b => b.bagID == id)
+        var bloodBag = await _hemoredContext.TblBloodBags
+            .Where(b => b.BagId== id)
             .Select(b => new BloodBagDto
             {
-                BagID = b.bagID,
-                BloodTypeID = b.bloodTypeID,
-                BloodBankID = b.bloodBankID,
-                DonationID = b.donationID,
-                ExpirationDate = b.expirationDate,
-                IsReserved = b.isReserved
+                BagID = b.BagId,
+                BloodTypeID = b.BloodTypeId,
+                BloodBankID = b.BloodBankId,
+                DonationID = b.DonationId,
+                ExpirationDate = b.ExpirationDate,
+                IsReserved = b.IsReserved
             })
             .FirstOrDefaultAsync();
 
@@ -61,22 +61,22 @@ public class BloodBagController(ApplicationContext context) : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutBloodBag(int id, NewBloodBagDTO newBloodBagDto)
     {
-        var bloodBag = await context.tblBloodBag.FindAsync(id);
+        var bloodBag = await _hemoredContext.TblBloodBags.FindAsync(id);
         if (bloodBag == null)
         {
             return NotFound();
         }
 
         // Update the blood bag with the DTO data
-        bloodBag.bloodTypeID = newBloodBagDto.BloodTypeID;
-        bloodBag.bloodBankID = newBloodBagDto.BloodBankID;
-        bloodBag.donationID = newBloodBagDto.DonationID;
-        bloodBag.expirationDate = newBloodBagDto.ExpirationDate;
-        bloodBag.isReserved = newBloodBagDto.IsReserved;
+        bloodBag.BloodTypeId = newBloodBagDto.BloodTypeID;
+        bloodBag.BloodBankId = newBloodBagDto.BloodBankID;
+        bloodBag.DonationId = newBloodBagDto.DonationID;
+        bloodBag.ExpirationDate = newBloodBagDto.ExpirationDate;
+        bloodBag.IsReserved = newBloodBagDto.IsReserved;
 
         try
         {
-            await context.SaveChangesAsync();
+            await _hemoredContext.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -95,61 +95,61 @@ public class BloodBagController(ApplicationContext context) : ControllerBase
     public async Task<ActionResult<BloodBagDto>> PostBloodBag(NewBloodBagDTO newBloodBagDto)
     {
         // Fetch related entities
-        var bloodType = await context.tblBloodType.FindAsync(newBloodBagDto.BloodTypeID);
-        var bloodBank = await context.tblBloodBank.FindAsync(newBloodBagDto.BloodBankID);
-        var donation = await context.tblDonation.FindAsync(newBloodBagDto.DonationID);
+        var bloodType = await _hemoredContext.TblBloodTypes.FindAsync(newBloodBagDto.BloodTypeID);
+        var bloodBank = await _hemoredContext.TblBloodBanks.FindAsync(newBloodBagDto.BloodBankID);
+        var donation = await _hemoredContext.TblDonations.FindAsync(newBloodBagDto.DonationID);
 
         if (bloodType == null || bloodBank == null || donation == null)
         {
             return BadRequest("Invalid BloodTypeID, BloodBankID, or DonationID");
         }
 
-        var bloodBag = new tblBloodBag
+        var bloodBag = new TblBloodBag
         {
-            bloodTypeID = newBloodBagDto.BloodTypeID,
-            bloodBankID = newBloodBagDto.BloodBankID,
-            donationID = newBloodBagDto.DonationID,
-            expirationDate = newBloodBagDto.ExpirationDate,
-            isReserved = newBloodBagDto.IsReserved,
-            tblBloodType = bloodType,
-            tblBloodBank = bloodBank,
-            tblDonation = donation
+            BloodTypeId = newBloodBagDto.BloodTypeID,
+            BloodBankId= newBloodBagDto.BloodBankID,
+            DonationId= newBloodBagDto.DonationID,
+            ExpirationDate = newBloodBagDto.ExpirationDate,
+            IsReserved = newBloodBagDto.IsReserved,
+            BloodType = bloodType,
+            BloodBank = bloodBank,
+            Donation= donation
         };
 
-        context.tblBloodBag.Add(bloodBag);
-        await context.SaveChangesAsync();
+        _hemoredContext.TblBloodBags.Add(bloodBag);
+        await _hemoredContext.SaveChangesAsync();
 
         var createdBagDto = new BloodBagDto
         {
-            BagID = bloodBag.bagID,
-            BloodTypeID = bloodBag.bloodTypeID,
-            BloodBankID = bloodBag.bloodBankID,
-            DonationID = bloodBag.donationID,
-            ExpirationDate = bloodBag.expirationDate,
-            IsReserved = bloodBag.isReserved
+            BagID = bloodBag.BagId,
+            BloodTypeID = bloodBag.BloodTypeId,
+            BloodBankID = bloodBag.BloodBankId,
+            DonationID = bloodBag.DonationId,
+            ExpirationDate = bloodBag.ExpirationDate,
+            IsReserved = bloodBag.IsReserved
         };
 
-        return CreatedAtAction("GetBloodBag", new { id = bloodBag.bagID }, createdBagDto);
+        return CreatedAtAction("GetBloodBag", new { id = bloodBag.BagId }, createdBagDto);
     }
 
     // DELETE: api/BloodBag/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteBloodBag(int id)
     {
-        var bloodBag = await context.tblBloodBag.FindAsync(id);
+        var bloodBag = await _hemoredContext.TblBloodBags.FindAsync(id);
         if (bloodBag == null)
         {
             return NotFound();
         }
 
-        context.tblBloodBag.Remove(bloodBag);
-        await context.SaveChangesAsync();
+        _hemoredContext.TblBloodBags.Remove(bloodBag);
+        await _hemoredContext.SaveChangesAsync();
 
         return NoContent();
     }
 
     private bool BloodBagExists(int id)
     {
-        return context.tblBloodBag.Any(e => e.bagID == id);
+        return _hemoredContext.TblBloodBags.Any(e => e.BagId == id);
     }
 }
