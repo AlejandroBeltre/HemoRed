@@ -82,8 +82,8 @@ function ViewBloodRequestStatus() {
         <div>
             <Headers />
             <ArrowLeftOutlined className="back" onClick={handleBack} />
-            <div className='view-blood-request-status-container'>
-                <h1>Estados de adquisición</h1>
+            <div className='view-blood-request-status-container-view'>
+                <h1 className='inventory-title'>Estados de adquisición</h1>
                 <div className='blood-request-status-list'>
                     {bloodRequests.map((bloodRequest) => (
                         <div key={bloodRequest.id} className='blood-request-status-block'>

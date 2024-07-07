@@ -18,6 +18,14 @@ import AddBloodBank from './manageBloodBanks/addBloodBank';
 import ModifyBloodBank from './manageBloodBanks/modifyBloodBank';
 import RequestBlood from './requestBlood/requestBlood';
 import ScheduleAppointment from './scheduleAppointment/scheduleAppointment';
+import ManageCampaigns from './manageCampaigns/manageCampaigns';
+import AddCampaigns from './manageCampaigns/addCampaigns';
+import ModifyCampaigns from './manageCampaigns/modifyCampaigns';
+import Campaigns from './viewActiveCampaigns/campaigns';
+import ParticipateCampaign from './viewActiveCampaigns/participateCampaign';
+import ParticipateSpecificCampaign from './viewActiveCampaigns/participateSpecificCampaign';
+import DashboardUser from './dashboards/dashboardUser';
+import DashboardAdmin from './dashboards/dashboardAdmin';
   
 function App() {
   return (
@@ -40,6 +48,14 @@ function App() {
         <Route path="/manageBloodBanks/modifyBloodBank/:bankId" element={<ModifyBloodBank />}/>
         <Route path="/requestBlood" element={<RequestBlood />}/>
         <Route path="/scheduleAppointment" element={<ScheduleAppointment />}/>
+        <Route path="/manageCampaigns" element={<ManageCampaigns />}/>
+        <Route path="/manageCampaigns/addCampaigns" element={<AddCampaigns />}/>
+        <Route path="/manageCampaigns/modifyCampaigns/:campaignId" element={<ModifyCampaigns />}/>
+        <Route path="/campaigns" element={<Campaigns />}/>
+        <Route path="/campaigns/participateCampaign" element={<ParticipateCampaign />}/>
+        <Route path="/campaigns/participateSpecificCampaign/:campaignId" element={<ParticipateSpecificCampaign />}/>
+        <Route path="/dashboardUser" element={<DashboardUser />}/>
+        <Route path="/dashboardAdmin" element={<DashboardAdmin />}/>
       </Routes>
     </div>
   );
