@@ -1,0 +1,148 @@
+.campaign-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px;
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.image-campaign-and-bank-name{
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.image-campaign-and-bank-name p{ 
+    margin-bottom: 10px;
+}
+
+.inline-icon {
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.campaign-logo {
+    width: 312px;
+    height: 138px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.campaign-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 16px;
+}
+
+.campaign-status {
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.status-active {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-inactive {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.campaign-card-content {
+    margin-top: 16px;
+}
+
+.campaign-info {
+    margin: 4px 0;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+
+.edit-button-manage-campaigns {
+    background-color: transparent;
+    color: #153440;
+    border-color: #153440;
+    padding: 10px;
+    border: 1px solid #153440;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 45%;
+    font-size: 14px;
+}
+
+.toggle-active-button {
+    background-color: transparent;
+    color: #BF2C32;
+    border-color: #BF2C32;
+    padding: 10px;
+    border: 1px solid #BF2C32;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 45%;
+    font-size: 14px;
+}
+
+.toggle-active-button.deactivate {
+    background-color: #BF2C32;
+    border: 1px solid #BF2C32;
+    color: white;
+}
+
+.view-campaign-status-container {
+    padding: 20px;
+}
+
+.campaign-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.campaign-selection {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.campaigns-filtering {
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-right: 10px;
+    flex-grow: 1;
+}
+
+.add-campaign-btn {
+    background-color: #153440;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.campaign-inventory-grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.campaigns-card-content {
+    display: flex;
+    flex-direction: column; 
+}
+
+.campaign-info {
+    display: flex;
+    align-items: center;
+}

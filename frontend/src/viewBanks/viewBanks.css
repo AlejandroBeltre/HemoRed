@@ -2,7 +2,14 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    font-family: Arial, sans-serif;
+  }
+
+  .blood-banks-container p{
+    text-align: left;
+  }
+
+  .blood-banks-container h1{
+    text-align: left;
   }
   
   h1 {

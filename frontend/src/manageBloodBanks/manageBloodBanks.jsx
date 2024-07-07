@@ -157,7 +157,7 @@ function ManageBloodBanks() {
             <Headers />
             <ArrowLeftOutlined className='back' onClick={handleBack} />
             <div className="view-blood-request-status-container">
-                <h1>Gestión de bancos de sangre</h1>
+                <h1 className='inventory-title'>Gestión de bancos de sangre</h1>
                 <div className="bank-selection">
                     <input 
                         type="text" 

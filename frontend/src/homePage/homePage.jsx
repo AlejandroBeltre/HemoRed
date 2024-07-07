@@ -23,7 +23,12 @@ function HomePage() {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
     const navigate = useNavigate();
     const handleRequestBlood = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         navigate('/requestBlood');
+    };
+    const handleDonation = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        navigate('/scheduleAppointment');
     };
     return (
         <div className="blood-donation-page">
@@ -58,7 +63,7 @@ function HomePage() {
                     </div>
                     <div className="donation-text">
                         <p>Con tu donación, puedes transformar el futuro de quienes más lo necesitan. ¡Haz la diferencia hoy!</p>
-                        <button className="btn btn-primary">Donar</button>
+                        <button className="btn btn-primary" onClick={handleDonation}>Donar</button>
                     </div>
                 </section>
 

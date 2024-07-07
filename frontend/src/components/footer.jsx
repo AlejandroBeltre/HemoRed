@@ -12,9 +12,9 @@ function Footer() {
                     <div className="footer-links">
                         <img src={logo} alt="Logo" className='logo' />
                         <ul className='footer-list'>
-                            <li>DONAR</li>
-                            <li><Link to="/requestBlood" style={{textDecoration: 'none', color: 'inherit'}}>SOLICITAR SANGRE</Link></li>
-                            <li>CAPACITACIONES</li>
+                            <li><Link to="/scheduleAppointment" style={{textDecoration: 'none', color: 'inherit'}} onClick={() => window.scrollTo(0, 0)}>DONAR</Link></li>
+                            <li><Link to="/requestBlood" style={{textDecoration: 'none', color: 'inherit'}} onClick={() => window.scrollTo(0, 0)}>SOLICITAR SANGRE</Link></li>
+                            <li><Link to="/campaigns" style={{textDecoration: 'none', color: 'inherit'}} onClick={() => window.scrollTo(0, 0)}>CAMPAÑAS</Link></li>
                         </ul>
                     </div>
                     <div className="social-icons">

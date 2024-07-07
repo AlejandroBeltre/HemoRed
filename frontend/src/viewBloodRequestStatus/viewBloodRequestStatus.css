@@ -1,9 +1,9 @@
-.view-blood-request-status-container h1{
-    color: #333;
-    font-size: 32px;
+.view-blood-request-status-container-view h1{
+    text-align: center;
+    font-size: 28px;
 }
 
-.view-blood-request-status-container .ant-tabs-tab-btn{
+.view-blood-request-status-container-view .ant-tabs-tab-btn{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

@@ -1,23 +1,48 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './scheduleAppointment.css';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import Headers from '../components/header';
+import Header from '../components/header';
 import Footer from '../components/footer';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import './participateCampaign.css';
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-function ScheduleAppointment() {
+function ParticipateCampaign() {
     const [formData, setFormData] = useState({
-        bloodBank: '',
+        campaignName: '',
         fullName: '',
-        phoneNumber: '+1',
         documentType: 'passport',
         documentNumber: '',
+        phoneNumber: '+1',
         birthDate: '',
         bloodType: '',
         medicalCondition: '',
-        confirmDonor: false,
-        awareOfProcess: false,
+        isDonorCandidate: false,
+        isAwareOfProcess: false,
     });
+
+    const handlePhoneNumberChange = (event) => {
+        let { value } = event.target;
+        value = value.replace(/[^\d]/g, '');
+
+        if (!value.startsWith('1')) {
+            value = '1' + value;
+        }
+
+        if (value.length > 1) {
+            value = value.slice(0, 1) + ' ' + value.slice(1);
+        }
+        if (value.length > 5) {
+            value = value.slice(0, 5) + '-' + value.slice(5);
+        }
+        if (value.length > 9) {
+            value = value.slice(0, 9) + '-' + value.slice(9, 13);
+        }
+
+        setFormData({
+            ...formData,
+            phoneNumber: '+' + value
+        });
+    };
 
     const [notification, setNotification] = useState("");
     const navigate = useNavigate();
@@ -65,34 +90,10 @@ function ScheduleAppointment() {
         }
     };
 
-    const handlePhoneNumberChange = (event) => {
-        let { value } = event.target;
-        value = value.replace(/[^\d]/g, '');
-
-        if (!value.startsWith('1')) {
-            value = '1' + value;
-        }
-
-        if (value.length > 1) {
-            value = value.slice(0, 1) + ' ' + value.slice(1);
-        }
-        if (value.length > 5) {
-            value = value.slice(0, 5) + '-' + value.slice(5);
-        }
-        if (value.length > 9) {
-            value = value.slice(0, 9) + '-' + value.slice(9, 13);
-        }
-
-        setFormData({
-            ...formData,
-            phoneNumber: '+' + value
-        });
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form submitted:', formData);
-        setNotification("¡Solicitud enviada!");
+        setNotification("¡Formulario enviado!");
         setTimeout(() => setNotification(""), 2000);
         // navigate('/somewhere'); // Uncomment and set the correct path if needed
     };
@@ -103,24 +104,25 @@ function ScheduleAppointment() {
 
     return (
         <div>
-            <Headers />
-            <ArrowLeftOutlined className='back' onClick={handleBack} />
-            <div className="schedule-appointment-container">
-                <h1>Sé donante</h1>
-                <p>Completa el formulario para iniciar tu proceso de donación.</p>
-                <form onSubmit={handleSubmit} className="schedule-appointment-form">
+            <Header />
+            <ArrowLeftOutlined className="back" onClick={handleBack} />
+            <div className="blood-request-form-container">
+                <h1>Participar en campaña</h1>
+                <p>Completa el formulario para iniciar tu proceso de participación en nueva campaña.</p>
+                <form onSubmit={handleSubmit} className="blood-request-form">
                     <div className="form-group">
-                        <label htmlFor="bloodBank">Banco de sangre</label>
+                        <label htmlFor="campaignName">Nombre de campaña</label>
                         <select
-                            id="bloodBank"
-                            name="bloodBank"
-                            value={formData.bloodBank}
+                            id="campaignName"
+                            name="campaignName"
+                            value={formData.campaignName}
                             onChange={handleChange}
                             required
                         >
                             <option value="">Seleccionar</option>
-                            <option value="bank1">Banco 1</option>
-                            <option value="bank2">Banco 2</option>
+                            <option value="campaign1">Campaña 1</option>
+                            <option value="campaign2">Campaña 2</option>
+                            {/* Add more options as needed */}
                         </select>
                     </div>
 
@@ -226,7 +228,6 @@ function ScheduleAppointment() {
                             name="medicalCondition"
                             value={formData.medicalCondition}
                             onChange={handleChange}
-                            required
                         />
                     </div>
 
@@ -234,10 +235,9 @@ function ScheduleAppointment() {
                         <label>
                             <input
                                 type="checkbox"
-                                name="confirmDonor"
-                                checked={formData.confirmDonor}
+                                name="isDonorCandidate"
+                                checked={formData.isDonorCandidate}
                                 onChange={handleChange}
-                                className='checkboxes'
                             />
                             Confirmo que soy un donante candidato para donar sangre.
                         </label>
@@ -247,16 +247,15 @@ function ScheduleAppointment() {
                         <label>
                             <input
                                 type="checkbox"
-                                name="awareOfProcess"
-                                checked={formData.awareOfProcess}
+                                name="isAwareOfProcess"
+                                checked={formData.isAwareOfProcess}
                                 onChange={handleChange}
-                                className='checkboxes'
                             />
                             Estoy consciente del proceso de donación.
                         </label>
                     </div>
 
-                    <button type="submit" className="submit-button">Solicitar</button>
+                    <button type="submit" className="submit-button">Agendar</button>
                 </form>
                 {notification && <div className="notification">{notification}</div>}
             </div>
@@ -265,4 +264,4 @@ function ScheduleAppointment() {
     );
 }
 
-export default ScheduleAppointment;
+export default ParticipateCampaign;
