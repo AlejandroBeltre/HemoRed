@@ -9,29 +9,29 @@ namespace backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UserController(ApplicationContext _context) : ControllerBase
+public class UserController(HemoRedContext _hemoredContext) : ControllerBase
 {
 
     // GET: api/Users
     [HttpGet("get")]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
     {
-        return await _context.tblUser
+        return await _hemoredContext.TblUsers
             .Select(u => new UserDto
             {
-                DocumentNumber = u.documentNumber,
-                DocumentType= u.documentType,
-                BloodTypeID= u.bloodTypeID,
-                AddressID= u.addressID,
-                FullName= u.fullName,
-                Email= u.email,
-                Password = u.password,
-                BirthDate = u.birthDate,
-                Gender = u.gender,
-                Phone = u.phone,
-                UserRole = u.userRole,
-                LastDonationDate = u.lastDonationDate,
-                Image = u.image
+                DocumentNumber = u.DocumentNumber,
+                DocumentType= u.DocumentType,
+                BloodTypeID= u.BloodTypeId,
+                AddressID= u.AddressId,
+                FullName= u.FullName,
+                Email= u.Email,
+                Password = u.Password,
+                BirthDate = u.BirthDate,
+                Gender = u.Gender,
+                Phone = u.Phone,
+                UserRole = u.UserRole,
+                LastDonationDate = u.LastDonationDate,
+                Image = u.Image
             })
             .ToListAsync();
     }
@@ -41,21 +41,21 @@ public class UserController(ApplicationContext _context) : ControllerBase
     [HttpGet("get/id")]
     public async Task<ActionResult<UserDto>> GetUser(string id)
     {
-        var user = await _context.tblUser.Where(u => u.documentNumber == id).Select(u => new UserDto
+        var user = await _hemoredContext.TblUsers.Where(u => u.DocumentNumber == id).Select(u => new UserDto
             {
-                DocumentNumber = u.documentNumber,
-                DocumentType= u.documentType,
-                BloodTypeID= u.bloodTypeID,
-                AddressID= u.addressID,
-                FullName= u.fullName,
-                Email= u.email,
-                Password = u.password,
-                BirthDate = u.birthDate,
-                Gender = u.gender,
-                Phone = u.phone,
-                UserRole = u.userRole,
-                LastDonationDate = u.lastDonationDate,
-                Image = u.image
+                DocumentNumber = u.DocumentNumber,
+                DocumentType= u.DocumentType,
+                BloodTypeID= u.BloodTypeId,
+                AddressID= u.AddressId,
+                FullName= u.FullName,
+                Email= u.Email,
+                Password = u.Password,
+                BirthDate = u.BirthDate,
+                Gender = u.Gender,
+                Phone = u.Phone,
+                UserRole = u.UserRole,
+                LastDonationDate = u.LastDonationDate,
+                Image = u.Image
             })
             .FirstOrDefaultAsync();
         if (user == null)
@@ -81,78 +81,78 @@ public class UserController(ApplicationContext _context) : ControllerBase
             await using var stream = new FileStream(imagePath, FileMode.Create);
             await image.CopyToAsync(stream);
         }
-        var address = await _context.tblAddress.FindAsync(newUserDto.AddressID);
-        var bloodType = await _context.tblBloodType.FindAsync(newUserDto.BloodTypeID);
+        var address = await _hemoredContext.TblAddresses.FindAsync(newUserDto.AddressID);
+        var bloodType = await _hemoredContext.TblBloodTypes.FindAsync(newUserDto.BloodTypeID);
         
         if (bloodType == null || address == null)
         {
             return BadRequest("Invalid BloodTypeID, address, or DonationID");
         }
-        var user = new tblUser
+        var user = new TblUser
         {
-            documentNumber = newUserDto.DocumentNumber,
-            bloodTypeID = newUserDto.BloodTypeID,
-            addressID = newUserDto.AddressID,
-            fullName = newUserDto.FullName,
-            email = newUserDto.Email,
-            password = newUserDto.Password,
-            birthDate = newUserDto.BirthDate,
-            gender = newUserDto.Gender,
-            phone = newUserDto.Phone,
-            userRole = newUserDto.UserRole,
-            lastDonationDate = newUserDto.LastDonationDate,
-            image = newUserDto.Image,
-            documentType = DocumentType.P,
-            tblBloodType = bloodType,
-            tblAddress = address
+            DocumentNumber= newUserDto.DocumentNumber,
+            BloodTypeId = newUserDto.BloodTypeID,
+            AddressId= newUserDto.AddressID,
+            FullName= newUserDto.FullName,
+            Email= newUserDto.Email,
+            Password = newUserDto.Password,
+            BirthDate= newUserDto.BirthDate,
+            Gender= newUserDto.Gender,
+            Phone= newUserDto.Phone,
+            UserRole = newUserDto.UserRole,
+            LastDonationDate = newUserDto.LastDonationDate,
+            Image= newUserDto.Image,
+            DocumentType = DocumentType.C,
+            BloodType= bloodType,
+            Address = address
         };
 
-        _context.tblUser.Add(user);
-        await _context.SaveChangesAsync();
+        _hemoredContext.TblUsers.Add(user);
+        await _hemoredContext.SaveChangesAsync();
 
         var createdUserDto= new UserDto()
         {
-            BloodTypeID= user.bloodTypeID,
-            AddressID= user.addressID,
-            FullName= user.fullName,
-            Email= user.email,
-            Password = user.password,
-            BirthDate = user.birthDate,
-            Gender = user.gender,
-            Phone = user.phone,
-            UserRole = user.userRole,
-            LastDonationDate = user.lastDonationDate,
-            Image = user.image
+            BloodTypeID= user.BloodTypeId,
+            AddressID= user.AddressId,
+            FullName= user.FullName,
+            Email= user.Email,
+            Password = user.Password,
+            BirthDate = user.BirthDate,
+            Gender = user.Gender,
+            Phone = user.Phone,
+            UserRole = user.UserRole,
+            LastDonationDate = user.LastDonationDate,
+            Image = user.Image
         };
 
-        return CreatedAtAction("GetUsers", new { id = user.documentNumber }, createdUserDto);
+        return CreatedAtAction("GetUsers", new { id = user.DocumentNumber }, createdUserDto);
     }
     
     [HttpPut("{id}")]
     public async Task<IActionResult> PutUser(string id, NewUserDTO newUserDto)
     {
-        var user = await _context.tblUser.FindAsync(id);
+        var user = await _hemoredContext.TblUsers.FindAsync(id);
         if (user == null)
         {
             return NotFound();
         }
 
         // Update the blood bag with the DTO data
-        user.bloodTypeID = newUserDto.BloodTypeID;
-        user.addressID = newUserDto.AddressID;
-        user.fullName = newUserDto.FullName;
-        user.email = newUserDto.Email;
-        user.password = newUserDto.Password;
-        user.birthDate = newUserDto.BirthDate;
-        user.gender = newUserDto.Gender;
-        user.phone = newUserDto.Phone;
-        user.userRole= newUserDto.UserRole;
-        user.lastDonationDate = newUserDto.LastDonationDate;
-        user.image = newUserDto.Image;
+        user.BloodTypeId = newUserDto.BloodTypeID;
+        user.AddressId= newUserDto.AddressID;
+        user.FullName= newUserDto.FullName;
+        user.Email= newUserDto.Email;
+        user.Password = newUserDto.Password;
+        user.BirthDate = newUserDto.BirthDate;
+        user.Gender= newUserDto.Gender;
+        user.Phone= newUserDto.Phone;
+        user.UserRole= newUserDto.UserRole;
+        user.LastDonationDate = newUserDto.LastDonationDate;
+        user.Image = newUserDto.Image;
 
         try
         {
-            await _context.SaveChangesAsync();
+            await _hemoredContext.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -168,21 +168,20 @@ public class UserController(ApplicationContext _context) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(string id)
     {
-        var user = await _context.tblUser.FindAsync(id);
+        var user = await _hemoredContext.TblUsers.FindAsync(id);
         if (user == null)
         {
             return NotFound();
         }
 
-        _context.tblUser.Remove(user);
-        await _context.SaveChangesAsync();
+        _hemoredContext.TblUsers.Remove(user);
+        await _hemoredContext.SaveChangesAsync();
 
         return NoContent();
     }
-
-
+    
     private bool UserExists(string id)
     {
-        return _context.tblUser.Any(e => e.documentNumber == id);
+        return _hemoredContext.TblUsers.Any(e => e.DocumentNumber == id);
     }
 }

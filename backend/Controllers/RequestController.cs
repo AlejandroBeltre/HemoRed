@@ -8,22 +8,22 @@ namespace backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class RequestController(ApplicationContext _context) : Controller
+public class RequestController(HemoRedContext _hemoredContext) : Controller
 {
 // GET: api/Request
     [HttpGet("get")]
     public async Task<ActionResult<IEnumerable<RequestDto>>> GetRequests()
     {
-        return await _context.tblRequest
+        return await _hemoredContext.TblRequests
             .Select(r => new RequestDto
             {
-                RequestID = r.requestID,
-                UserDocument = r.userDocument,
-                BloodTypeId = r.bloodTypeID,
-                RequestTimeStamp = r.requestTimeStamp,
-                RequestReason = r.requestReason,
-                RequestedAmount = r.requestedAmount,
-                Status = r.status
+                RequestID = r.RequestId,
+                UserDocument = r.UserDocument,
+                BloodTypeId = r.BloodTypeId,
+                RequestTimeStamp = r.RequestTimestamp,
+                RequestReason = r.RequestReason,
+                RequestedAmount = r.RequestedAmount,
+                Status = r.Status
             })
             .ToListAsync();
     }
@@ -32,17 +32,17 @@ public class RequestController(ApplicationContext _context) : Controller
     [HttpGet("get/{id}")]
     public async Task<ActionResult<RequestDto>> GetRequest(int id)
     {
-        var request = await _context.tblRequest
-            .Where(r => r.requestID == id)
+        var request = await _hemoredContext.TblRequests
+            .Where(r => r.RequestId== id)
             .Select(r => new RequestDto()
             {
-                RequestID = r.requestID,
-                UserDocument = r.userDocument,
-                BloodTypeId = r.bloodTypeID,
-                RequestTimeStamp = r.requestTimeStamp,
-                RequestReason = r.requestReason,
-                RequestedAmount = r.requestedAmount,
-                Status = r.status
+                RequestID = r.RequestId,
+                UserDocument = r.UserDocument,
+                BloodTypeId = r.BloodTypeId,
+                RequestTimeStamp = r.RequestTimestamp,
+                RequestReason = r.RequestReason,
+                RequestedAmount = r.RequestedAmount,
+                Status = r.Status
             }).FirstOrDefaultAsync();
 
         if (request == null)
@@ -56,59 +56,59 @@ public class RequestController(ApplicationContext _context) : Controller
     [HttpPost("post")]
     public async Task<ActionResult<RequestDto>> PostRequest([FromForm] NewRequestDto newRequestDto)
     {
-        var user = await _context.tblUser.FindAsync(newRequestDto.UserDocument);
-        var bloodbank = await _context.tblBloodBank.FindAsync(newRequestDto.BloodBank);
-        if (user == null || bloodbank == null)
+        var user = await _hemoredContext.TblUsers.FindAsync(newRequestDto.UserDocument);
+        var bloodType = await _hemoredContext.TblBloodTypes.FindAsync(newRequestDto.BloodBank);
+        if (user == null || bloodType== null)
         {
-            return BadRequest("Invalid user or blood bank");
+            return BadRequest("Invalid user or blood type");
         }
-        var request = new tblRequest
+        var request = new TblRequest
         {
-            userDocument = newRequestDto.UserDocument,
-            bloodTypeID = newRequestDto.BloodTypeId,
-            requestTimeStamp = newRequestDto.RequestTimeStamp,
-            requestReason = newRequestDto.RequestReason,
-            requestedAmount = newRequestDto.RequestedAmount,
-            status = newRequestDto.Status,
-            tblUser = user,
-            tblBloodBank = bloodbank
+            UserDocument = newRequestDto.UserDocument,
+            BloodTypeId= newRequestDto.BloodTypeId,
+            RequestTimestamp = newRequestDto.RequestTimeStamp,
+            RequestReason= newRequestDto.RequestReason,
+            RequestedAmount = newRequestDto.RequestedAmount,
+            Status= newRequestDto.Status,
+            UserDocumentNavigation = user,
+            BloodType = bloodType
         };
 
-        _context.tblRequest.Add(request);
-        await _context.SaveChangesAsync();
+        _hemoredContext.TblRequests.Add(request);
+        await _hemoredContext.SaveChangesAsync();
 
         var createRequestDto = new RequestDto()
         {
-            UserDocument = request.userDocument,
-            BloodTypeId = request.bloodTypeID,
-            RequestTimeStamp = request.requestTimeStamp,
-            RequestReason = request.requestReason,
-            RequestedAmount = request.requestedAmount,
-            Status = request.status
+            UserDocument = request.UserDocument,
+            BloodTypeId = request.BloodTypeId,
+            RequestTimeStamp = request.RequestTimestamp,
+            RequestReason = request.RequestReason,
+            RequestedAmount = request.RequestedAmount,
+            Status = request.Status
         };
-        return CreatedAtAction("GetRequest", new { id = request.requestID }, createRequestDto);
+        return CreatedAtAction("GetRequest", new { id = request.RequestId }, createRequestDto);
     }
 
     
     [HttpPut("{id}")]
     public async Task<IActionResult> PutRequest(int id, NewRequestDto newRequestDto)
     {
-        var request = await _context.tblRequest.FindAsync(id);
+        var request = await _hemoredContext.TblRequests.FindAsync(id);
         if (request == null)
         {
             return NotFound();
         }
 
         // Update the blood bag with the DTO data
-        request.bloodTypeID = newRequestDto.BloodTypeId;
-        request.userDocument = newRequestDto.UserDocument;
-        request.requestTimeStamp = newRequestDto.RequestTimeStamp;
-        request.requestedAmount = newRequestDto.RequestedAmount;
-        request.requestReason = newRequestDto.RequestReason;
+        request.BloodTypeId = newRequestDto.BloodTypeId;
+        request.UserDocument = newRequestDto.UserDocument;
+        request.RequestTimestamp = newRequestDto.RequestTimeStamp;
+        request.RequestedAmount= newRequestDto.RequestedAmount;
+        request.RequestReason= newRequestDto.RequestReason;
 
         try
         {
-            await _context.SaveChangesAsync();
+            await _hemoredContext.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -124,20 +124,20 @@ public class RequestController(ApplicationContext _context) : Controller
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteRquest(string id)
     {
-        var request = await _context.tblRequest.FindAsync(id);
+        var request = await _hemoredContext.TblRequests.FindAsync(id);
         if (request == null)
         {
             return NotFound();
         }
 
-        _context.tblRequest.Remove(request);
-        await _context.SaveChangesAsync();
+        _hemoredContext.TblRequests.Remove(request);
+        await _hemoredContext.SaveChangesAsync();
 
         return NoContent();
     }
 
     private bool RequestExists(int id)
     {
-        return _context.tblRequest.Any(e => e.requestID == id);
+        return _hemoredContext.TblRequests.Any(e => e.RequestId == id);
     }
 }
