@@ -11,7 +11,7 @@ public class RequestDto
     public DateTime RequestTimeStamp { get; set; }
     public string RequestReason { get; set; }
     public int RequestedAmount { get; set; }
-    public Status Status { get; set; }
+    public Status? Status { get; set; }
 }
 
 public class NewRequestDto
