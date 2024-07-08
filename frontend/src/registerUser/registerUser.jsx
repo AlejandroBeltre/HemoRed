@@ -11,9 +11,7 @@ function RegisterUser() {
         const { name, value } = e.target;
 
         if (formData.documentType === "cedula") {
-            let formattedValue = value.replace(/[^\d]/g, ''); // Remove any non-digit characters
-
-            // Format as xxx-xxxxxxx-x
+            let formattedValue = value.replace(/[^\d]/g, '');
             if (formattedValue.length > 3) {
                 formattedValue = formattedValue.slice(0, 3) + '-' + formattedValue.slice(3);
             }
@@ -21,7 +19,7 @@ function RegisterUser() {
                 formattedValue = formattedValue.slice(0, 11) + '-' + formattedValue.slice(11);
             }
             if (formattedValue.length > 13) {
-                formattedValue = formattedValue.slice(0, 13); // Ensure the string does not exceed the maximum length
+                formattedValue = formattedValue.slice(0, 13);
             }
 
             setFormData({
@@ -29,10 +27,7 @@ function RegisterUser() {
                 [name]: formattedValue
             });
         } else {
-            // For passport, we'll allow alphanumeric characters and some common symbols
             let formattedValue = value.replace(/[^a-zA-Z0-9-]/g, '');
-
-            // Limit the length to a reasonable maximum (e.g., 20 characters)
             formattedValue = formattedValue.slice(0, 20);
 
             setFormData({
