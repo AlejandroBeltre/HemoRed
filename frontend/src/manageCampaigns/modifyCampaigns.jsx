@@ -4,6 +4,9 @@ import Footer from "../components/footer";
 import Header from "../components/header";
 import "./modifyCampaigns.css";
 import { ArrowLeftOutlined, FileImageFilled } from "@ant-design/icons";
+import diaDelDonador from '../assets/images/diaDelDonador.png';
+import regalaVida from '../assets/images/regalaVida.png';
+import sangreParaTodos from '../assets/images/sangreParaTodos.png';
 
 function ModifyCampaigns() {
     const navigate = useNavigate();
@@ -30,18 +33,45 @@ function ModifyCampaigns() {
             try {
                 // Simulate fetching data from an API
                 await new Promise(resolve => setTimeout(resolve, 1000));
-                const mockCampaign = {
-                    id: campaignId,
-                    name: "¡Sangre para todos!",
-                    organizer: "Cruz Roja Americana",
-                    address: "123 Elm Street, Springfield, IL 62704, USA",
-                    description: "Campaña para donar sangre",
-                    startDate: "2023-06-13",
-                    startTime: "07:00",
-                    endDate: "2023-06-15",
-                    endTime: "15:00",
-                    image: null,
-                };
+                const campaigns = [
+                    {
+                        id: '1',
+                        name: "¡Sangre para todos!",
+                        organizer: "Cruz Roja Americana",
+                        address: "123 Elm Street, Springfield, IL 62704, USA",
+                        description: "Campaña para donar sangre",
+                        startDate: "2023-06-13",
+                        startTime: "07:00",
+                        endDate: "2023-06-15",
+                        endTime: "15:00",
+                        image: sangreParaTodos,
+                    },
+                    {
+                        id: '2',
+                        name: "Regala vida",
+                        organizer: "Servicios de Sangre de Canadá",
+                        address: "456 Maple Avenue, Toronto, ON M4C 1B5, Canada",
+                        description: "Campaña para donar sangre",
+                        startDate: "2024-06-14",
+                        startTime: "09:00",
+                        endDate: "2024-06-15",
+                        endTime: "17:00",
+                        image: regalaVida,
+                    },
+                    {
+                        id: '3',
+                        name: "Dia del donador",
+                        organizer: "Servicios Nacional de Salud de la Sangre y Transplantes",
+                        address: "789 Pine Road, London, SW1A 1AA, United Kingdom",
+                        description: "Campaña para donar sangre",
+                        startDate: "2024-01-12",
+                        startTime: "09:00",
+                        endDate: "2024-01-12",
+                        endTime: "14:00",
+                        image: diaDelDonador,
+                    }
+                ];
+                const mockCampaign = campaigns.find(campaign => campaign.id === campaignId);
                 setCampaign(mockCampaign);
                 setFormData(mockCampaign);
             } catch (error) {
@@ -197,7 +227,7 @@ function ModifyCampaigns() {
                                 accept="image/*"
                             />
                             <div className="file-input-text">
-                                {formData.image ? formData.image.name : 'Ningn archivo seleccionado'}
+                                {formData.image ? formData.image : 'Ningn archivo seleccionado'}
                             </div>
                             <div className="file-input-icon">
                                 <FileImageFilled className='file-input-icon' />

@@ -11,24 +11,40 @@ function LoginUser() {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
-    })
+    });
+    const [errors, setErrors] = useState({});
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-            setFormData({
-                ...formData,
-                [name]: value
-            });
-      };
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
     const navigate = useNavigate();
     const handleBack = () => {
         navigate(-1);
-    }
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+        if (!formData.email) newErrors.email = 'Correo electrónico es requerido';
+        if (!formData.password) newErrors.password = 'Contraseña es requerida';
+        return newErrors;
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
-        navigate('/');
-    }
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+        } else {
+            console.log(formData);
+            navigate('/');
+        }
+    };
+
     return (
       <div>
         <Headers />
@@ -37,7 +53,7 @@ function LoginUser() {
                 <ArrowLeftOutlined className="back" onClick={handleBack}/>
                 <h1>¡Hola de nuevo!</h1>
                 <p>Tu apoyo continuo es esencial: sigue donando y juntos construiremos un mundo mejor.</p>
-                <form>
+                <form onSubmit={handleSubmit}>
                 <div className="form-group-login">
                     <label htmlFor="email">Correo electrónico:</label>
                     <input 
@@ -47,6 +63,7 @@ function LoginUser() {
                     value={formData.email}
                     onChange={handleChange}
                     required />
+                    {errors.email && <span className="error">{errors.email}</span>}
                 </div>
                 <div className="form-group-login">
                 <label htmlFor="password">Contraseña:</label>
@@ -63,10 +80,11 @@ function LoginUser() {
                   {passwordVisible ? <EyeInvisibleOutlined /> : <EyeOutlined />}
                 </button>
                 </div>
+                {errors.password && <span className="error">{errors.password}</span>}
                 <p className='recover-account'><Link to="/loginUser/recoverPassword" style={{color: 'inherit'}}>Recuperar Contraseña</Link></p>
             </div>
-                <button type="submit" className="submit-button" onClick={handleSubmit}>Iniciar sesión</button>
-                <p className='no-account'><Link to="/registerUser" style={{color: 'inherit'}}>No tengo cuenta</Link></p>
+                <button type="submit" className="submit-button">Iniciar sesión</button>
+                <p className='no-account'><Link to="/registerUser" style={{color: 'inherit'}}>¿No tienes cuenta?</Link></p>
                 </form>
             </div>
             <div className="image-container">
@@ -77,6 +95,5 @@ function LoginUser() {
       </div>
     )
   }
-
 
 export default LoginUser;

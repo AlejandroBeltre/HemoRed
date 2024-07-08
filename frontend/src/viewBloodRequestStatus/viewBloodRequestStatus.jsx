@@ -3,7 +3,7 @@ import './viewBloodRequestStatus.css';
 import Headers from '../components/header.jsx';
 import Footer from '../components/footer.jsx';
 import { ArrowLeftOutlined, InboxOutlined, ShoppingCartOutlined, CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function ViewBloodRequestStatus() {
     const bloodRequests = [
@@ -135,7 +135,7 @@ function ViewBloodRequestStatus() {
                                         <span className="value">{bloodRequest.hourOfRetiring}</span>
                                     </p>
                                 </div>
-                                <button className='register-button' style={{ margin: '10px' }} onClick={() => navigate(`/viewBanks/viewBankDetails/${bloodRequest.bankId}`)}>Contactar Banco</button>
+                                <button className='contact-bank-button' style={{ margin: '10px' }} onClick={() => navigate(`/viewBanks/viewBankDetails/${bloodRequest.bankId}`)}>Contactar Banco</button>
                             </div>
                         </div>
                     ))}

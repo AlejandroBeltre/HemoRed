@@ -29,7 +29,7 @@ function ViewDonationHistory(){
             <div className="user-details">
               <h2>Juan R. Martinez S.</h2>
               <p className="user-id">ID: 00000001</p>
-              <p className="quote">
+              <p className="quote"> 
                 "Cada donación de sangre es un acto de amor que salva vidas. Tu generosidad sigue siendo el regalo más valioso para quienes más lo necesitan."
               </p>
             </div>

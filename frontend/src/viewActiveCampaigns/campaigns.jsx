@@ -13,7 +13,7 @@ const CampaignCard = ({ campaign }) => {
     const navigate = useNavigate();
     const navigateToParticipateSpecificCampaignPage = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        navigate(`/campaigns/participateSpecificCampaign/${campaign.id}`, { state: { campaign } });
+        navigate(`/campaigns/participateSpecificCampaign/${campaign.id}`,  { state: { campaign } });
     }
 
 return (
@@ -40,7 +40,7 @@ return (
             </div>
         </div>
         <div className="button-group">
-            <button className="edit-button-manage-blood-banks" onClick={navigateToParticipateSpecificCampaignPage}>Anotarse en campaña</button>
+            <button className="anotarse-campaña-button" onClick={navigateToParticipateSpecificCampaignPage}>Anotarse en campaña</button>
         </div>
     </div>
 );
@@ -86,7 +86,7 @@ function Campaigns() {
     ];
 
     const navigateToDonatePage = () => {
-        navigate('/scheduleAppointment');
+        navigate('/campaigns/participateCampaign');
     };
 
     return (

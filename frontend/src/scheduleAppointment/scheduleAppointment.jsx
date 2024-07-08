@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './scheduleAppointment.css';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import Headers from '../components/header';
 import Footer from '../components/footer';
 
 function ScheduleAppointment() {
+    const location = useLocation();
+    const bankName = location.state?.bankName || '';
     const [formData, setFormData] = useState({
-        bloodBank: '',
+        bloodBank: bankName,
         fullName: '',
         phoneNumber: '+1',
         documentType: 'passport',
@@ -94,6 +96,19 @@ function ScheduleAppointment() {
         console.log('Form submitted:', formData);
         setNotification("¡Solicitud enviada!");
         setTimeout(() => setNotification(""), 2000);
+
+        setFormData({
+            bloodBank: '',
+            fullName: '',
+            phoneNumber: '+1',
+            documentType: 'passport',
+            documentNumber: '',
+            birthDate: '',
+            bloodType: '',
+            medicalCondition: '',
+            confirmDonor: false,
+            awareOfProcess: false,
+        })
         // navigate('/somewhere'); // Uncomment and set the correct path if needed
     };
 
@@ -119,8 +134,12 @@ function ScheduleAppointment() {
                             required
                         >
                             <option value="">Seleccionar</option>
-                            <option value="bank1">Banco 1</option>
-                            <option value="bank2">Banco 2</option>
+                            <option value="Centro de la sangre y especialidades">Centro de la sangre y especialidades</option>
+                            <option value="Banco de sangre Fundación Crisney">Banco de sangre Fundación Crisney</option>
+                            <option value="San Diego Blood Bank">San Diego Blood Bank</option>
+                            <option value="New York Blood Center">New York Blood Center</option>
+                            <option value="Blood Bank of Delmarva">Blood Bank of Delmarva</option>
+                            <option value="Carter BloodCare">Carter BloodCare</option>
                         </select>
                     </div>
 

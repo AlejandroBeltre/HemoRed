@@ -17,6 +17,7 @@ function AddCampaign() {
     endTime: '',
     image: null,
   });
+  const [notification, setNotification] = useState("");
 
   const navigate = useNavigate();
   const handleBack = () => {
@@ -41,6 +42,19 @@ function AddCampaign() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+    setNotification("¡Campaña creada!");
+    setTimeout(() => setNotification(""), 2000);
+    setFormData({
+      name: '',
+      organizer: '',
+      address: '',
+      description: '',
+      startDate: '',
+      startTime: '',
+      endDate: '',
+      endTime: '',
+      image: null,
+    })
   };
 
   return (
@@ -164,6 +178,7 @@ function AddCampaign() {
           <div className="button-container">
             <button type="submit" className="accept-button-blood-inventory">Crear</button>
           </div>
+          {notification && <div className="notification">{notification}</div>}
         </form>
       </div>
       <Footer />

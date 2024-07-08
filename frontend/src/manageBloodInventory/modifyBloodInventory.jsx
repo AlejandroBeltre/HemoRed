@@ -16,6 +16,7 @@ function ModifyBloodInventory() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedBloodBankName, setSelectedBloodBankName] = useState("");
+    const [notification, setNotification] = useState("");
 
     useEffect(() => {
         const fetchBloodBank = async () => {
@@ -97,6 +98,8 @@ function ModifyBloodInventory() {
             if (bloodTypeIndex !== -1) {
                 updatedBloodBank.bloodTypes[bloodTypeIndex].bags = parseInt(quantity);
                 setBloodBank(updatedBloodBank);
+                setNotification("¡Inventario actualizado!");
+                setTimeout(() => setNotification(""), 2000);
                 // Here you can also send the updated blood bank data to the server if required
             }
         }
@@ -125,7 +128,7 @@ function ModifyBloodInventory() {
                     <div className="form-group-add-blood-to-inventory-form">
                         <label htmlFor="bankName">Banco de sangre:</label>
                         <input type="text" value={selectedBloodBankName} readOnly />
-                    </div>
+                    </div> 
                     <div className="form-group-add-blood-to-inventory-form">
                         <label htmlFor="bloodType">Tipo de Sangre:</label>
                         <Select
@@ -148,6 +151,7 @@ function ModifyBloodInventory() {
                         />
                     </div>
                     <button type="submit" className="accept-button-blood-inventory">Actualizar</button>
+                    {notification && <div className="notification">{notification}</div>}
                 </form>
             </div>
             <Footer />

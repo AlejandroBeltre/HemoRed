@@ -106,6 +106,19 @@ function ParticipateCampaign() {
         console.log('Form submitted:', formData);
         setNotification("¡Formulario enviado!");
         setTimeout(() => setNotification(""), 2000);
+
+        setFormData({
+            campaignName: campaign.name || '',
+            fullName: '',
+            documentType: 'passport',
+            documentNumber: '',
+            phoneNumber: '+1',
+            birthDate: '',
+            bloodType: '',
+            medicalCondition: '',
+            isDonorCandidate: false,
+            isAwareOfProcess: false,
+        })
         // navigate('/somewhere'); // Uncomment and set the correct path if needed
     };
 

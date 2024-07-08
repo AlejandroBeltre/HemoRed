@@ -25,7 +25,7 @@ function DashboardAdmin() {
                         <p>Teléfono</p>
                         <p>Dirección</p>
                     </Card>
-                    <Card title="Top bancos">
+                    <Card title="Top bancos" linkText="Ver bancos" linkUrl="/manageBloodBanks">
                         <p>Banco de sangre: 2024-06-01</p>
                         <p>Banco de sangre: 2024-06-01</p>
                         <p>Banco de sangre: 2024-06-01</p>
