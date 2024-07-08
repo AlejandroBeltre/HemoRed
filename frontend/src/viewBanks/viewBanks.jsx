@@ -84,7 +84,8 @@ function ViewBanks() {
             className="city-select"
           >
             <option value="">Ciudad</option>
-            {/* Add city options here */}
+            <option value="Santo Domingo">Santo Domingo</option>
+            <option value="Santiago">Cabecera</option>
           </select>
 
           <select
@@ -93,7 +94,14 @@ function ViewBanks() {
             className="blood-type-select"
           >
             <option value="">Tipo de sangre</option>
-            {/* Add blood type options here */}
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
           </select>
         </div>
         <div className="blood-banks-list">

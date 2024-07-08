@@ -91,6 +91,16 @@ function ViewBankDetails() {
     return <div>Loading...</div>; // Or any other loading state
   }
 
+  const navigateToRequestBloodPage = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate('/requestBlood', { state: { bankName: bankDetails.name } });
+  }
+
+  const navigateToDonateBloodPage = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate('/scheduleAppointment', { state: { bankName: bankDetails.name } });
+  }
+
   return (
     <div className="viewBankDetails">
     <Headers />
@@ -107,8 +117,8 @@ function ViewBankDetails() {
             ))}
           </div>
           <div className="buttons-banks">
-          <button className="donor-button">Donar</button>
-          <button className="acquire-button">Adquirir sangre</button>
+          <button className="donor-button" onClick={navigateToDonateBloodPage}>Donar</button>
+          <button className="acquire-button" onClick={navigateToRequestBloodPage}>Adquirir sangre</button>
           </div>
           <div className="info-box">
             <h3>Información</h3>

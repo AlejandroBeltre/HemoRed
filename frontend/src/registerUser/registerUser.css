@@ -202,3 +202,12 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
   }
+
+  .register-button:hover {
+    background-color: #BF2C32;
+    color: white;
+  }
+
+  .register-button {
+    margin-bottom: 10px;
+  }

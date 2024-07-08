@@ -53,7 +53,6 @@
   }
   
   .blood-types-homepage h2 {
-    color: #153440;
     font-size: 32px;
     margin-bottom: 1rem;
   }
@@ -88,7 +87,6 @@
   }
   .donation-text {
     flex: 1;
-    color: #153440;
     max-width: 600px;
     font-size: 26px;
   }
@@ -130,7 +128,6 @@
   .testimonials {
     margin-top: 2rem;
     margin-bottom: 2rem;
-    color: #153440;
   }
   
   .testimonials h2 {
@@ -180,7 +177,6 @@
     background-color: #D9D9D9;
     padding: 2rem;
     margin-bottom: 2rem;
-    color: #153440;
     align-items: center;
     text-align: center;
   }
@@ -220,7 +216,6 @@
     margin: 0 auto; /* Center the quote element itself */
     text-align: center; /* Center text inside the quote */
     margin-bottom: 2rem;
-    color: #153440
   }
   
   /* Footer */
@@ -290,4 +285,8 @@
     .social-icons {
       margin-top: 1rem;
     }
+  }
+
+  .blood-donation-page p {
+    color: black;
   }

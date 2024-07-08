@@ -1,5 +1,4 @@
 .donation-history {
-    font-family: Arial, sans-serif;
     margin: 0 auto;
     padding: 20px;
   }
@@ -105,4 +104,12 @@
   
   .donation-history-info, .donation-list {
     flex: 1;
+  }
+
+  .donation-history-info p{
+    color: black;
+  }
+
+  .donation-history-info h2 {
+    color: black;
   }

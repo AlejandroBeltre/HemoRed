@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './requestBlood.css';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import Headers from '../components/header';
 import Footer from '../components/footer';
 
 function RequestBlood() {
+    const location = useLocation();
+    const bankName = location.state?.bankName || '';
     const [formData, setFormData] = useState({
-        bloodBank: '',
+        bloodBank: bankName,
         address: '',
         fullName: '',
-        phoneNumber: '',
+        phoneNumber: '+1',
         documentType: 'passport',
         documentNumber: '',
         bloodType: '',
@@ -66,11 +68,49 @@ function RequestBlood() {
         }
     };
 
+    const handlePhoneNumberChange = (event) => {
+        let { value } = event.target;
+        value = value.replace(/[^\d]/g, '');
+
+        if (!value.startsWith('1')) {
+            value = '1' + value;
+        }
+
+        if (value.length > 1) {
+            value = value.slice(0, 1) + ' ' + value.slice(1);
+        }
+        if (value.length > 5) {
+            value = value.slice(0, 5) + '-' + value.slice(5);
+        }
+        if (value.length > 9) {
+            value = value.slice(0, 9) + '-' + value.slice(9, 13);
+        }
+
+        setFormData({
+            ...formData,
+            phoneNumber: '+' + value
+        });
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form submitted:', formData);
         setNotification("¡Solicitud enviada!");
         setTimeout(() => setNotification(""), 2000);
+
+        setFormData({
+            bloodBank: '',
+            address: '',
+            fullName: '',
+            phoneNumber: '+1',
+            documentType: 'passport',
+            documentNumber: '',
+            bloodType: '',
+            quantity: '',
+            identificationDocument: '',
+            reason: '',
+            hasDonor: 'no',
+        });
         // navigate('/somewhere'); // Uncomment and set the correct path if needed
     };
 
@@ -96,10 +136,13 @@ function RequestBlood() {
                             required
                         >
                             <option value="">Seleccionar</option>
-                            <option value="bank1">Banco 1</option>
-                            <option value="bank2">Banco 2</option>
-                            {/* Add more options as needed */}
-                        </select>
+                            <option value="Centro de la sangre y especialidades">Centro de la sangre y especialidades</option>
+                            <option value="Banco de sangre Fundación Crisney">Banco de sangre Fundación Crisney</option>
+                            <option value="San Diego Blood Bank">San Diego Blood Bank</option>
+                            <option value="New York Blood Center">New York Blood Center</option>
+                            <option value="Blood Bank of Delmarva">Blood Bank of Delmarva</option>
+                            <option value="Carter BloodCare">Carter BloodCare</option>
+                        </select> 
                     </div>
 
                     <div className="form-group">
@@ -133,7 +176,7 @@ function RequestBlood() {
                             id="phoneNumber"
                             name="phoneNumber"
                             value={formData.phoneNumber}
-                            onChange={handleChange}
+                            onChange={handlePhoneNumberChange}
                             required
                         />
                     </div>
@@ -165,18 +208,6 @@ function RequestBlood() {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="documentNumber">Documento de identificación</label>
-                        <input
-                            type="text"
-                            id="documentNumber"
-                            name="documentNumber"
-                            value={formData.documentNumber}
-                            onChange={handleDocumentNumberChange}
-                            required
-                        />
-                    </div>
-
-                    <div className="form-group">
                         <label htmlFor="bloodType">Tipo de sangre</label>
                         <select
                             id="bloodType"
@@ -195,6 +226,18 @@ function RequestBlood() {
                             <option value="O+">O+</option>
                             <option value="O-">O-</option>
                         </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="documentNumber">Documento de identificación</label>
+                        <input
+                            type="text"
+                            id="documentNumber"
+                            name="documentNumber"
+                            value={formData.documentNumber}
+                            onChange={handleDocumentNumberChange}
+                            required
+                        />
                     </div>
 
                     <div className="form-group">

@@ -64,6 +64,7 @@ function AddBloodToInventory() {
     const [bloodType, setBloodType] = useState('');
     const [quantity, setQuantity] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
+    const [notification, setNotification] = useState("");
     const navigate = useNavigate();
     const handleBack = () => {
         navigate(-1);
@@ -76,6 +77,14 @@ function AddBloodToInventory() {
             quantity,
             expirationDate
         });
+        setNotification("¡Inventario actualizado!");
+        setTimeout(() => setNotification(""), 2000);
+        
+        // Clear the fields after form submission
+        setSelectedBank('');
+        setBloodType('');
+        setQuantity('');
+        setExpirationDate('');
     }
 
     const bankOptions = bloodBanks.map(bank => ({
@@ -147,6 +156,7 @@ function AddBloodToInventory() {
                         <div className="button-container">
                             <button type="submit" className="accept-button-blood-inventory">Aceptar</button>
                         </div>
+                        {notification && <div className="notification">{notification}</div>}
                     </div>
                 </form>
             </div>

@@ -16,6 +16,7 @@ function ModifyBloodBank() {
     const [schedule, setSchedule] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [notification, setNotification] = useState("");
 
     useEffect(() => {
         const fetchBloodBank = async () => {
@@ -53,6 +54,8 @@ function ModifyBloodBank() {
         event.preventDefault();
         // Handle form submission logic here
         console.log({ name, address, phoneNumber, schedule });
+        setNotification("¡Banco de sangre actualizado!");
+        setTimeout(() => setNotification(""), 2000);
     };
 
     if (isLoading) {
@@ -113,6 +116,7 @@ function ModifyBloodBank() {
                     <div className="button-container">
                         <button type="submit" className="accept-button-blood-inventory">Actualizar</button>
                     </div>
+                    {notification && <div className="notification">{notification}</div>}
                 </form>
             </div>
             <Footer />

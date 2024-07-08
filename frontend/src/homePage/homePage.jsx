@@ -54,7 +54,7 @@ function HomePage() {
                         <img src={OPositive} alt="O+" />
                         <img src={ONegative} alt="O-" />
                     </div>
-                </section>
+                </section> 
 
                 {/* Donation CTA */}
                 <section className="donation-cta">

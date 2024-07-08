@@ -79,10 +79,19 @@ function AddBloodBank() {
       phoneNumber: value
     });
   };
-
+  const [notification, setNotification] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+    setNotification("¡Banco de sangre creado!");
+    setTimeout(() => setNotification(""), 2000);
+    setFormData({
+      name: '',
+      address: '',
+      phoneNumber: '',
+      image: null,
+      schedule: {}
+    })
   };
 
   return (
@@ -156,6 +165,8 @@ function AddBloodBank() {
           <div className="button-container">
             <button type="submit" className="accept-button-blood-inventory">Crear</button>
           </div>
+          {notification && <div className="notification">{notification}</div>}
+
         </form>
       </div>
       <Footer />
