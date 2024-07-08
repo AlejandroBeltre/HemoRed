@@ -26,6 +26,7 @@ function ModifyCampaigns() {
     });
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [notification, setNotification] = useState("");
 
     useEffect(() => {
         const fetchCampaign = async () => {
@@ -106,6 +107,8 @@ function ModifyCampaigns() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form submitted:', formData);
+        setNotification("¡Campaña actualizada!");
+        setTimeout(() => setNotification(""), 2000);
     };
 
     if (isLoading) {
@@ -238,6 +241,7 @@ function ModifyCampaigns() {
                         <button type="submit" className="accept-button-blood-inventory">Actualizar</button>
                     </div>
                 </form>
+                {notification && <div className="notification">{notification}</div>}
             </div>
             <Footer />
         </div>
