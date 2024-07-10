@@ -12,7 +12,7 @@ namespace backend.Controllers;
 public class BloodTypeController(HemoRedContext _hemoredContext) : ControllerBase
 {
     // GET
-    [HttpGet("get")]
+    [HttpGet]
     public async Task<IEnumerable<BloodTypeDto>> GetBloodTypes()
     {
         return await _hemoredContext.TblBloodTypes.Select(e => new BloodTypeDto
@@ -22,7 +22,7 @@ public class BloodTypeController(HemoRedContext _hemoredContext) : ControllerBas
         }).ToListAsync();
     }
     
-    [HttpGet("get/{id}")]
+    [HttpGet("{id}")]
     public async Task<BloodTypeDto?> GetBloodTypeById(int id)
     {
         var bloodType = await _hemoredContext.TblBloodTypes.FindAsync(id);
@@ -37,7 +37,7 @@ public class BloodTypeController(HemoRedContext _hemoredContext) : ControllerBas
         };
     }
 
-    [HttpDelete("delete/{id}")]
+    [HttpDelete("{id}")]
     public async Task<bool> DeleteBloodType(int id)
     {
         var bloodType = await _hemoredContext.TblBloodTypes.FindAsync(id);
