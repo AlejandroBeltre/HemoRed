@@ -16,7 +16,7 @@ namespace backend.Controllers;
 public class BloodBankController(HemoRedContext _hemoredContext) : ControllerBase
 {
     // GET: api/BloodBank
-    [HttpGet("get")]
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<BloodBankDto>>> GetBloodBanks()
     {
         return await _hemoredContext.TblBloodBanks
@@ -58,7 +58,7 @@ public class BloodBankController(HemoRedContext _hemoredContext) : ControllerBas
     }
 
     // POST: api/BloodBank
-    [HttpPost("post")]
+    [HttpPost]
     public async Task<ActionResult<BloodBankDto>> PostBloodBank([FromForm]NewBloodBankDTO newBloodBankDto, [FromForm]IFormFile? image)
     {
         string imagePath = null!;
@@ -101,7 +101,6 @@ public class BloodBankController(HemoRedContext _hemoredContext) : ControllerBas
         return CreatedAtAction("GetBloodBank", new { id = bloodBank.BloodBankId }, createdBankDto);
     }
 
-// PUT: api/BloodBank/5
     [HttpPut("{id}")]
     public async Task<IActionResult> PutBloodBank(int id, [FromForm] NewBloodBankDTO newBloodBankDto, [FromForm] IFormFile? image)
     {
