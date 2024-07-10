@@ -13,7 +13,7 @@ public partial class TblBloodBag
 
     public int DonationId { get; set; }
 
-    public DateOnly ExpirationDate { get; set; }
+    public DateTime ExpirationDate { get; set; }
 
     public bool IsReserved { get; set; }
 

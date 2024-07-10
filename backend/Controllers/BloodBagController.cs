@@ -16,7 +16,7 @@ namespace backend.Controllers;
 public class BloodBagController(HemoRedContext _hemoredContext) : ControllerBase
 {
     // GET: api/BloodBag
-    [HttpGet("get")]
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<BloodBagDto>>> GetBloodBags()
     {
         return await _hemoredContext.TblBloodBags
@@ -33,7 +33,7 @@ public class BloodBagController(HemoRedContext _hemoredContext) : ControllerBase
     }
 
     // GET: api/BloodBag/5
-    [HttpGet("get/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<BloodBagDto>> GetBloodBag(int id)
     {
         var bloodBag = await _hemoredContext.TblBloodBags
@@ -61,7 +61,9 @@ public class BloodBagController(HemoRedContext _hemoredContext) : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutBloodBag(int id, NewBloodBagDTO newBloodBagDto)
     {
-        var bloodBag = await _hemoredContext.TblBloodBags.FindAsync(id);
+        var bloodBag = await _hemoredContext.TblBloodBags
+            .Where(b => b.BagId == id)
+            .FirstOrDefaultAsync();
         if (bloodBag == null)
         {
             return NotFound();
@@ -136,7 +138,9 @@ public class BloodBagController(HemoRedContext _hemoredContext) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteBloodBag(int id)
     {
-        var bloodBag = await _hemoredContext.TblBloodBags.FindAsync(id);
+        var bloodBag = await _hemoredContext.TblBloodBags
+            .Where(b => b.BagId == id)
+            .FirstOrDefaultAsync();
         if (bloodBag == null)
         {
             return NotFound();
@@ -147,7 +151,6 @@ public class BloodBagController(HemoRedContext _hemoredContext) : ControllerBase
 
         return NoContent();
     }
-
     private bool BloodBagExists(int id)
     {
         return _hemoredContext.TblBloodBags.Any(e => e.BagId == id);
