@@ -31,7 +31,9 @@ public class DonationController(HemoRedContext _hemoredContext) : Controller
     [HttpGet("get/id")]
     public async Task<ActionResult<DonationDto>> GetDonation(int id)
     {
-        var donation = await _hemoredContext.TblDonations.Where(d => d.DonationId == id).Select(d => new DonationDto
+        var donation = await _hemoredContext.TblDonations.
+            Where(d => d.DonationId == id)
+            .Select(d => new DonationDto
             {
                 DonationID = d.DonationId,
                 UserDocument = d.UserDocument,
@@ -51,7 +53,7 @@ public class DonationController(HemoRedContext _hemoredContext) : Controller
 
     // POST: api/BloodBank
     [HttpPost("post")]
-    public async Task<ActionResult<BloodBankDto>> PostDonation([FromForm] NewDonationDTO newDonationDto)
+    public async Task<ActionResult<DonationDto>> PostDonation([FromForm] NewDonationDTO newDonationDto)
     {
         // Fetch related entities
         var bloodType = await _hemoredContext.TblBloodTypes.FindAsync(newDonationDto.BloodTypeID);

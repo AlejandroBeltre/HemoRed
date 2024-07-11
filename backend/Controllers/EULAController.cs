@@ -13,20 +13,28 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EULAController(HemoRedContext context) : ControllerBase
+    public class EULAController(HemoRedContext _hemoredContext) : ControllerBase
     {
         // GET: api/EULA
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TblEula>>> GetTblEulas()
         {
-            return await context.TblEulas.ToListAsync();
+            return await _hemoredContext.TblEulas.ToListAsync();
         }
 
         // GET: api/EULA/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TblEula>> GetTblEula(int id)
+        public async Task<ActionResult<EulaDto>> GetTblEula(int id)
         {
-            var tblEula = await context.TblEulas.FindAsync(id);
+            var tblEula = await _hemoredContext.TblEulas.Where(d => d.EulaId == id)
+                .Select(d => new EulaDto
+                {
+                    EulaID = d.EulaId,
+                    Content = d.Content,
+                    UpdateDate = d.UpdateDate,
+                    Version = d.Version
+                })
+                .FirstOrDefaultAsync();
 
             if (tblEula == null)
             {
@@ -38,18 +46,23 @@ namespace backend.Controllers
 
         // PUT: api/EULA/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTblEula(int id, TblEula tblEula)
+        public async Task<IActionResult> PutTblEula(int id, EulaDto newEulaDto)
         {
-            if (id != tblEula.EulaId)
+            var eula = await _hemoredContext.TblEulas.FindAsync(id);
+            if (eula == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            context.Entry(tblEula).State = EntityState.Modified;
+            // Update the blood bag with the DTO data
+            eula.EulaId = newEulaDto.EulaID;
+            eula.Content = newEulaDto.Content;
+            eula.UpdateDate = newEulaDto.UpdateDate;
+            eula.Version = newEulaDto.Version;
 
             try
             {
-                await context.SaveChangesAsync();
+                await _hemoredContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -57,10 +70,7 @@ namespace backend.Controllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return NoContent();
@@ -69,10 +79,10 @@ namespace backend.Controllers
         // POST: api/EULA
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TblEula>> PostTblEula(EulaDto eulaDto)
+        public async Task<ActionResult<EulaDto>> PostTblEula(EulaDto eulaDto)
         {
-            context.TblEulas.Add(TblEula.FromDto(eulaDto));
-            await context.SaveChangesAsync();
+            _hemoredContext.TblEulas.Add(TblEula.FromDto(eulaDto));
+            await _hemoredContext.SaveChangesAsync();
 
             return CreatedAtAction("GetTblEula", new { id = eulaDto.EulaID }, eulaDto);
         }
@@ -81,14 +91,14 @@ namespace backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTblEula(int id)
         {
-            var tblEula = await context.TblEulas.FindAsync(id);
+            var tblEula = await _hemoredContext.TblEulas.FindAsync(id);
             if (tblEula == null)
             {
                 return NotFound();
             }
 
-            context.TblEulas.Remove(tblEula);
-            await context.SaveChangesAsync();
+            _hemoredContext.TblEulas.Remove(tblEula);
+            await _hemoredContext.SaveChangesAsync();
 
             return NoContent();
         }
@@ -102,7 +112,7 @@ namespace backend.Controllers
 
         private bool TblEulaExists(int id)
         {
-            return context.TblEulas.Any(e => e.EulaId == id);
+            return _hemoredContext.TblEulas.Any(e => e.EulaId == id);
         }
     }
 }

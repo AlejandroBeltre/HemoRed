@@ -24,29 +24,37 @@ namespace backend.Controllers
 
         // GET: api/CampaignParticipation/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TblCampaignParticipation>> GetTblCampaignParticipation(int id)
+        public async Task<ActionResult<CampaignParticipationDto>> GetTblCampaignParticipation(int id)
         {
-            var tblCampaignParticipation = await _hemoredContext.TblCampaignParticipations.FindAsync(id);
+            var result = await _hemoredContext.TblCampaignParticipations.
+                Where(c => c.CampaignId== id)
+                .Select(c => new CampaignParticipationDto
+                {
+                    CampaignID = c.CampaignId,
+                    DonationID = c.DonationId,
+                    OrganizerID = c.OrganizerId
+                })
+                .FirstOrDefaultAsync();
 
-            if (tblCampaignParticipation == null)
+            if (result == null)
             {
                 return NotFound();
             }
 
-            return tblCampaignParticipation;
+            return result;;
         }
 
         // PUT: api/CampaignParticipation/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTblCampaignParticipation(int id, TblCampaignParticipation tblCampaignParticipation)
+        public async Task<IActionResult> PutTblCampaignParticipation(int id, [FromForm]CampaignParticipationDto campaignParticipationDto, [FromForm] IFormFile? image)
         {
-            if (id != tblCampaignParticipation.CampaignId)
+            if (id != campaignParticipationDto.CampaignID)
             {
                 return BadRequest();
             }
 
-            _hemoredContext.Entry(tblCampaignParticipation).State = EntityState.Modified;
+            _hemoredContext.Entry(campaignParticipationDto).State = EntityState.Modified;
 
             try
             {
@@ -58,10 +66,8 @@ namespace backend.Controllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return NoContent();
