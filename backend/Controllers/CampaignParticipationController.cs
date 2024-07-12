@@ -29,7 +29,6 @@ namespace backend.Controllers
             .ToListAsync();
         }
 
-        // GET: api/CampaignParticipation/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CampaignParticipationDto>> GetTblCampaignParticipation(int id)
         {
