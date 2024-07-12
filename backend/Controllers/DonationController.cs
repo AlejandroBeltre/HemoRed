@@ -3,7 +3,7 @@ using backend.DTO;
 using backend.Enums;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;    
 
 namespace backend.Controllers;
 
@@ -12,7 +12,7 @@ namespace backend.Controllers;
 public class DonationController(HemoRedContext _hemoredContext) : Controller
 {
 // GET: api/BloodBag
-    [HttpGet("get")]
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<DonationDto>>> GetDonations()
     {
         return await _hemoredContext.TblDonations
@@ -28,7 +28,7 @@ public class DonationController(HemoRedContext _hemoredContext) : Controller
     }
 
     // GET: api/Users/get/id
-    [HttpGet("get/id")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<DonationDto>> GetDonation(int id)
     {
         var donation = await _hemoredContext.TblDonations.Where(d => d.DonationId == id).Select(d => new DonationDto
@@ -50,8 +50,8 @@ public class DonationController(HemoRedContext _hemoredContext) : Controller
     }
 
     // POST: api/BloodBank
-    [HttpPost("post")]
-    public async Task<ActionResult<BloodBankDto>> PostDonation([FromForm] NewDonationDTO newDonationDto)
+    [HttpPost]
+    public async Task<ActionResult<BloodBankDto>> PostDonation(NewDonationDTO newDonationDto)
     {
         // Fetch related entities
         var bloodType = await _hemoredContext.TblBloodTypes.FindAsync(newDonationDto.BloodTypeID);
@@ -92,7 +92,7 @@ public class DonationController(HemoRedContext _hemoredContext) : Controller
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutDonation(int id, DonationDto newDonationDto)
+    public async Task<IActionResult> PutDonation(int id, NewDonationDTO newDonationDto)
     {
         var donation = await _hemoredContext.TblDonations.FindAsync(id);
         if (donation == null)

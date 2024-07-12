@@ -11,7 +11,7 @@ namespace backend.Controllers;
 public class RequestController(HemoRedContext _hemoredContext) : Controller
 {
 // GET: api/Request
-    [HttpGet("get")]
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<RequestDto>>> GetRequests()
     {
         return await _hemoredContext.TblRequests
@@ -29,7 +29,7 @@ public class RequestController(HemoRedContext _hemoredContext) : Controller
     }
 
     // GET: api/Request/5
-    [HttpGet("get/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<RequestDto>> GetRequest(int id)
     {
         var request = await _hemoredContext.TblRequests
@@ -53,8 +53,8 @@ public class RequestController(HemoRedContext _hemoredContext) : Controller
         return request;
     }
 
-    [HttpPost("post")]
-    public async Task<ActionResult<RequestDto>> PostRequest([FromForm] NewRequestDto newRequestDto)
+    [HttpPost]
+    public async Task<ActionResult<RequestDto>> PostRequest(NewRequestDto newRequestDto)
     {
         var user = await _hemoredContext.TblUsers.FindAsync(newRequestDto.UserDocument);
         var bloodType = await _hemoredContext.TblBloodTypes.FindAsync(newRequestDto.BloodBank);
@@ -122,7 +122,7 @@ public class RequestController(HemoRedContext _hemoredContext) : Controller
     }
     
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteRquest(string id)
+    public async Task<IActionResult> DeleteRequest(int id)
     {
         var request = await _hemoredContext.TblRequests.FindAsync(id);
         if (request == null)
@@ -132,7 +132,6 @@ public class RequestController(HemoRedContext _hemoredContext) : Controller
 
         _hemoredContext.TblRequests.Remove(request);
         await _hemoredContext.SaveChangesAsync();
-
         return NoContent();
     }
 

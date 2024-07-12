@@ -59,13 +59,13 @@ public class BloodBankController(HemoRedContext _hemoredContext) : ControllerBas
 
     // POST: api/BloodBank
     [HttpPost]
-    public async Task<ActionResult<BloodBankDto>> PostBloodBank([FromForm]NewBloodBankDTO newBloodBankDto, [FromForm]IFormFile? image)
+    public async Task<ActionResult<BloodBankDto>> PostBloodBank([FromForm] NewBloodBankDTO newBloodBankDto, [FromForm] IFormFile? image)
     {
         string imagePath = null!;
         if (image != null && image.Length > 0)
         {
             var uploadFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
-            if(!Directory.Exists(uploadFolderPath))
+            if (!Directory.Exists(uploadFolderPath))
             {
                 Directory.CreateDirectory(uploadFolderPath);
             }
@@ -77,11 +77,11 @@ public class BloodBankController(HemoRedContext _hemoredContext) : ControllerBas
         var address = await _hemoredContext.TblAddresses.FindAsync(newBloodBankDto.AddressID);
         var bloodBank = new TblBloodBank
         {
-            AddressId= newBloodBankDto.AddressID,
+            AddressId = newBloodBankDto.AddressID,
             BloodBankName = newBloodBankDto.BloodBankName,
             AvailableHours = newBloodBankDto.AvailableHours,
-            Phone= newBloodBankDto.Phone,
-            Image= imagePath,
+            Phone = newBloodBankDto.Phone,
+            Image = imagePath,
             Address = address
         };
 

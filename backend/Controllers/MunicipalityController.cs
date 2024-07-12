@@ -11,60 +11,50 @@ namespace backend.Controllers
     public class MunicipalityController(HemoRedContext context) : ControllerBase
     {
         // GET: api/Municipality
-        [HttpGet("get")]
-        public async Task<ActionResult<IEnumerable<TblMunicipality>>> GetTblMunicipalities()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MunicipalityDto>>> GetTblMunicipalities()
         {
-            return await context.TblMunicipalities.ToListAsync();
+            return await context.TblMunicipalities
+                .Select(municipality => new MunicipalityDto{
+                    MunicipalityID = municipality.MunicipalityId,
+                    MunicipalityName = municipality.MunicipalityName,
+                    ProvinceID = municipality.ProvinceId
+                }).ToListAsync();
         }
 
         // GET: api/Municipality/5
-        [HttpGet("get/{id}")]
-        public async Task<ActionResult<TblMunicipality>> GetTblMunicipality(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<MunicipalityDto>> GetTblMunicipality(int id)
         {
-            var tblMunicipality = await context.TblMunicipalities.FindAsync(id);
+            var municipality = await context.TblMunicipalities.Where(m => m.MunicipalityId == id).Select(m => new MunicipalityDto
+            {
+                MunicipalityID = m.MunicipalityId,
+                MunicipalityName = m.MunicipalityName,
+                ProvinceID = m.ProvinceId
+            }).FirstOrDefaultAsync();
 
-            if (tblMunicipality == null)
+            if (municipality == null)
             {
                 return NotFound();
             }
 
-            return tblMunicipality;
+            return municipality;
         }
 
         // PUT: api/Municipality/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTblMunicipality(int id, MunicipalityDto municipalityDto)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTblMunicipality(int id)
         {
-            if (id != municipalityDto.MunicipalityID)
+            var municipality = await context.TblMunicipalities.FindAsync(id);
+            if (municipality == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            context.Entry(municipalityDto).State = EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TblMunicipalityExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            context.TblMunicipalities.Remove(municipality);
+            await context.SaveChangesAsync();
             return NoContent();
-        }
-
-        private bool TblMunicipalityExists(int id)
-        {
-            return context.TblMunicipalities.Any(e => e.MunicipalityId == id);
         }
     }
 }

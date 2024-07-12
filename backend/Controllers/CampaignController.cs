@@ -11,7 +11,7 @@ namespace backend.Controllers;
 public class CampaignController(HemoRedContext _hemoredContext) : ControllerBase
 {
     // GET: api/Campaign
-    [HttpGet("get")]
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<CampaignDto>>> GetCampaigns()
     {
         return await _hemoredContext.TblCampaigns
@@ -30,7 +30,7 @@ public class CampaignController(HemoRedContext _hemoredContext) : ControllerBase
             .ToListAsync();
     }
     
-    [HttpGet("get/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<CampaignDto>> GetCampaign(int id)
     {
         var campaign = await _hemoredContext.TblCampaigns
@@ -55,7 +55,7 @@ public class CampaignController(HemoRedContext _hemoredContext) : ControllerBase
 
         return campaign;
     }
-    [HttpPost("post")]
+    [HttpPost]
     public async Task<ActionResult<CampaignDto>> PostCampaign([FromForm]NewCampaignDto newCampaignDto, [FromForm]IFormFile? image)
     {
         string imagePath = null!;

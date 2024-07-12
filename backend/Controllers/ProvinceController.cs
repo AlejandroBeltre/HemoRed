@@ -12,53 +12,30 @@ namespace backend.Controllers
     {
         // GET: api/Province
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TblProvince>>> GetTblProvinces()
+        public async Task<ActionResult<IEnumerable<ProvinceDto>>> GetTblProvinces()
         {
-            return await context.TblProvinces.ToListAsync();
+            return await context.TblProvinces.Select(p => new ProvinceDto{
+                ProvinceID = p.ProvinceId,
+                ProvinceName = p.ProvinceName
+            }).ToListAsync();
         }
 
         // GET: api/Province/id
         [HttpGet("{id}")]
-        public async Task<ActionResult<TblProvince>> GetTblProvince(int id)
+        public async Task<ActionResult<ProvinceDto>> GetTblProvince(int id)
         {
-            var tblProvince = await context.TblProvinces.FindAsync(id);
+            var province = await context.TblProvinces.Where(p => p.ProvinceId == id).Select(p => new ProvinceDto{
+                ProvinceID = p.ProvinceId,
+                ProvinceName = p.ProvinceName
+            }).FirstOrDefaultAsync();
 
-            if (tblProvince == null)
+            if (province == null)
             {
                 return NotFound();
             }
 
-            return tblProvince;
+            return province;
         }
-
-        // PUT: api/Province/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("put/{id}")]
-        public async Task<IActionResult> PutTblProvince(int id, ProvinceDto provinceDto)
-        {
-            if (id != provinceDto.ProvinceID)
-            {
-                return BadRequest();
-            }
-
-            context.Entry(provinceDto).State = EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TblProvinceExists(id))
-                {
-                    return NotFound();
-                }
-                throw;
-            }
-
-            return NoContent();
-        }
-
         private bool TblProvinceExists(int id)
         {
             return context.TblProvinces.Any(e => e.ProvinceId == id);

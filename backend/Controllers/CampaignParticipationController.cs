@@ -17,36 +17,60 @@ namespace backend.Controllers
     {
         // GET: api/CampaignParticipation
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TblCampaignParticipation>>> GetTblCampaignParticipations()
+        public async Task<ActionResult<IEnumerable<CampaignParticipationDto>>> GetTblCampaignParticipations()
         {
-            return await _hemoredContext.TblCampaignParticipations.ToListAsync();
+            return await _hemoredContext.TblCampaignParticipations
+            .Select( c => new CampaignParticipationDto
+            {
+                CampaignID = c.CampaignId,
+                OrganizerID = c.OrganizerId,
+                DonationID = c.DonationId
+            })
+            .ToListAsync();
         }
 
-        // GET: api/CampaignParticipation/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TblCampaignParticipation>> GetTblCampaignParticipation(int id)
+        public async Task<ActionResult<CampaignParticipationDto>> GetTblCampaignParticipation(int id)
         {
-            var tblCampaignParticipation = await _hemoredContext.TblCampaignParticipations.FindAsync(id);
+            var campaignParticipation = await _hemoredContext.TblCampaignParticipations
+                .Where(c => c.CampaignId == id)
+                .Select(c => new CampaignParticipationDto
+                {
+                    CampaignID = c.CampaignId,
+                    OrganizerID = c.OrganizerId,
+                    DonationID = c.DonationId
+                })
+                .FirstOrDefaultAsync();
 
-            if (tblCampaignParticipation == null)
+            if (campaignParticipation == null)
             {
                 return NotFound();
             }
 
-            return tblCampaignParticipation;
+            return campaignParticipation;
         }
 
-        // PUT: api/CampaignParticipation/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTblCampaignParticipation(int id, TblCampaignParticipation tblCampaignParticipation)
+        public async Task<IActionResult> PutTblCampaignParticipation(int id, CampaignParticipationDto campaignParticipationDto)
         {
-            if (id != tblCampaignParticipation.CampaignId)
+            if (id != campaignParticipationDto.CampaignID)
             {
                 return BadRequest();
             }
 
-            _hemoredContext.Entry(tblCampaignParticipation).State = EntityState.Modified;
+            var campaignParticipation = await _hemoredContext.TblCampaignParticipations
+                .Where(c => c.CampaignId == id)
+                .FirstOrDefaultAsync();
+
+            if (campaignParticipation == null)
+            {
+                return NotFound();
+            }
+
+            campaignParticipation.OrganizerId = campaignParticipationDto.OrganizerID;
+            campaignParticipation.DonationId = campaignParticipationDto.DonationID;
+
+            _hemoredContext.Entry(campaignParticipation).State = EntityState.Modified;
 
             try
             {
@@ -70,7 +94,7 @@ namespace backend.Controllers
         // POST: api/CampaignParticipation
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TblCampaignParticipation>> PostTblCampaignParticipation([FromForm]CampaignParticipationDto campaignParticipationDto)
+        public async Task<ActionResult<CampaignParticipationDto>> PostTblCampaignParticipation(CampaignParticipationDto campaignParticipationDto)
         {
             var campaign = await _hemoredContext.TblCampaigns.FindAsync(campaignParticipationDto.CampaignID);
             var organizer = await _hemoredContext.TblOrganizers.FindAsync(campaignParticipationDto.OrganizerID);
@@ -79,32 +103,35 @@ namespace backend.Controllers
             {
                 return BadRequest("Invalid campaign, organizer or donation");
             }
-            var campaignParticipation = new TblCampaignParticipation
+
+            var tblCampaignParticipation = new TblCampaignParticipation
             {
-                CampaignId= campaignParticipationDto.CampaignID,
+                CampaignId = campaignParticipationDto.CampaignID,
                 OrganizerId = campaignParticipationDto.OrganizerID,
                 DonationId = campaignParticipationDto.DonationID,
-                Campaign = campaign,
-                Donation = donation,
-                Organizer = organizer
-            };
-            _hemoredContext.TblCampaignParticipations.Add(campaignParticipation);
-            await _hemoredContext.SaveChangesAsync();
-            var createdCampaignParticipation = new CampaignParticipationDto()
-            {
-                CampaignID= campaignParticipation.CampaignId,
-                OrganizerID = campaignParticipation.OrganizerId,
-                DonationID = campaignParticipation.DonationId
             };
 
-            return CreatedAtAction("GetTblCampaignParticipation", new { id = campaignParticipationDto }, createdCampaignParticipation);
+            _hemoredContext.TblCampaignParticipations.Add(tblCampaignParticipation);
+            await _hemoredContext.SaveChangesAsync();
+
+            var createdCampaignParticipation = new CampaignParticipationDto
+            {
+                CampaignID = tblCampaignParticipation.CampaignId,
+                OrganizerID = tblCampaignParticipation.OrganizerId,
+                DonationID = tblCampaignParticipation.DonationId
+            };
+
+            return CreatedAtAction("GetTblCampaignParticipation", new { id = tblCampaignParticipation.CampaignId }, createdCampaignParticipation);
         }
 
         // DELETE: api/CampaignParticipation/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTblCampaignParticipation(int id)
         {
-            var tblCampaignParticipation = await _hemoredContext.TblCampaignParticipations.FindAsync(id);
+            var tblCampaignParticipation = await _hemoredContext.TblCampaignParticipations
+                .Where(c => c.CampaignId == id)
+                .FirstOrDefaultAsync();
+
             if (tblCampaignParticipation == null)
             {
                 return NotFound();
