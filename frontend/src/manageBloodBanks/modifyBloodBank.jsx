@@ -4,14 +4,16 @@ import Footer from '../components/footer';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import { getBloodBankById, getAddressById, updateBloodBank } from '../api'; // Import updateBloodBank
 
 function ModifyBloodBank() {
     const navigate = useNavigate();
     const { bankId } = useParams();
 
-    const [bloodBank, setBloodBank] = useState(null);
+    const [bankDetails, setBankDetails] = useState(null);
+    const [formattedAddress, setFormattedAddress] = useState('');
     const [name, setName] = useState('');
-    const [address, setAddress] = useState('');
+    const [address, setAddress] = useState({ street: '', buildingNumber: '' });
     const [phoneNumber, setPhoneNumber] = useState('');
     const [schedule, setSchedule] = useState('');
     const [isLoading, setIsLoading] = useState(true);
@@ -19,43 +21,49 @@ function ModifyBloodBank() {
     const [notification, setNotification] = useState("");
 
     useEffect(() => {
-        const fetchBloodBank = async () => {
-            setIsLoading(true);
+        const fetchBankDetails = async () => {
             try {
-                // Simulate fetching data from an API
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                const mockBloodBank = {
-                    id: bankId,
-                    name: "Blood Bank of Alaska",
-                    address: "1215 Airport Heights Dr, Anchorage, AK 99508, USA",
-                    phoneNumber: "+1 (907) 222-5630",
-                    schedule: "9am-5pm"
-                };
-                setBloodBank(mockBloodBank);
-                setName(mockBloodBank.name);
-                setAddress(mockBloodBank.address);
-                setPhoneNumber(mockBloodBank.phoneNumber);
-                setSchedule(mockBloodBank.schedule);
+                const response = await getBloodBankById(bankId);
+                setBankDetails(response.data);
+                setName(response.data.bloodBankName);
+                setPhoneNumber(response.data.phone);
+                setSchedule(response.data.availableHours);
+
+                const addressResponse = await getAddressById(response.data.addressID);
+                setAddress(addressResponse.data);
+                setFormattedAddress(`${addressResponse.data.street}, ${addressResponse.data.buildingNumber}`);
+                setIsLoading(false);
             } catch (error) {
-                setError('Failed to fetch blood bank data');
-            } finally {
+                console.error('Error fetching bank details:', error);
+                setError('Error fetching bank details');
                 setIsLoading(false);
             }
         };
 
-        fetchBloodBank();
+        fetchBankDetails();
     }, [bankId]);
 
     const handleBack = () => {
         navigate(-1);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Handle form submission logic here
-        console.log({ name, address, phoneNumber, schedule });
-        setNotification("¡Banco de sangre actualizado!");
-        setTimeout(() => setNotification(""), 2000);
+        try {
+            const formData = new FormData();
+            formData.append('AddressID', bankDetails.addressID);
+            formData.append('BloodBankName', name);
+            formData.append('AvailableHours', schedule);
+            formData.append('Phone', phoneNumber);
+            formData.append('Image', bankDetails.image); // Assuming image is not being updated here
+    
+            await updateBloodBank(bankId, formData);
+            setNotification("¡Banco de sangre actualizado!");
+            setTimeout(() => setNotification(""), 2000);
+        } catch (error) {
+            console.error('Error updating blood bank:', error);
+            setNotification("Error al actualizar el banco de sangre");
+        }
     };
 
     if (isLoading) {
@@ -88,8 +96,8 @@ function ModifyBloodBank() {
                         <input
                             type="text"
                             id="address"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
+                            value={`${address.street}, ${address.buildingNumber}`}
+                            onChange={(e) => setAddress({ ...address, street: e.target.value })}
                             className="form-control"
                         />
                     </div>
