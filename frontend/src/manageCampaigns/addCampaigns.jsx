@@ -1,20 +1,21 @@
-import './addCampaigns.css';
-import React, { useState } from 'react';
-import Headers from '../components/header';
-import Footer from '../components/footer';
-import { ArrowLeftOutlined, FileImageFilled } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import "./addCampaigns.css";
+import React, { useState } from "react";
+import Headers from "../components/header";
+import Footer from "../components/footer";
+import { ArrowLeftOutlined, FileImageFilled } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { createCampaign } from "../api";
 
 function AddCampaign() {
   const [formData, setFormData] = useState({
-    name: '',
-    organizer: '',
-    address: '',
-    description: '',
-    startDate: '',
-    startTime: '',
-    endDate: '',
-    endTime: '',
+    name: "",
+    organizer: "",
+    address: "",
+    description: "",
+    startDate: "",
+    startTime: "",
+    endDate: "",
+    endTime: "",
     image: null,
   });
   const [notification, setNotification] = useState("");
@@ -29,38 +30,47 @@ function AddCampaign() {
     if (type === "file") {
       setFormData({
         ...formData,
-        [name]: files[0]
+        [name]: files[0],
       });
     } else {
       setFormData({
         ...formData,
-        [name]: value
+        [name]: value,
       });
     }
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setNotification("¡Campaña creada!");
-    setTimeout(() => setNotification(""), 2000);
-    setFormData({
-      name: '',
-      organizer: '',
-      address: '',
-      description: '',
-      startDate: '',
-      startTime: '',
-      endDate: '',
-      endTime: '',
-      image: null,
-    })
+    
+    try {
+      // Create the blood bank with a fixed addressID of 1
+      const campaignData ={
+        name: formData.name,
+        organizer: 1,
+        address: 1,
+        description: formData.description,
+        startDate: formData.startDate,
+        startTime: formData.startTime,
+        endDate: formData.endDate,
+        endTime: formData.endTime,
+        image: null,
+      }
+      await createCampaign(campaignData);
+      
+      setNotification("¡Campañas actualizadas!");
+      setTimeout(() => setNotification(""), 2000);
+    } catch (error) {
+      console.error('Error creating campaign:', error);
+      setNotification("Error al actualizar las campañas");
+    }
   };
 
   return (
     <div>
       <Headers />
-      <ArrowLeftOutlined className='back' onClick={handleBack} />
+      <ArrowLeftOutlined className="back" onClick={handleBack} />
       <div className="add-campaign-container">
         <h1>Crear nueva campaña</h1>
         <form className="add-campaign-form" onSubmit={handleSubmit}>
@@ -100,7 +110,7 @@ function AddCampaign() {
               required
             />
           </div>
-        <div className="form-group-campaigns">
+          <div className="form-group-campaigns">
             <label htmlFor="description">Descripción</label>
             <textarea
               id="description"
@@ -168,15 +178,19 @@ function AddCampaign() {
                 accept="image/*"
               />
               <div className="file-input-text">
-                {formData.image ? formData.image.name : 'Ningún archivo seleccionado'}
+                {formData.image
+                  ? formData.image.name
+                  : "Ningún archivo seleccionado"}
               </div>
               <div className="file-input-icon">
-                <FileImageFilled className='file-input-icon' />
+                <FileImageFilled className="file-input-icon" />
               </div>
             </div>
           </div>
           <div className="button-container">
-            <button type="submit" className="accept-button-blood-inventory">Crear</button>
+            <button type="submit" className="accept-button-blood-inventory">
+              Crear
+            </button>
           </div>
           {notification && <div className="notification">{notification}</div>}
         </form>
@@ -184,6 +198,6 @@ function AddCampaign() {
       <Footer />
     </div>
   );
-};
+}
 
 export default AddCampaign;
