@@ -13,6 +13,7 @@ using System.Text.Json;
 using backend.DTO;
 using backend.Models;
 using backend.Controllers;
+using Microsoft.Extensions.FileProviders;
 
 namespace backend
 {
@@ -72,6 +73,7 @@ namespace backend
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
                 c.OperationFilter<AddAuthHeaderOperationFilter>();
+                c.OperationFilter<FileUploadOperationFilter>();
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
@@ -101,6 +103,14 @@ namespace backend
             builder.Services.AddScoped<UserController>();
 
             var app = builder.Build();
+
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "uploads")),
+                RequestPath = "/uploads"
+            });
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

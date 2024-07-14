@@ -1,3 +1,4 @@
+using backend.DTO;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -7,32 +8,33 @@ public class FileUploadOperationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        var fileUploadMime = "multipart/form-data";
-
-        if (operation.RequestBody == null || !operation.RequestBody.Content.Any(x => x.Key.Equals(fileUploadMime, StringComparison.InvariantCultureIgnoreCase)))
+        if (operation.OperationId == "Register" || context.MethodInfo.Name == "Register")
         {
-            return;
-        }
-
-        var uploadMediaType = operation.RequestBody.Content[fileUploadMime];
-        var formParameters = context.MethodInfo.GetParameters()
-            .Where(p => p.ParameterType == typeof(IFormFile))
-            .ToList();
-
-        if (formParameters.Any())
-        {
-            foreach (var formParameter in formParameters)
+            var schema = context.SchemaGenerator.GenerateSchema(typeof(RegisterUserDTO), context.SchemaRepository);
+            
+            operation.RequestBody = new OpenApiRequestBody
             {
-                AddSingleFileUploadProperty(uploadMediaType, formParameter.Name);
-            }
-        }
-        else
-        {
-            // If no IFormFile parameters are found, add a default file upload property
-            AddSingleFileUploadProperty(uploadMediaType, "file");
+                Content = 
+                {
+                    ["multipart/form-data"] = new OpenApiMediaType
+                    {
+                        Schema = new OpenApiSchema
+                        {
+                            Type = "object",
+                            Properties = schema.Properties,
+                            Required = schema.Required
+                        }
+                    }
+                }
+            };
+
+            operation.RequestBody.Content["multipart/form-data"].Schema.Properties.Add("image", new OpenApiSchema
+            {
+                Type = "string",
+                Format = "binary"
+            });
         }
     }
-
     private void AddSingleFileUploadProperty(OpenApiMediaType mediaType, string propertyName)
     {
         mediaType.Schema.Properties[propertyName] = new OpenApiSchema

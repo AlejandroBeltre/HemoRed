@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import HomePage from './homePage/homePage';
 import RegisterUser from './registerUser/registerUser';
 import LoginUser from './logIn/loginUser';
@@ -26,37 +26,40 @@ import ParticipateCampaign from './viewActiveCampaigns/participateCampaign';
 import ParticipateSpecificCampaign from './viewActiveCampaigns/participateSpecificCampaign';
 import DashboardUser from './dashboards/dashboardUser';
 import DashboardAdmin from './dashboards/dashboardAdmin';
+import { UserProvider } from './UserContext';
   
 function App() {
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<HomePage />}/>
-        <Route path="/registerUser" element={<RegisterUser />}/>
-        <Route path="/loginUser" element={<LoginUser />}/>  
-        <Route path="/loginUser/recoverPassword" element={<RecoverPassword />}/>
-        <Route path="/modifyProfile" element={<ModifyProfile />}/>
-        <Route path="/viewDonationHistory" element={<ViewDonationHistory />}/>
-        <Route path="/viewBanks" element={<ViewBanks />}/>
-        <Route path="/viewBanks/viewBankDetails/:id" element={<ViewBankDetails />}/>
-        <Route path="/viewBloodRequestStatus" element={<ViewBloodRequestStatus />}/>
-        <Route path="/manageBloodInventory" element={<ManageBloodInventory />}/>
-        <Route path="/manageBloodInventory/addBloodToInventory" element={<AddBloodToInventory/>}/>
-        <Route path="/manageBloodInventory/modifyBloodInventory/:bankId" element={<ModifyBloodInventory/>}/>
-        <Route path="/manageBloodBanks" element={<ManageBloodBanks />}/>
-        <Route path="/manageBloodBanks/addBloodBank" element={<AddBloodBank />}/>
-        <Route path="/manageBloodBanks/modifyBloodBank/:bankId" element={<ModifyBloodBank />}/>
-        <Route path="/requestBlood" element={<RequestBlood />}/>
-        <Route path="/scheduleAppointment" element={<ScheduleAppointment />}/>
-        <Route path="/manageCampaigns" element={<ManageCampaigns />}/>
-        <Route path="/manageCampaigns/addCampaigns" element={<AddCampaigns />}/>
-        <Route path="/manageCampaigns/modifyCampaigns/:campaignId" element={<ModifyCampaigns />}/>
-        <Route path="/campaigns" element={<Campaigns />}/>
-        <Route path="/campaigns/participateCampaign" element={<ParticipateCampaign />}/>
-        <Route path="/campaigns/participateSpecificCampaign/:campaignId" element={<ParticipateSpecificCampaign />}/>
-        <Route path="/dashboardUser" element={<DashboardUser />}/>
-        <Route path="/dashboardAdmin" element={<DashboardAdmin />}/>
-      </Routes>
+      <UserProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />}/>
+          <Route path="/registerUser" element={<RegisterUser />}/>
+          <Route path="/loginUser" element={<LoginUser />}/>  
+          <Route path="/loginUser/recoverPassword" element={<RecoverPassword />}/>
+          <Route path="/modifyProfile" element={<ModifyProfile />}/>
+          <Route path="/viewDonationHistory" element={<ViewDonationHistory />}/>
+          <Route path="/viewBanks" element={<ViewBanks />}/>
+          <Route path="/viewBanks/viewBankDetails/:id" element={<ViewBankDetails />}/>
+          <Route path="/viewBloodRequestStatus" element={<ViewBloodRequestStatus />}/>
+          <Route path="/manageBloodInventory" element={<ManageBloodInventory />}/>
+          <Route path="/manageBloodInventory/addBloodToInventory" element={<AddBloodToInventory/>}/>
+          <Route path="/manageBloodInventory/modifyBloodInventory/:bankId" element={<ModifyBloodInventory/>}/>
+          <Route path="/manageBloodBanks" element={<ManageBloodBanks />}/>
+          <Route path="/manageBloodBanks/addBloodBank" element={<AddBloodBank />}/>
+          <Route path="/manageBloodBanks/modifyBloodBank/:bankId" element={<ModifyBloodBank />}/>
+          <Route path="/requestBlood" element={<RequestBlood />}/>
+          <Route path="/scheduleAppointment" element={<ScheduleAppointment />}/>
+          <Route path="/manageCampaigns" element={<ManageCampaigns />}/>
+          <Route path="/manageCampaigns/addCampaigns" element={<AddCampaigns />}/>
+          <Route path="/manageCampaigns/modifyCampaigns/:campaignId" element={<ModifyCampaigns />}/>
+          <Route path="/campaigns" element={<Campaigns />}/>
+          <Route path="/campaigns/participateCampaign" element={<ParticipateCampaign />}/>
+          <Route path="/campaigns/participateSpecificCampaign/:campaignId" element={<ParticipateSpecificCampaign />}/>
+          <Route path="/dashboardUser" element={<DashboardUser />}/>
+          <Route path="/dashboardAdmin" element={<DashboardAdmin />}/>
+        </Routes>
+      </UserProvider>
     </div>
   );
 }

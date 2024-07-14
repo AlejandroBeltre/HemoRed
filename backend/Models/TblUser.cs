@@ -6,27 +6,27 @@ namespace backend.Models;
 
 public partial class TblUser
 {
-    public string DocumentNumber { get; set; } = null!;
+    public string DocumentNumber { get; set; }
 
-    public DocumentType? DocumentType { get; set; } = null!;
+    public DocumentType? DocumentType { get; set; }
 
     public int BloodTypeId { get; set; }
 
     public int? AddressId { get; set; }
 
-    public string FullName { get; set; } = null!;
+    public string FullName { get; set; }
 
-    public string Email { get; set; } = null!;
+    public string Email { get; set; }
 
-    public string Password { get; set; } = null!;
+    public string Password { get; set; }
 
     public DateTime BirthDate { get; set; }
 
-    public Gender? Gender { get; set; } = null!;
+    public Gender? Gender { get; set; }
 
     public string? Phone { get; set; }
 
-    public UserRole? UserRole { get; set; } = null!;
+    public UserRole? UserRole { get; set; }
 
     public DateTime? LastDonationDate { get; set; }
 
@@ -34,7 +34,7 @@ public partial class TblUser
 
     public virtual TblAddress? Address { get; set; }
 
-    public virtual TblBloodType BloodType { get; set; } = null!;
+    public virtual TblBloodType BloodType { get; set; }
 
     public virtual ICollection<TblDonation> TblDonations { get; set; } = new List<TblDonation>();
 

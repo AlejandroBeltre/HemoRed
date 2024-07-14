@@ -1,13 +1,15 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Footer from '../components/footer'
 import Headers from '../components/header'
 import { ArrowLeftOutlined, EyeOutlined, EyeInvisibleOutlined} from '@ant-design/icons'
 import loginPhoto from '../assets/images/loginPhoto.png'
 import './loginUser.css'
+import { UserContext } from '../UserContext';
 
 function LoginUser() {
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const { setUser } = useContext(UserContext);
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -40,8 +42,14 @@ function LoginUser() {
         if (Object.keys(formErrors).length > 0) {
             setErrors(formErrors);
         } else {
-            console.log(formData);
-            navigate('/');
+            const registeredUser = JSON.parse(sessionStorage.getItem('registeredUser'));
+            if (registeredUser && registeredUser.email === formData.email && registeredUser.password === formData.password) {
+                console.log('Login successful');
+                setUser(registeredUser);
+                navigate('/');
+            } else {
+                setErrors({ email: 'Invalid email or password' });
+            }
         }
     };
 
