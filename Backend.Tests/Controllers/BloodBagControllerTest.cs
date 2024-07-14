@@ -85,7 +85,7 @@ namespace Tests
             var result = await _controller.GetBloodBag(1);
 
             result.Should().NotBeNull();
-            var bloodBag = result.Value as BloodBagDto;
+            var bloodBag = result.Value;
             result.Should().NotBeNull();
             bloodBag.BloodTypeID.Equals(1);
         }
