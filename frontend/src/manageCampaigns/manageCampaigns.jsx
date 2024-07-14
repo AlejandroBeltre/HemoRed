@@ -121,7 +121,7 @@ function ManageCampaigns() {
     };
 
     const navigateToAddCampaignPage = (id) => {
-        navigate(`/manageCampaigns/addCampaigns/${id}`);
+        navigate(`/manageCampaigns/addCampaigns`);
     };
 
     const handleBack = () => {

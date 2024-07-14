@@ -45,25 +45,43 @@ function AddCampaign() {
     e.preventDefault();
     
     try {
-      // Create the blood bank with a fixed addressID of 1
-      const campaignData ={
-        name: formData.name,
-        organizer: 1,
-        address: 1,
-        description: formData.description,
-        startDate: formData.startDate,
-        startTime: formData.startTime,
-        endDate: formData.endDate,
-        endTime: formData.endTime,
-        image: null,
+      const campaignData = new FormData();
+      campaignData.append('AddressID', 1); // Use a default AddressID or get it from a form field
+      campaignData.append('OrganizerID', 1); // Use a default OrganizerID or get it from a form field
+      campaignData.append('CampaignName', formData.name);
+      campaignData.append('Description', formData.description);
+      
+      // Combine date and time for start and end timestamps
+      const startTimestamp = new Date(`${formData.startDate}T${formData.startTime}`).toISOString();
+      const endTimestamp = new Date(`${formData.endDate}T${formData.endTime}`).toISOString();
+      
+      campaignData.append('StartTimestamp', startTimestamp);
+      campaignData.append('EndTimestamp', endTimestamp);
+      
+      if (formData.image) {
+        campaignData.append('Image', formData.image);
       }
+  
       await createCampaign(campaignData);
       
-      setNotification("¡Campañas actualizadas!");
+      setNotification("¡Campaña creada!");
       setTimeout(() => setNotification(""), 2000);
+      
+      // Clear the form
+      setFormData({
+        name: "",
+        organizer: "",
+        address: "",
+        description: "",
+        startDate: "",
+        startTime: "",
+        endDate: "",
+        endTime: "",
+        image: null,
+      });
     } catch (error) {
       console.error('Error creating campaign:', error);
-      setNotification("Error al actualizar las campañas");
+      setNotification("Error al crear la campaña");
     }
   };
 
