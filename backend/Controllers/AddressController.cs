@@ -28,7 +28,7 @@ public class AddressController(HemoRedContext context) : ControllerBase
 
     // GET: api/Address/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<AddressDto>> GetAddresses(int id)
+    public async Task<ActionResult<AddressDto>> GetAddress(int id)
     {
         var address = await context.TblAddresses
             .Where(a => a.AddressId == id)
@@ -82,7 +82,7 @@ public class AddressController(HemoRedContext context) : ControllerBase
             }
         }
 
-        return NoContent();
+        return Ok(address);
     }
 
     // POST: api/Address
@@ -101,7 +101,7 @@ public class AddressController(HemoRedContext context) : ControllerBase
         context.TblAddresses.Add(address);
         await context.SaveChangesAsync();
 
-        return CreatedAtAction("GetAddresses", new { id = address.AddressId }, newAddressDto);
+        return CreatedAtAction("GetAddress", new { id = address.AddressId }, newAddressDto);
     }
 
     // DELETE: api/Address/5
