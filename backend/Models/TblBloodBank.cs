@@ -22,4 +22,6 @@ public partial class TblBloodBank
     public virtual ICollection<TblBloodBag> TblBloodBags { get; set; } = new List<TblBloodBag>();
 
     public virtual ICollection<TblDonation> TblDonations { get; set; } = new List<TblDonation>();
+
+    public virtual ICollection<TblRequest> TblRequests { get; set; } = new List<TblRequest>();
 }

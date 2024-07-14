@@ -39,7 +39,7 @@ public partial class HemoRedContext : DbContext
     public virtual DbSet<TblProvince> TblProvinces { get; set; }
 
     public virtual DbSet<TblRequest> TblRequests { get; set; }
-    
+
     public virtual DbSet<TblUser> TblUsers { get; set; }
 
     public virtual DbSet<TblUserEula> TblUserEulas { get; set; }
@@ -372,9 +372,12 @@ public partial class HemoRedContext : DbContext
 
             entity.HasIndex(e => e.BloodTypeId, "bloodTypeID");
 
+            entity.HasIndex(e => e.BloodBankId, "tblRequest___fk_3");
+
             entity.HasIndex(e => e.UserDocument, "userDocument");
 
             entity.Property(e => e.RequestId).HasColumnName("requestID");
+            entity.Property(e => e.BloodBankId).HasColumnName("bloodBankID");
             entity.Property(e => e.BloodTypeId).HasColumnName("bloodTypeID");
             entity.Property(e => e.RequestReason)
                 .HasColumnType("text")
@@ -389,6 +392,10 @@ public partial class HemoRedContext : DbContext
             entity.Property(e => e.UserDocument)
                 .HasMaxLength(20)
                 .HasColumnName("userDocument");
+
+            entity.HasOne(d => d.BloodBank).WithMany(p => p.TblRequests)
+                .HasForeignKey(d => d.BloodBankId)
+                .HasConstraintName("tblRequest___fk_3");
 
             entity.HasOne(d => d.BloodType).WithMany(p => p.TblRequests)
                 .HasForeignKey(d => d.BloodTypeId)

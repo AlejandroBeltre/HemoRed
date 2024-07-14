@@ -20,6 +20,7 @@ public class RequestController(HemoRedContext _hemoredContext) : Controller
                 RequestID = r.RequestId,
                 UserDocument = r.UserDocument,
                 BloodTypeId = r.BloodTypeId,
+                BloodBank = r.BloodBankId,
                 RequestTimeStamp = r.RequestTimestamp,
                 RequestReason = r.RequestReason,
                 RequestedAmount = r.RequestedAmount,
@@ -57,7 +58,8 @@ public class RequestController(HemoRedContext _hemoredContext) : Controller
     public async Task<ActionResult<RequestDto>> PostRequest(NewRequestDto newRequestDto)
     {
         var user = await _hemoredContext.TblUsers.FindAsync(newRequestDto.UserDocument);
-        var bloodType = await _hemoredContext.TblBloodTypes.FindAsync(newRequestDto.BloodBank);
+        var bloodType = await _hemoredContext.TblBloodTypes.FindAsync(newRequestDto.BloodTypeId);
+        var bloodBank = await _hemoredContext.TblBloodBanks.FindAsync(newRequestDto.BloodBankId);
         if (user == null || bloodType== null)
         {
             return BadRequest("Invalid user or blood type");
@@ -66,10 +68,12 @@ public class RequestController(HemoRedContext _hemoredContext) : Controller
         {
             UserDocument = newRequestDto.UserDocument,
             BloodTypeId= newRequestDto.BloodTypeId,
+            BloodBankId = newRequestDto.BloodBankId,
             RequestTimestamp = newRequestDto.RequestTimeStamp,
             RequestReason= newRequestDto.RequestReason,
             RequestedAmount = newRequestDto.RequestedAmount,
             Status= newRequestDto.Status,
+            BloodBank = bloodBank,
             UserDocumentNavigation = user,
             BloodType = bloodType
         };

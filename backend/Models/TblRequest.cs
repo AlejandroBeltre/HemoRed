@@ -20,6 +20,10 @@ public partial class TblRequest
 
     public Status? Status { get; set; } = null!;
 
+    public int BloodBankId { get; set; }
+
+    public virtual TblBloodBank? BloodBank { get; set; }
+
     public virtual TblBloodType BloodType { get; set; } = null!;
 
     public virtual TblUser UserDocumentNavigation { get; set; } = null!;
