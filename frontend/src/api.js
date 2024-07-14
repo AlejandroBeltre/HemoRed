@@ -4,9 +4,56 @@ const api = axios.create({
     baseURL: 'http://localhost:5178/api',
 });
 
+api.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
 // User API calls
-export const registerUser = (user) => api.post('/User/Register', user);
-export const loginUser = (user) => api.post('/User/Login', user);
+export const registerUser = async (userData) => {
+    const formData = new FormData();
+    for (const key in userData) {
+        if (key === 'image') {
+            formData.append('image', userData[key]);
+        } else {
+            formData.append(key, userData[key]);
+        }
+    }
+    try {
+        const response = await api.post('/User/Register', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+export const loginUser = async (loginData) => {
+    try {
+        const response = await api.post('/User/Login', loginData);
+        if (response.data.token) {
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('userRole', response.data.role);
+        }
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+export const logoutUser = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+};
 export const getUsers = () => api.get('/User');
 export const getUserById = (id) => api.get(`/User/${id}`);
 export const updateUser = (id, user) => api.put(`/User/${id}`, user);

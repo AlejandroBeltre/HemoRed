@@ -15,6 +15,7 @@ namespace backend.Controllers;
 [ApiController]
 public class BloodBankController(HemoRedContext _hemoredContext) : ControllerBase
 {
+    private const string IMAGE_SERVER_URL = "http://localhost:8080/";
     // GET: api/BloodBank
     [HttpGet]
     public async Task<ActionResult<IEnumerable<BloodBankDto>>> GetBloodBanks()
@@ -59,30 +60,35 @@ public class BloodBankController(HemoRedContext _hemoredContext) : ControllerBas
 
     // POST: api/BloodBank
     [HttpPost]
-    public async Task<ActionResult<BloodBankDto>> PostBloodBank([FromForm] NewBloodBankDTO newBloodBankDto, [FromForm] IFormFile? image)
+    public async Task<ActionResult<BloodBankDto>> PostBloodBank([FromForm] NewBloodBankDTO newBloodBankDto)
     {
-        string imagePath = null!;
-        if (image != null && image.Length > 0)
+        string imageUrl = null;
+        if (newBloodBankDto.Image != null && newBloodBankDto.Image.Length > 0)
         {
-            var uploadFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
-            if (!Directory.Exists(uploadFolderPath))
+            var uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+            if (!Directory.Exists(uploadsFolderPath))
             {
-                Directory.CreateDirectory(uploadFolderPath);
+                Directory.CreateDirectory(uploadsFolderPath);
             }
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-            imagePath = Path.Combine(uploadFolderPath, fileName);
-            await using var stream = new FileStream(imagePath, FileMode.Create);
-            await image.CopyToAsync(stream);
+
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(newBloodBankDto.Image.FileName);
+            var fullPath = Path.Combine(uploadsFolderPath, fileName);
+
+            imageUrl = IMAGE_SERVER_URL + fileName;
+
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await newBloodBankDto.Image.CopyToAsync(stream);
+            }
         }
-        var address = await _hemoredContext.TblAddresses.FindAsync(newBloodBankDto.AddressID);
+
         var bloodBank = new TblBloodBank
         {
             AddressId = newBloodBankDto.AddressID,
             BloodBankName = newBloodBankDto.BloodBankName,
             AvailableHours = newBloodBankDto.AvailableHours,
             Phone = newBloodBankDto.Phone,
-            Image = imagePath,
-            Address = address
+            Image = imageUrl  // Store the full URL
         };
 
         _hemoredContext.TblBloodBanks.Add(bloodBank);
@@ -102,7 +108,7 @@ public class BloodBankController(HemoRedContext _hemoredContext) : ControllerBas
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutBloodBank(int id, [FromForm] NewBloodBankDTO newBloodBankDto, [FromForm] IFormFile? image)
+    public async Task<IActionResult> PutBloodBank(int id, [FromForm] NewBloodBankDTO newBloodBankDto)
     {
         var bloodBank = await _hemoredContext.TblBloodBanks.FindAsync(id);
         if (bloodBank == null)
@@ -110,8 +116,7 @@ public class BloodBankController(HemoRedContext _hemoredContext) : ControllerBas
             return NotFound();
         }
 
-        string? imagePath = bloodBank.Image; // Keep the existing image path if no new image is uploaded
-        if (image != null && image.Length > 0)
+        if (newBloodBankDto.Image != null && newBloodBankDto.Image.Length > 0)
         {
             var uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
             if (!Directory.Exists(uploadsFolderPath))
@@ -119,20 +124,42 @@ public class BloodBankController(HemoRedContext _hemoredContext) : ControllerBas
                 Directory.CreateDirectory(uploadsFolderPath);
             }
 
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-            imagePath = Path.Combine(uploadsFolderPath, fileName);
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(newBloodBankDto.Image.FileName);
+            var fullPath = Path.Combine(uploadsFolderPath, fileName);
+            var newImageUrl = IMAGE_SERVER_URL + fileName;
 
-            using (var stream = new FileStream(imagePath, FileMode.Create))
+            using (var stream = new FileStream(fullPath, FileMode.Create))
             {
-                await image.CopyToAsync(stream);
+                await newBloodBankDto.Image.CopyToAsync(stream);
             }
+
+            // Delete the old image if it exists
+            if (!string.IsNullOrEmpty(bloodBank.Image))
+            {
+                try
+                {
+                    var oldFileName = Path.GetFileName(new Uri(bloodBank.Image).LocalPath);
+                    var oldImagePath = Path.Combine(uploadsFolderPath, oldFileName);
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+                catch (UriFormatException)
+                {
+                    // If the old image URL is invalid, just ignore it and continue
+                    // You might want to log this situation
+                }
+            }
+
+            bloodBank.Image = newImageUrl;
         }
 
+        // Update other properties
         bloodBank.AddressId = newBloodBankDto.AddressID;
         bloodBank.BloodBankName = newBloodBankDto.BloodBankName;
-        bloodBank.AvailableHours= newBloodBankDto.AvailableHours;
-        bloodBank.Phone= newBloodBankDto.Phone;
-        bloodBank.Image = imagePath;
+        bloodBank.AvailableHours = newBloodBankDto.AvailableHours;
+        bloodBank.Phone = newBloodBankDto.Phone;
 
         try
         {
@@ -144,8 +171,10 @@ public class BloodBankController(HemoRedContext _hemoredContext) : ControllerBas
             {
                 return NotFound();
             }
-
-            throw;
+            else
+            {
+                throw;
+            }
         }
 
         return NoContent();

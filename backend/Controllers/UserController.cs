@@ -84,6 +84,7 @@ public class UserController : ControllerBase
     }
     // POST: api/BloodBank
     [HttpPost("Register")]
+    [Consumes("multipart/form-data")]
     public async Task<IActionResult> Register([FromForm] RegisterUserDTO registerUserDTO, [FromForm] IFormFile? image)
     {
         if (await _hemoredContext.TblUsers.AnyAsync(u => u.DocumentNumber == registerUserDTO.DocumentNumber))
@@ -94,15 +95,15 @@ public class UserController : ControllerBase
         string? imagePath = null;
         if (image != null && image.Length > 0)
         {
-            var uploadFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
-            if (!Directory.Exists(uploadFolderPath))
-            {
-                Directory.CreateDirectory(uploadFolderPath);
-            }
+            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
             var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-            imagePath = Path.Combine(uploadFolderPath, fileName);
-            await using var stream = new FileStream(imagePath, FileMode.Create);
-            await image.CopyToAsync(stream);
+            var filePath = Path.Combine(uploadPath, fileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            } 
+            
+            imagePath = fileName;
         }
 
         var userToCreate = new TblUser

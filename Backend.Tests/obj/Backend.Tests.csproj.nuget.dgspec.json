@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Backend.Tests.csproj": {}
+    "C:\\Users\\aleja\\Desktop\\Code\\HemoRed\\Backend.Tests\\Backend.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Backend.Tests.csproj": {
+    "C:\\Users\\aleja\\Desktop\\Code\\HemoRed\\Backend.Tests\\Backend.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Backend.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\aleja\\Desktop\\Code\\HemoRed\\Backend.Tests\\Backend.Tests.csproj",
         "projectName": "Backend.Tests",
-        "projectPath": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Backend.Tests.csproj",
-        "packagesPath": "C:\\Users\\edwar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\obj\\",
+        "projectPath": "C:\\Users\\aleja\\Desktop\\Code\\HemoRed\\Backend.Tests\\Backend.Tests.csproj",
+        "packagesPath": "C:\\Users\\aleja\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\aleja\\Desktop\\Code\\HemoRed\\Backend.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\edwar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\aleja\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,15 +22,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\backend.csproj": {
-                "projectPath": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\backend.csproj"
+              "C:\\Users\\aleja\\Desktop\\Code\\HemoRed\\backend\\backend.csproj": {
+                "projectPath": "C:\\Users\\aleja\\Desktop\\Code\\HemoRed\\backend\\backend.csproj"
               }
             }
           }
@@ -106,21 +105,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\backend.csproj": {
+    "C:\\Users\\aleja\\Desktop\\Code\\HemoRed\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\aleja\\Desktop\\Code\\HemoRed\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\backend.csproj",
-        "packagesPath": "C:\\Users\\edwar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\obj\\",
+        "projectPath": "C:\\Users\\aleja\\Desktop\\Code\\HemoRed\\backend\\backend.csproj",
+        "packagesPath": "C:\\Users\\aleja\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\aleja\\Desktop\\Code\\HemoRed\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\edwar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\aleja\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -128,7 +127,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -235,7 +233,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

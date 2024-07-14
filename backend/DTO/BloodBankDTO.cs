@@ -16,5 +16,5 @@ public class NewBloodBankDTO
     public string BloodBankName { get; set; }
     public string AvailableHours { get; set; }
     public string Phone { get; set; }
-    public string? Image { get; set; }
+    public IFormFile? Image { get; set; }
 }

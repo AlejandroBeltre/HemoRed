@@ -1,17 +1,41 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Footer from '../components/footer';
 import Headers from '../components/header';
 import { ArrowLeftOutlined, EyeOutlined, EyeInvisibleOutlined, FileImageFilled } from '@ant-design/icons';
 import './registerUser.css'
+import { UserContext } from '../UserContext';
 
 function RegisterUser() {
     const [notification, setNotification] = useState("");
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [formData, setFormData] = useState({
+        documentType: 'passport',
+        documentNumber: '',
+        fullName: '',
+        phoneNumber: '+1',
+        email: '',
+        direction: '',
+        birthDate: '',
+        bloodType: '',
+        gender: '',
+        profilePicture: null,
+        password: '',
+    });
+
+    useEffect(() => {
+        const savedFormData = sessionStorage.getItem('formData');
+        if (savedFormData) {
+            setFormData(JSON.parse(savedFormData));
+        }
+    }, []);
+
     const handleDocumentNumberChange = (e) => {
         const { name, value } = e.target;
+        let formattedValue;
 
         if (formData.documentType === "cedula") {
-            let formattedValue = value.replace(/[^\d]/g, '');
+            formattedValue = value.replace(/[^\d]/g, '');
             if (formattedValue.length > 3) {
                 formattedValue = formattedValue.slice(0, 3) + '-' + formattedValue.slice(3);
             }
@@ -21,20 +45,21 @@ function RegisterUser() {
             if (formattedValue.length > 13) {
                 formattedValue = formattedValue.slice(0, 13);
             }
-
-            setFormData({
-                ...formData,
-                [name]: formattedValue
-            });
         } else {
-            let formattedValue = value.replace(/[^a-zA-Z0-9-]/g, '');
+            formattedValue = value.replace(/[^a-zA-Z0-9-]/g, '');
             formattedValue = formattedValue.slice(0, 20);
-
-            setFormData({
-                ...formData,
-                [name]: formattedValue
-            });
         }
+
+        setFormData({
+            ...formData,
+            [name]: formattedValue
+        });
+
+        // Save form data to sessionStorage
+        sessionStorage.setItem('formData', JSON.stringify({
+            ...formData,
+            [name]: formattedValue
+        }));
     };
 
     const handlePhoneNumberChange = (event) => {
@@ -57,8 +82,14 @@ function RegisterUser() {
 
         setFormData({
             ...formData,
-            phoneNumber: '+' + value
+            phoneNumber: value
         });
+
+        // Save form data to sessionStorage
+        sessionStorage.setItem('formData', JSON.stringify({
+            ...formData,
+            phoneNumber: value
+        }));
     };
 
     const handleFullNameChange = (e) => {
@@ -71,22 +102,6 @@ function RegisterUser() {
         });
     };
 
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    const [formData, setFormData] = useState({
-        documentType: 'passport',
-        documentNumber: '',
-        fullName: '',
-        phoneNumber: '+1',
-        email: '',
-        direction: '',
-        birthDate: '',
-        bloodType: '',
-        gender: '',
-        profilePicture: null,
-        password: '',
-    });
-
-    const [formErrors, setFormErrors] = useState({});
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
 
@@ -108,15 +123,26 @@ function RegisterUser() {
                 ...formData,
                 [name]: value
             });
+            sessionStorage.setItem('formData', JSON.stringify({
+                ...formData,
+                [name]: value
+            }));
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Form submitted:', formData);
-        setNotification("¡Registro exitoso!");
-        setTimeout(() => setNotification(""), 2000);
-        navigate('/loginUser');
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        // Save final form data to sessionStorage
+        sessionStorage.setItem('formData', JSON.stringify(formData));
+
+        // Here you can simulate an API call
+        setTimeout(() => {
+            alert('Registration successful!');
+            sessionStorage.setItem('registeredUser', JSON.stringify(formData));
+            sessionStorage.removeItem('formData');
+            navigate('/loginUser');
+        }, 1000);
     };
 
     const handleKeyPress = (event) => {
