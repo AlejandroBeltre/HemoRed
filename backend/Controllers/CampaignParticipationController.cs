@@ -70,8 +70,6 @@ namespace backend.Controllers
             campaignParticipation.OrganizerId = campaignParticipationDto.OrganizerID;
             campaignParticipation.DonationId = campaignParticipationDto.DonationID;
 
-            _hemoredContext.Entry(campaignParticipation).State = EntityState.Modified;
-
             try
             {
                 await _hemoredContext.SaveChangesAsync();
