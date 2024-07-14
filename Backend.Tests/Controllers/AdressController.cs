@@ -126,6 +126,7 @@ namespace Tests
 
             // Assert
             result.Should().NotBeNull();
+            result.Should().BeOfType<ActionResult<AddressDto>>();
         }
     }
 }

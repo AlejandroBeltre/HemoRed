@@ -3,20 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|c:\\users\\edwar\\onedrive - intec\\documentos\\github\\hemored\\backend.tests\\controllers\\bloodbankcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|solutionrelative:backend.tests\\controllers\\bloodbankcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|c:\\users\\edwar\\onedrive - intec\\documentos\\github\\hemored\\backend.tests\\controllers\\campaignparticipationcontrollertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|solutionrelative:backend.tests\\controllers\\campaignparticipationcontrollertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|c:\\users\\edwar\\onedrive - intec\\documentos\\github\\hemored\\backend.tests\\controllers\\bloodbagcontrollertest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|solutionrelative:backend.tests\\controllers\\bloodbagcontrollertest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BDC3FD49-34E5-4EC8-81B5-A44239C9E420}|backend\\backend.csproj|c:\\users\\edwar\\onedrive - intec\\documentos\\github\\hemored\\backend\\controllers\\campaignparticipationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDC3FD49-34E5-4EC8-81B5-A44239C9E420}|backend\\backend.csproj|solutionrelative:backend\\controllers\\campaignparticipationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDC3FD49-34E5-4EC8-81B5-A44239C9E420}|backend\\backend.csproj|c:\\users\\edwar\\onedrive - intec\\documentos\\github\\hemored\\backend\\controllers\\bloodbankcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDC3FD49-34E5-4EC8-81B5-A44239C9E420}|backend\\backend.csproj|solutionrelative:backend\\controllers\\bloodbankcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|c:\\users\\edwar\\onedrive - intec\\documentos\\github\\hemored\\backend.tests\\controllers\\campaigncontrollertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|solutionrelative:backend.tests\\controllers\\campaigncontrollertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|c:\\users\\edwar\\onedrive - intec\\documentos\\github\\hemored\\backend.tests\\controllers\\adresscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|solutionrelative:backend.tests\\controllers\\adresscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|c:\\users\\edwar\\onedrive - intec\\documentos\\github\\hemored\\backend.tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|solutionrelative:backend.tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BDC3FD49-34E5-4EC8-81B5-A44239C9E420}|backend\\backend.csproj|c:\\users\\edwar\\onedrive - intec\\documentos\\github\\hemored\\backend\\models\\tblcampaignparticipation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDC3FD49-34E5-4EC8-81B5-A44239C9E420}|backend\\backend.csproj|solutionrelative:backend\\models\\tblcampaignparticipation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDC3FD49-34E5-4EC8-81B5-A44239C9E420}|backend\\backend.csproj|c:\\users\\edwar\\onedrive - intec\\documentos\\github\\hemored\\backend\\controllers\\bloodtypecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDC3FD49-34E5-4EC8-81B5-A44239C9E420}|backend\\backend.csproj|solutionrelative:backend\\controllers\\bloodtypecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDC3FD49-34E5-4EC8-81B5-A44239C9E420}|backend\\backend.csproj|c:\\users\\edwar\\onedrive - intec\\documentos\\github\\hemored\\backend\\models\\tblcampaign.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDC3FD49-34E5-4EC8-81B5-A44239C9E420}|backend\\backend.csproj|solutionrelative:backend\\models\\tblcampaign.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|c:\\users\\edwar\\onedrive - intec\\documentos\\github\\hemored\\backend.tests\\controllers\\bloodbagcontrollertest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C4286F4-E2AA-4D77-9E93-83CED4127989}|Backend.Tests\\Backend.Tests.csproj|solutionrelative:backend.tests\\controllers\\bloodbagcontrollertest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDC3FD49-34E5-4EC8-81B5-A44239C9E420}|backend\\backend.csproj|c:\\users\\edwar\\onedrive - intec\\documentos\\github\\hemored\\backend\\controllers\\campaigncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDC3FD49-34E5-4EC8-81B5-A44239C9E420}|backend\\backend.csproj|solutionrelative:backend\\controllers\\campaigncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,62 +50,144 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "BloodBankController.cs",
-              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\BloodBankController.cs",
-              "RelativeDocumentMoniker": "Backend.Tests\\Controllers\\BloodBankController.cs",
-              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\BloodBankController.cs",
-              "RelativeToolTip": "Backend.Tests\\Controllers\\BloodBankController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-13T21:27:57.609Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "AdressController.cs",
-              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\AdressController.cs",
-              "RelativeDocumentMoniker": "Backend.Tests\\Controllers\\AdressController.cs",
-              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\AdressController.cs",
-              "RelativeToolTip": "Backend.Tests\\Controllers\\AdressController.cs",
-              "ViewState": "AQIAAFsAAAAAAAAAAAAIwGsAAAAAAAAA",
+              "Title": "BloodBankController.cs",
+              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\Controllers\\BloodBankController.cs",
+              "RelativeDocumentMoniker": "backend\\Controllers\\BloodBankController.cs",
+              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\Controllers\\BloodBankController.cs",
+              "RelativeToolTip": "backend\\Controllers\\BloodBankController.cs",
+              "ViewState": "AQIAAHcAAAAAAAAAAAAIwIgAAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-13T19:07:22.726Z",
+              "WhenOpened": "2024-07-14T04:59:09.886Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CampaignParticipationControllerTests.cs",
+              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\CampaignParticipationControllerTests.cs",
+              "RelativeDocumentMoniker": "Backend.Tests\\Controllers\\CampaignParticipationControllerTests.cs",
+              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\CampaignParticipationControllerTests.cs",
+              "RelativeToolTip": "Backend.Tests\\Controllers\\CampaignParticipationControllerTests.cs",
+              "ViewState": "AQIAAGwAAAAAAAAAAAAcwIsAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-14T04:42:59.553Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "BloodBagControllerTest.cs",
-              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\BloodBagControllerTest.cs",
-              "RelativeDocumentMoniker": "Backend.Tests\\Controllers\\BloodBagControllerTest.cs",
-              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\BloodBagControllerTest.cs",
-              "RelativeToolTip": "Backend.Tests\\Controllers\\BloodBagControllerTest.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAUwBwAAAAJAAAA",
+              "Title": "CampaignParticipationController.cs",
+              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\Controllers\\CampaignParticipationController.cs",
+              "RelativeDocumentMoniker": "backend\\Controllers\\CampaignParticipationController.cs",
+              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\Controllers\\CampaignParticipationController.cs",
+              "RelativeToolTip": "backend\\Controllers\\CampaignParticipationController.cs",
+              "ViewState": "AQIAACkAAAAAAAAAAAAgwEcAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-13T18:46:19.415Z",
+              "WhenOpened": "2024-07-14T04:33:19.428Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TblCampaignParticipation.cs",
+              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\Models\\TblCampaignParticipation.cs",
+              "RelativeDocumentMoniker": "backend\\Models\\TblCampaignParticipation.cs",
+              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\Models\\TblCampaignParticipation.cs",
+              "RelativeToolTip": "backend\\Models\\TblCampaignParticipation.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-14T04:42:06.641Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AdressController.cs",
+              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\AdressController.cs",
+              "RelativeDocumentMoniker": "Backend.Tests\\Controllers\\AdressController.cs",
+              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\AdressController.cs",
+              "RelativeToolTip": "Backend.Tests\\Controllers\\AdressController.cs",
+              "ViewState": "AQIAABEAAAAAAAAAAAAxwCMAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-14T04:32:45.775Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "UnitTest1.cs",
-              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\UnitTest1.cs",
-              "RelativeDocumentMoniker": "Backend.Tests\\UnitTest1.cs",
-              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\UnitTest1.cs",
-              "RelativeToolTip": "Backend.Tests\\UnitTest1.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAPAAAA",
+              "Title": "CampaignControllerTests.cs",
+              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\CampaignControllerTests.cs",
+              "RelativeDocumentMoniker": "Backend.Tests\\Controllers\\CampaignControllerTests.cs",
+              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\CampaignControllerTests.cs",
+              "RelativeToolTip": "Backend.Tests\\Controllers\\CampaignControllerTests.cs",
+              "ViewState": "AQIAABwAAAAAAAAAAAA6wEwAAABUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-13T14:30:36.939Z",
+              "WhenOpened": "2024-07-14T03:58:15.359Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TblCampaign.cs",
+              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\Models\\TblCampaign.cs",
+              "RelativeDocumentMoniker": "backend\\Models\\TblCampaign.cs",
+              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\Models\\TblCampaign.cs",
+              "RelativeToolTip": "backend\\Models\\TblCampaign.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAA9wB8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-14T03:57:02.928Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CampaignController.cs",
+              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\Controllers\\CampaignController.cs",
+              "RelativeDocumentMoniker": "backend\\Controllers\\CampaignController.cs",
+              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\Controllers\\CampaignController.cs",
+              "RelativeToolTip": "backend\\Controllers\\CampaignController.cs",
+              "ViewState": "AQIAADMAAAAAAAAAAAAmwEoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-14T03:56:28.459Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BloodTypeController.cs",
+              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\Controllers\\BloodTypeController.cs",
+              "RelativeDocumentMoniker": "backend\\Controllers\\BloodTypeController.cs",
+              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\backend\\Controllers\\BloodTypeController.cs",
+              "RelativeToolTip": "backend\\Controllers\\BloodTypeController.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABUAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-14T03:48:44.405Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "BloodBagControllerTest.cs",
+              "DocumentMoniker": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\BloodBagControllerTest.cs",
+              "RelativeDocumentMoniker": "Backend.Tests\\Controllers\\BloodBagControllerTest.cs",
+              "ToolTip": "C:\\Users\\edwar\\OneDrive - INTEC\\Documentos\\GitHub\\HemoRed\\Backend.Tests\\Controllers\\BloodBagControllerTest.cs",
+              "RelativeToolTip": "Backend.Tests\\Controllers\\BloodBagControllerTest.cs",
+              "ViewState": "AQIAABwAAAAAAAAAAAAgwDUAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-14T04:45:28.054Z",
               "EditorCaption": ""
             }
           ]

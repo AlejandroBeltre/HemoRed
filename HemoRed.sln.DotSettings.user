@@ -4,7 +4,13 @@
     &lt;TestId&gt;NUnit3x::6B82F208-79BC-4121-86D7-AF91E520B70C::net8.0::HemoRed.Tests.Controllers.AddressControllerTests.GetAddresses_StateUnderTest_ExpectedBehavior&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c1a36e96_002Ddd61_002D4099_002Dbda3_002D0a4f4f22f346/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetAddresses_StateUnderTest_ExpectedBehavior #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bfc05435_002D111e_002D4d83_002Db242_002D60ad2d082b5e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetCampaigns_ReturnsAllCampaigns" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.CampaignControllerTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.CampaignParticipationControllerTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c1a36e96_002Ddd61_002D4099_002Dbda3_002D0a4f4f22f346/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetAddresses_StateUnderTest_ExpectedBehavior #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Tests.AddressControllerTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.BloodBag.GetBloodBag_ReturnsAllAddresses&lt;/TestId&gt;&#xD;
@@ -21,5 +27,18 @@
     &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Tests.BloodBagControllerTests.PostBloodBag_CreatesNewBloodBag&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Tests.BloodBagControllerTests.DeleteBloodBag_ReturnsNoContent_WhenIdExists&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Tests.BloodBagControllerTests.DeleteBloodBag_ReturnsNotFound_WhenIdDoesNotExist&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.TestBloodBankController.GetBloodBank_ReturnsBloodBank_WhenIdExists&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.TestBloodBankController.GetBloodBanks_ReturnsAllBloodBanks&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.TestBloodBankController.GetBloodBank_ReturnsNotFound_WhenIdDoesNotExist&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.TestBloodBankController.PostBloodBank_CreatesNewBloodBank&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.TestBloodBankController.PutBloodBank_UpdatesBloodBank_WhenIdExists&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.TestBloodBankController.PutBloodBank_ReturnsNotFound_WhenIdDoesNotExist&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.TestBloodBankController.DeleteBloodBank_ReturnsNoContent_WhenIdExists&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.TestBloodBankController.DeleteBloodBank_ReturnsNotFound_WhenIdDoesNotExist&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.TestBloodBankController&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.BloodTypeControllerTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.CampaighnController&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.CampaignControllerTests.GetCampaign_ReturnsCampaign_WhenIdExists&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1C4286F4-E2AA-4D77-9E93-83CED4127989::net8.0::Backend.Tests.Controllers.CampaignControllerTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
