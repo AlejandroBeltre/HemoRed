@@ -63,7 +63,7 @@ namespace Tests
 
             // Assert
             var okResult = result.Value.ToList();
-            Assert.IsNotNull(okResult);
+            okResult.Should().NotBeNull();
             okResult.Should().HaveCountLessOrEqualTo(okResult.Count);
         }
 
@@ -74,8 +74,8 @@ namespace Tests
             var result = await _controller.GetAddress(1);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.AreEqual("Main St", result.Value.Street);
+            result.Should().NotBeNull();
+            result.Value.Street.Should().Be("Main St");
         }
 
         [Test]
@@ -85,8 +85,8 @@ namespace Tests
             var result = await _controller.GetAddress(658474837);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<NotFoundResult>(result.Result);
+            result.Should().NotBeNull();
+            result.Result.Should().BeOfType<NotFoundResult>();
         }
 
         [Test]
