@@ -73,7 +73,7 @@ function ViewBanks() {
                 <p>Teléfono: {bank.phone}</p>
                 <p>Horas Disponibles: {bank.availableHours}</p>
               </div>
-              <button className="location-button" onClick={() => navigate(`/viewBanks/viewBankDetails/${bank.bloodBankID}`)}>Ubicación</button>
+              <button className="location-button" onClick={() => navigate(`/viewBanks/viewBankDetails/${bank.bloodBankID}`, { state: { bank } })}>Ubicación</button>
             </div>
           ))}
         </div>
