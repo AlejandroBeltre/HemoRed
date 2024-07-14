@@ -10,8 +10,6 @@ const Dropdown = ({ visible }) => {
         <li><Link to="/registerUser" style={{textDecoration: 'none', color: 'inherit'}}>Registrarme</Link></li>
         <li><Link to="/loginUser" style={{textDecoration: 'none', color: 'inherit'}}>Iniciar sesión</Link></li>
         <li><Link to="/modifyProfile" style={{textDecoration: 'none', color: 'inherit'}}>Editar perfil</Link></li>
-        <li><Link to="/dashboardUser" style={{textDecoration: 'none', color: 'inherit'}}>Dashboard</Link></li>
-        <li><Link to="/dashboardAdmin" style={{textDecoration: 'none', color: 'inherit'}}>Dashboard</Link></li>
         <li><Link to="/" style={{textDecoration: 'none', color: 'inherit'}}>Cerrar sesión</Link></li>
       </ul>
     </div>

@@ -20,7 +20,7 @@ public class RequestController(HemoRedContext _hemoredContext) : Controller
                 RequestID = r.RequestId,
                 UserDocument = r.UserDocument,
                 BloodTypeId = r.BloodTypeId,
-                BloodBank = r.BloodBankId,
+                BloodBankId = r.BloodBankId,
                 RequestTimeStamp = r.RequestTimestamp,
                 RequestReason = r.RequestReason,
                 RequestedAmount = r.RequestedAmount,
@@ -40,6 +40,7 @@ public class RequestController(HemoRedContext _hemoredContext) : Controller
                 RequestID = r.RequestId,
                 UserDocument = r.UserDocument,
                 BloodTypeId = r.BloodTypeId,
+                BloodBankId = r.BloodBankId,
                 RequestTimeStamp = r.RequestTimestamp,
                 RequestReason = r.RequestReason,
                 RequestedAmount = r.RequestedAmount,
@@ -109,6 +110,7 @@ public class RequestController(HemoRedContext _hemoredContext) : Controller
         request.RequestTimestamp = newRequestDto.RequestTimeStamp;
         request.RequestedAmount= newRequestDto.RequestedAmount;
         request.RequestReason= newRequestDto.RequestReason;
+        request.BloodBankId = newRequestDto.BloodBankId;
 
         try
         {

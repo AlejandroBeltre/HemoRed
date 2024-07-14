@@ -20,6 +20,7 @@ api.interceptors.request.use(
 // User API calls
 export const registerUser = async (userData) => {
     const formData = new FormData();
+
     for (const key in userData) {
         if (key === 'image') {
             formData.append('image', userData[key]);
@@ -27,6 +28,7 @@ export const registerUser = async (userData) => {
             formData.append(key, userData[key]);
         }
     }
+
     try {
         const response = await api.post('/User/Register', formData, {
             headers: {
@@ -35,16 +37,14 @@ export const registerUser = async (userData) => {
         });
         return response.data;
     } catch (error) {
-        throw error.response.data;
+        console.error('Registration error:', error.response || error);
+        throw error.response?.data || error.message;
     }
 };
 export const loginUser = async (loginData) => {
     try {
         const response = await api.post('/User/Login', loginData);
-        if (response.data.token) {
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('userRole', response.data.role);
-        }
+        console.log('Login response:', response.data); // Add this line to log the response
         return response.data;
     } catch (error) {
         throw error.response.data;
@@ -55,12 +55,35 @@ export const logoutUser = () => {
     localStorage.removeItem('userRole');
 };
 export const getUsers = () => api.get('/User');
-export const getUserById = (id) => api.get(`/User/${id}`);
+export const getUserById = async (id) => {
+    try {
+        const response = await api.get(`/User/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+};
 export const updateUser = (id, user) => api.put(`/User/${id}`, user);
 
 // Blood Bank API calls
 export const getBloodBanks = () => api.get('/BloodBank');
-export const createBloodBank = (bloodBank) => api.post('/BloodBank', bloodBank);
+export const createBloodBank = async (bloodBankData) => {
+    const formData = new FormData();
+    for (const key in bloodBankData) {
+        formData.append(key, bloodBankData[key]);
+    }
+    try {
+        const response = await api.post('/BloodBank', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Blood bank creation error:', error.response || error);
+        throw error.response?.data || error.message;
+    }
+};
 export const getBloodBankById = (id) => api.get(`/BloodBank/${id}`);
 export const updateBloodBank = (id, bloodBank) => api.put(`/BloodBank/${id}`, bloodBank);
 export const deleteBloodBank = (id) => api.delete(`/BloodBank/${id}`);
@@ -81,7 +104,15 @@ export const deleteCampaign = (id) => api.delete(`/Campaign/${id}`);
 
 // Request API calls
 export const getRequests = () => api.get('/Request');
-export const createRequest = (request) => api.post('/Request', request);
+export const createRequest = async (requestData) => {
+    try {
+        const response = await api.post('/Request', requestData);
+        return response.data;
+    } catch (error) {
+        console.error('Request creation error:', error.response || error);
+        throw error.response?.data || error.message;
+    }
+};
 export const getRequestById = (id) => api.get(`/Request/${id}`);
 export const updateRequest = (id, request) => api.put(`/Request/${id}`, request);
 export const deleteRequest = (id) => api.delete(`/Request/${id}`);
@@ -89,7 +120,19 @@ export const deleteRequest = (id) => api.delete(`/Request/${id}`);
 // Address API calls
 export const getAddresses = () => api.get('/Address');
 export const getAddressById = (id) => api.get(`/Address/${id}`);
-export const createAddress = (address) => api.post('/Address', address);
+export const createAddress = async (addressData) => {
+    try {
+        const response = await api.post('/Address', addressData, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Address creation error:', error.response || error);
+        throw error.response?.data || error.message;
+    }
+};
 export const updateAddress = (id, address) => api.put(`/Address/${id}`, address);
 export const deleteAddress = (id) => api.delete(`/Address/${id}`);
 

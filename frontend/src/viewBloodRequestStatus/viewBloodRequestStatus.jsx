@@ -105,7 +105,7 @@ function ViewBloodRequestStatus() {
                                 <button 
                                     className='contact-bank-button' 
                                     style={{ margin: '10px' }} 
-                                    onClick={() => handleContactBank(bloodRequest.bloodBank)}
+                                    onClick={() => handleContactBank(bloodRequest.bloodBankId)}
                                 >
                                     Contactar Banco
                                 </button>

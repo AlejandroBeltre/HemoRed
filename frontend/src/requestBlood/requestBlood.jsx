@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './requestBlood.css';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import Headers from '../components/header';
 import Footer from '../components/footer';
+import { getBloodBanks, getBloodTypes, getAddressById, createRequest } from '../api'; // Import the API function
+import { UserContext } from '../UserContext'; // Import the UserContext
 
 function RequestBlood() {
+    const { user } = useContext(UserContext); // Get the user from the context
     const location = useLocation();
     const bankName = location.state?.bankName || '';
     const [formData, setFormData] = useState({
@@ -22,8 +25,65 @@ function RequestBlood() {
         hasDonor: 'no',
     });
 
+    const [bloodBanks, setBloodBanks] = useState([]); // State to store blood banks
+    const [bloodTypes, setBloodTypes] = useState([]); // State to store blood types
     const [notification, setNotification] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            setFormData(prevData => ({
+                ...prevData,
+                bloodBank: bankName,
+                fullName: user.fullName || '',
+                phoneNumber: user.phone || '+1',
+                documentType: user.documentType === 1 ? 'cedula' : 'passport',
+                addressID: user.addressID || '',
+                documentNumber: user.documentNumber,
+                bloodType: user.bloodTypeID || '',
+                // Keep other fields as they are
+            }));
+
+            if (user.addressID) {
+                const fetchAddress = async () => {
+                    try {
+                        const response = await getAddressById(user.addressID);
+                        setFormData(prevData => ({
+                            ...prevData,
+                            address: response.data.street + ', ' + response.data.buildingNumber || ''
+                        }));
+                    } catch (error) {
+                        console.error('Error fetching address:', error);
+                    }
+                };
+
+                fetchAddress();
+            }
+        }
+    }, [user, bankName]);
+
+    useEffect(() => {
+        const fetchBloodBanks = async () => {
+            try {
+                const response = await getBloodBanks();
+                setBloodBanks(response.data);
+            } catch (error) {
+                console.error('Error fetching blood banks:', error);
+            }
+        };
+
+        const fetchBloodTypes = async () => {
+            try {
+                const response = await getBloodTypes();
+                setBloodTypes(response.data);
+            } catch (error) {
+                console.error('Error fetching blood types:', error);
+            }
+        };
+
+        fetchBloodBanks();
+        fetchBloodTypes();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -92,26 +152,41 @@ function RequestBlood() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
-        setNotification("¡Solicitud enviada!");
-        setTimeout(() => setNotification(""), 2000);
-
-        setFormData({
-            bloodBank: '',
-            address: '',
-            fullName: '',
-            phoneNumber: '+1',
-            documentType: 'passport',
-            documentNumber: '',
-            bloodType: '',
-            quantity: '',
-            identificationDocument: '',
-            reason: '',
-            hasDonor: 'no',
-        });
-        // navigate('/somewhere'); // Uncomment and set the correct path if needed
+    
+        const requestData = {
+            userDocument: formData.documentNumber,
+            bloodTypeId: parseInt(formData.bloodType),
+            bloodBankId: bloodBanks.find(bank => bank.bloodBankName === formData.bloodBank)?.bloodBankID || 0,
+            requestTimeStamp: new Date().toISOString(),
+            requestReason: formData.reason,
+            requestedAmount: parseInt(formData.quantity),
+            status: 0 // Assuming 0 is the default status
+        };
+    
+        try {
+            const response = await createRequest(requestData);
+            setNotification("¡Solicitud enviada!");
+            setTimeout(() => setNotification(""), 2000);
+    
+            setFormData({
+                bloodBank: '',
+                address: '',
+                fullName: '',
+                phoneNumber: '+1',
+                documentType: 'passport',
+                documentNumber: '',
+                bloodType: '',
+                quantity: '',
+                identificationDocument: '',
+                reason: '',
+                hasDonor: 'no',
+            });
+            // navigate('/somewhere'); // Uncomment and set the correct path if needed
+        } catch (error) {
+            setNotification(error.message || "Request failed. Please try again.");
+        }
     };
 
     const handleBack = () => {
@@ -136,12 +211,11 @@ function RequestBlood() {
                             required
                         >
                             <option value="">Seleccionar</option>
-                            <option value="Centro de la sangre y especialidades">Centro de la sangre y especialidades</option>
-                            <option value="Banco de sangre Fundación Crisney">Banco de sangre Fundación Crisney</option>
-                            <option value="San Diego Blood Bank">San Diego Blood Bank</option>
-                            <option value="New York Blood Center">New York Blood Center</option>
-                            <option value="Blood Bank of Delmarva">Blood Bank of Delmarva</option>
-                            <option value="Carter BloodCare">Carter BloodCare</option>
+                            {bloodBanks.map(bank => (
+                                <option key={bank.bloodBankID} value={bank.bloodBankName}>
+                                    {bank.bloodBankName}
+                                </option>
+                            ))}
                         </select> 
                     </div>
 
@@ -217,14 +291,11 @@ function RequestBlood() {
                             required
                         >
                             <option value="">Seleccionar</option>
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
+                            {bloodTypes.map(type => (
+                                <option key={type.bloodTypeID} value={type.bloodTypeID}>
+                                    {type.bloodType}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
