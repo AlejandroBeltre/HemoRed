@@ -85,7 +85,13 @@ export const createBloodBank = async (bloodBankData) => {
     }
 };
 export const getBloodBankById = (id) => api.get(`/BloodBank/${id}`);
-export const updateBloodBank = (id, bloodBank) => api.put(`/BloodBank/${id}`, bloodBank);
+export const updateBloodBank = (id, data) => {
+    return api.put(`/BloodBank/${id}`, data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+};
 export const deleteBloodBank = (id) => api.delete(`/BloodBank/${id}`);
 
 // Blood Inventory API calls
@@ -96,7 +102,25 @@ export const updateBloodInventory = (id, blood) => api.put(`/BloodInventory/${id
 export const deleteBloodInventory = (id) => api.delete(`/BloodInventory/${id}`);
 
 // Campaign API calls
-export const getCampaigns = () => api.get('/Campaign');
+export const getCampaigns = async () => {
+    try {
+        const response = await api.get('/Campaign');
+        return response.data.map(campaign => ({
+            id: campaign.campaignID,
+            addressID: campaign.addressID,
+            organizerID: campaign.organizerID,
+            name: campaign.campaignName,
+            description: campaign.description,
+            startTimestamp: campaign.startTimestamp,
+            endTimestamp: campaign.endTimestamp,
+            image: campaign.image,
+            isActive: true // Assuming all campaigns are active by default
+        }));
+    } catch (error) {
+        console.error('Error fetching campaigns:', error.response || error);
+        throw error.response?.data || error.message;
+    }
+};
 export const createCampaign = (campaign) => api.post('/Campaign', campaign);
 export const getCampaignById = (id) => api.get(`/Campaign/${id}`);
 export const updateCampaign = (id, campaign) => api.put(`/Campaign/${id}`, campaign);
