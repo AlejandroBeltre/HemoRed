@@ -95,7 +95,7 @@ namespace Tests
         {
             var result = await _controller.GetBloodBag(999);
 
-            Assert.IsInstanceOf<NotFoundResult>(result.Result);
+            result.Result.Should().Be(typeof(NotFoundResult));
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace Tests
 
             var result = await _controller.PutBloodBag(1, newBloodBagDto);
 
-            Assert.IsInstanceOf<NoContentResult>(result);
+            result.Should().Be(typeof(NoContentResult));
         }
 
         [Test]
@@ -129,7 +129,7 @@ namespace Tests
 
             var result = await _controller.PutBloodBag(999, newBloodBagDto);
 
-            Assert.IsInstanceOf<NotFoundResult>(result);
+            result.Should().Be(typeof(NotFoundResult));
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace Tests
         {
             var result = await _controller.DeleteBloodBag(1);
 
-            Assert.IsInstanceOf<NoContentResult>(result);
+            result.Should().Be(typeof(NoContentResult));
         }
 
         [Test]
@@ -163,7 +163,7 @@ namespace Tests
         {
             var result = await _controller.DeleteBloodBag(999);
 
-            Assert.IsInstanceOf<NotFoundResult>(result);
+            result.Should().Be(typeof(NotFoundResult));
         }
     }
 }

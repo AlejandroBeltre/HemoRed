@@ -32,7 +32,7 @@ public class RegisterUserDTO
     public string? Phone { get; set; }
     public UserRole UserRole { get; set; }
     public DateTime? LastDonationDate { get; set; }
-    public string? Image { get; set; }
+    public IFormFile? Image { get; set; }
 }
 
 public class LoginUserDTO
@@ -44,5 +44,5 @@ public class LoginUserDTO
 public class UpdateUserDTO {
     public string? Email { get; set; }
     public string? Phone { get; set; }
-    public string? Image { get; set; }
+    public IFormFile? Image { get; set; }
 }

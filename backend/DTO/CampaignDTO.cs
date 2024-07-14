@@ -20,5 +20,5 @@ public class NewCampaignDto
     public string Description { get; set; }
     public DateTime StartTimestamp { get; set; }
     public DateTime EndTimestamp { get; set; }
-    public string? Image { get; set; }
+    public IFormFile? Image { get; set; }
 }

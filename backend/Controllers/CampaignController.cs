@@ -10,6 +10,7 @@ namespace backend.Controllers;
 [ApiController]
 public class CampaignController(HemoRedContext _hemoredContext) : ControllerBase
 {
+    private const string IMAGE_SERVER_URL = "http://localhost:8080/";
     // GET: api/Campaign
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CampaignDto>>> GetCampaigns()
@@ -56,22 +57,28 @@ public class CampaignController(HemoRedContext _hemoredContext) : ControllerBase
         return campaign;
     }
     [HttpPost]
-    public async Task<ActionResult<CampaignDto>> PostCampaign([FromForm]NewCampaignDto newCampaignDto, [FromForm]IFormFile? image)
+    public async Task<ActionResult<CampaignDto>> PostCampaign([FromForm]NewCampaignDto newCampaignDto)
     {
-        string imagePath = null!;
-        if (image != null && image.Length > 0)
+        string imageUrl = null;
+        if (newCampaignDto.Image != null && newCampaignDto.Image.Length > 0)
         {
-            var uploadFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
-            if(!Directory.Exists(uploadFolderPath))
+            var uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+            if (!Directory.Exists(uploadsFolderPath))
             {
-                Directory.CreateDirectory(uploadFolderPath);
+                Directory.CreateDirectory(uploadsFolderPath);
             }
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-            imagePath = Path.Combine(uploadFolderPath, fileName);
-            await using var stream = new FileStream(imagePath, FileMode.Create);
-            await image.CopyToAsync(stream);
+
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(newCampaignDto.Image.FileName);
+            var fullPath = Path.Combine(uploadsFolderPath, fileName);
+
+            imageUrl = IMAGE_SERVER_URL + fileName;
+
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await newCampaignDto.Image.CopyToAsync(stream);
+            }
         }
-        
+
         var address = await _hemoredContext.TblAddresses.FindAsync(newCampaignDto.AddressID);
         var organizer = await _hemoredContext.TblOrganizers.FindAsync(newCampaignDto.OrganizerID);
         var campaign = new TblCampaign
@@ -80,7 +87,7 @@ public class CampaignController(HemoRedContext _hemoredContext) : ControllerBase
             CampaignName = newCampaignDto.CampaignName,
             Description= newCampaignDto.Description,
             EndTimestamp= newCampaignDto.EndTimestamp,
-            Image= imagePath,
+            Image= imageUrl, //Store the full URL
             Address = address,
             Organizer = organizer,
             OrganizerId= newCampaignDto.OrganizerID,
@@ -103,9 +110,9 @@ public class CampaignController(HemoRedContext _hemoredContext) : ControllerBase
 
         return CreatedAtAction("GetCampaign", new { id = campaign.CampaignId}, createdCampaignDto);
     }
-// PUT: api/BloodBank/5
+// PUT: api/Campaign
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutCampaign(int id, [FromForm]CampaignDto newCampaignDto, [FromForm] IFormFile? image)
+    public async Task<IActionResult> PutCampaign(int id, [FromForm]NewCampaignDto newCampaignDto)
     {
         var campaign = await _hemoredContext.TblCampaigns.FindAsync(id);
         if (campaign == null)
@@ -113,8 +120,8 @@ public class CampaignController(HemoRedContext _hemoredContext) : ControllerBase
             return NotFound();
         }
 
-        string? imagePath = campaign.Image; // Keep the existing image path if no new image is uploaded
-        if (image != null && image.Length > 0)
+        // Keep the existing image path if no new image is uploaded
+        if (newCampaignDto.Image != null && newCampaignDto.Image.Length > 0)
         {
             var uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
             if (!Directory.Exists(uploadsFolderPath))
@@ -122,13 +129,33 @@ public class CampaignController(HemoRedContext _hemoredContext) : ControllerBase
                 Directory.CreateDirectory(uploadsFolderPath);
             }
 
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-            imagePath = Path.Combine(uploadsFolderPath, fileName);
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(newCampaignDto.Image.FileName);
+            var fullPath = Path.Combine(uploadsFolderPath, fileName);
+            var newImageUrl = IMAGE_SERVER_URL + fileName;
 
-            using (var stream = new FileStream(imagePath, FileMode.Create))
+            using (var stream = new FileStream(fullPath, FileMode.Create))
             {
-                await image.CopyToAsync(stream);
+                await newCampaignDto.Image.CopyToAsync(stream);
             }
+            // Delete the old image if it exists
+            if (!string.IsNullOrEmpty(campaign.Image))
+            {
+                try
+                {
+                    var oldFileName = Path.GetFileName(new Uri(campaign.Image).LocalPath);
+                    var oldImagePath = Path.Combine(uploadsFolderPath, oldFileName);
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+                catch (UriFormatException)
+                {
+                    // If the old image URL is invalid, just ignore it and continue
+                    // You might want to log this situation
+                }
+            }
+            campaign.Image = newImageUrl;
         }
 
         campaign.AddressId = newCampaignDto.AddressID;
@@ -137,7 +164,6 @@ public class CampaignController(HemoRedContext _hemoredContext) : ControllerBase
         campaign.EndTimestamp=  newCampaignDto.EndTimestamp;
         campaign.Description= newCampaignDto.Description;
         campaign.OrganizerId =  newCampaignDto.OrganizerID;
-        campaign.Image= imagePath;
 
         try
         {

@@ -19,16 +19,12 @@ namespace backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UserController : ControllerBase
+public class UserController(HemoRedContext _hemoredContext, IOptions<JwtOptions> jwtOptions)
+    : ControllerBase
 {
-    private readonly HemoRedContext _hemoredContext;
-    private readonly JwtOptions _jwtOptions;
+    private const string IMAGE_SERVER_URL = "http://localhost:8080/";
+    private readonly JwtOptions _jwtOptions = jwtOptions.Value;
 
-    public UserController(HemoRedContext hemoredContext, IOptions<JwtOptions> jwtOptions)
-    {
-        _hemoredContext = hemoredContext;
-        _jwtOptions = jwtOptions.Value;
-    }
     // GET: api/Users
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
@@ -59,21 +55,21 @@ public class UserController : ControllerBase
     public async Task<ActionResult<UserDto>> GetUser(string id)
     {
         var user = await _hemoredContext.TblUsers.Where(u => u.DocumentNumber == id).Select(u => new UserDto
-        {
-            DocumentNumber = u.DocumentNumber,
-            DocumentType = u.DocumentType,
-            BloodTypeID = u.BloodTypeId,
-            AddressID = u.AddressId,
-            FullName = u.FullName,
-            Email = u.Email,
-            Password = u.Password,
-            BirthDate = u.BirthDate,
-            Gender = u.Gender,
-            Phone = u.Phone,
-            UserRole = u.UserRole,
-            LastDonationDate = u.LastDonationDate,
-            Image = u.Image
-        })
+            {
+                DocumentNumber = u.DocumentNumber,
+                DocumentType = u.DocumentType,
+                BloodTypeID = u.BloodTypeId,
+                AddressID = u.AddressId,
+                FullName = u.FullName,
+                Email = u.Email,
+                Password = u.Password,
+                BirthDate = u.BirthDate,
+                Gender = u.Gender,
+                Phone = u.Phone,
+                UserRole = u.UserRole,
+                LastDonationDate = u.LastDonationDate,
+                Image = u.Image
+            })
             .FirstOrDefaultAsync();
         if (user == null)
         {
@@ -82,49 +78,55 @@ public class UserController : ControllerBase
 
         return user;
     }
+
     // POST: api/BloodBank
     [HttpPost("Register")]
-    [Consumes("multipart/form-data")]
-    public async Task<IActionResult> Register([FromForm] RegisterUserDTO registerUserDTO, [FromForm] IFormFile? image)
+    public async Task<ActionResult<UserDto>> Register(RegisterUserDTO registerUserDto)
     {
-        if (await _hemoredContext.TblUsers.AnyAsync(u => u.DocumentNumber == registerUserDTO.DocumentNumber))
+        if (await _hemoredContext.TblUsers.AnyAsync(u => u.DocumentNumber == registerUserDto.DocumentNumber))
         {
             return BadRequest("User already exists");
         }
 
-        string? imagePath = null;
-        if (image != null && image.Length > 0)
+        string imageUrl = null;
+        if (registerUserDto.Image != null && registerUserDto.Image.Length > 0)
         {
-            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-            var filePath = Path.Combine(uploadPath, fileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            var uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+            if (!Directory.Exists(uploadsFolderPath))
             {
-                await image.CopyToAsync(stream);
-            } 
-            
-            imagePath = fileName;
+                Directory.CreateDirectory(uploadsFolderPath);
+            }
+
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(registerUserDto.Image.FileName);
+            var fullPath = Path.Combine(uploadsFolderPath, fileName);
+
+            imageUrl = IMAGE_SERVER_URL + fileName;
+
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await registerUserDto.Image.CopyToAsync(stream);
+            }
         }
 
         var userToCreate = new TblUser
         {
-            DocumentNumber = registerUserDTO.DocumentNumber,
-            DocumentType = registerUserDTO.DocumentType,
-            BloodTypeId = registerUserDTO.BloodTypeID,
-            AddressId = registerUserDTO.AddressID,
-            FullName = registerUserDTO.FullName,
-            Email = registerUserDTO.Email,
-            Password = registerUserDTO.Password,
-            BirthDate = registerUserDTO.BirthDate,
-            Gender = registerUserDTO.Gender,
-            Phone = registerUserDTO.Phone,
-            UserRole = registerUserDTO.UserRole,
-            LastDonationDate = registerUserDTO.LastDonationDate,
-            Image = imagePath
+            DocumentNumber = registerUserDto.DocumentNumber,
+            DocumentType = registerUserDto.DocumentType,
+            BloodTypeId = registerUserDto.BloodTypeID,
+            AddressId = registerUserDto.AddressID,
+            FullName = registerUserDto.FullName,
+            Email = registerUserDto.Email,
+            Password = registerUserDto.Password,
+            BirthDate = registerUserDto.BirthDate,
+            Gender = registerUserDto.Gender,
+            Phone = registerUserDto.Phone,
+            UserRole = registerUserDto.UserRole,
+            LastDonationDate = registerUserDto.LastDonationDate,
+            Image = imageUrl
         };
 
         _hemoredContext.TblUsers.Add(userToCreate);
-        
+
         try
         {
             await _hemoredContext.SaveChangesAsync();
@@ -140,15 +142,18 @@ public class UserController : ControllerBase
     [HttpPost("Login")]
     public async Task<IActionResult> Login(LoginUserDTO loginUserDTO)
     {
-        var userFromDB = await _hemoredContext.TblUsers.FirstOrDefaultAsync(u => u.Email == loginUserDTO.Email && u.Password == loginUserDTO.Password);
+        var userFromDB = await _hemoredContext.TblUsers.FirstOrDefaultAsync(u =>
+            u.Email == loginUserDTO.Email && u.Password == loginUserDTO.Password);
         if (userFromDB == null)
         {
             return Unauthorized("Invalid credentials");
         }
+
         if (string.IsNullOrEmpty(_jwtOptions.SigningKey))
         {
             return StatusCode(500, "JWT key is not configured.");
         }
+
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, userFromDB.Email),
@@ -165,46 +170,85 @@ public class UserController : ControllerBase
             signingCredentials: creds
         );
 
-        return Ok(new {
+        return Ok(new
+        {
             token = new JwtSecurityTokenHandler().WriteToken(token),
             role = userFromDB.UserRole
         });
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(string id, [FromForm] UpdateUserDTO updateUserDTO, [FromForm] IFormFile? image)
+    [HttpPut("{documentNumber}")]
+    public async Task<IActionResult> UpdateUser(string documentNumber, UpdateUserDTO updateUser)
     {
-        var user = await _hemoredContext.TblUsers.FindAsync(id);
+        var user = await _hemoredContext.TblUsers.FindAsync(documentNumber);
         if (user == null)
         {
             return NotFound();
         }
 
-        if (updateUserDTO.Email != null)
+        if (updateUser.Image != null && updateUser.Image.Length > 0)
         {
-            user.Email = updateUserDTO.Email;
-        }
-        if (updateUserDTO.Phone != null)
-        {
-            user.Phone = updateUserDTO.Phone;
-        }
-
-        if (image != null && image.Length > 0)
-        {
-            var uploadFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
-            if (!Directory.Exists(uploadFolderPath))
+            var uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+            if (!Directory.Exists(uploadsFolderPath))
             {
-                Directory.CreateDirectory(uploadFolderPath);
+                Directory.CreateDirectory(uploadsFolderPath);
             }
 
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-            var filePath = Path.Combine(uploadFolderPath, fileName);
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(updateUser.Image.FileName);
+            var fullPath = Path.Combine(uploadsFolderPath, fileName);
+            var newImageUrl = IMAGE_SERVER_URL + fileName;
 
-            await using var stream = new FileStream(filePath, FileMode.Create);
-            await image.CopyToAsync(stream);
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await updateUser.Image.CopyToAsync(stream);
+            }
+
+            // Delete the old image if it exists
+            if (!string.IsNullOrEmpty(user.Image))
+            {
+                try
+                {
+                    var oldFileName = Path.GetFileName(new Uri(user.Image).LocalPath);
+                    var oldImagePath = Path.Combine(uploadsFolderPath, oldFileName);
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+                catch (UriFormatException)
+                {
+                    // If the old image URL is invalid, just ignore it and continue
+                    // You might want to log this situation
+                }
+            }
+
+            user.Image = newImageUrl;
         }
 
-        await _hemoredContext.SaveChangesAsync();
+        // Update other properties
+        user.Email = updateUser.Email;
+        user.Phone = updateUser.Phone;
+
+        try
+        {
+            await _hemoredContext.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!UserExists(documentNumber))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
         return NoContent();
+    }
+    private bool UserExists(string id)
+    {
+        return _hemoredContext.TblUsers.Any(e => e.DocumentNumber == id);
     }
 }
