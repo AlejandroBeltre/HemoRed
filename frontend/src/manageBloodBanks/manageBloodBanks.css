@@ -13,6 +13,11 @@
     font-size: 14px;
 }
 
+.edit-button-manage-blood-banks:hover {
+    background-color: #153440;
+    color: white;
+}
+
 .toggle-active-button {
     background-color: transparent;
     color: #BF2C32;
@@ -33,4 +38,79 @@
     background-color: #BF2C32;
     border: 1px solid #BF2C32;
     color: white;
+}
+
+.blood-bank-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.card-header {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blood-bank-logo {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.no-image {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    color: #999;
+    font-size: 14px;
+}
+
+.card-content {
+    text-align: left;
+}
+
+.blood-inventory-bank-name {
+    font-size: 18px;
+}
+
+.bank-status {
+    display: inline-block;
+}
+
+.status-active {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-inactive {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.toggle-active-button {
+    flex: 1;
+}
+
+.edit-button-manage-blood-banks {
+    flex: 1;
 }

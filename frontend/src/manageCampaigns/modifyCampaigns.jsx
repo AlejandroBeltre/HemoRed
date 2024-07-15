@@ -4,15 +4,12 @@ import Footer from "../components/footer";
 import Header from "../components/header";
 import "./modifyCampaigns.css";
 import { ArrowLeftOutlined, FileImageFilled } from "@ant-design/icons";
-import diaDelDonador from '../assets/images/diaDelDonador.png';
-import regalaVida from '../assets/images/regalaVida.png';
-import sangreParaTodos from '../assets/images/sangreParaTodos.png';
+import { getCampaignById, updateCampaign } from "../api";
 
 function ModifyCampaigns() {
     const navigate = useNavigate();
     const { campaignId } = useParams();
 
-    const [campaign, setCampaign] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
         organizer: '',
@@ -30,61 +27,47 @@ function ModifyCampaigns() {
 
     useEffect(() => {
         const fetchCampaign = async () => {
-            setIsLoading(true);
             try {
-                // Simulate fetching data from an API
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                const campaigns = [
-                    {
-                        id: '1',
-                        name: "¡Sangre para todos!",
-                        organizer: "Cruz Roja Americana",
-                        address: "123 Elm Street, Springfield, IL 62704, USA",
-                        description: "Campaña para donar sangre",
-                        startDate: "2023-06-13",
-                        startTime: "07:00",
-                        endDate: "2023-06-15",
-                        endTime: "15:00",
-                        image: sangreParaTodos,
-                    },
-                    {
-                        id: '2',
-                        name: "Regala vida",
-                        organizer: "Servicios de Sangre de Canadá",
-                        address: "456 Maple Avenue, Toronto, ON M4C 1B5, Canada",
-                        description: "Campaña para donar sangre",
-                        startDate: "2024-06-14",
-                        startTime: "09:00",
-                        endDate: "2024-06-15",
-                        endTime: "17:00",
-                        image: regalaVida,
-                    },
-                    {
-                        id: '3',
-                        name: "Dia del donador",
-                        organizer: "Servicios Nacional de Salud de la Sangre y Transplantes",
-                        address: "789 Pine Road, London, SW1A 1AA, United Kingdom",
-                        description: "Campaña para donar sangre",
-                        startDate: "2024-01-12",
-                        startTime: "09:00",
-                        endDate: "2024-01-12",
-                        endTime: "14:00",
-                        image: diaDelDonador,
-                    }
-                ];
-                const mockCampaign = campaigns.find(campaign => campaign.id === campaignId);
-                setCampaign(mockCampaign);
-                setFormData(mockCampaign);
+                const response = await getCampaignById(campaignId);
+                console.log('Raw campaign data:', response);
+    
+                if (!response || typeof response !== 'object') {
+                    throw new Error('Invalid response from server');
+                }
+    
+                if (!response.startTimestamp || !response.endTimestamp) {
+                    console.error('Missing timestamp data. Available fields:', response);
+                    throw new Error('Missing timestamp data');
+                }
+    
+                const startDate = new Date(response.startTimestamp);
+                const endDate = new Date(response.endTimestamp);
+    
+                if (isNaN(startDate) || isNaN(endDate)) {
+                    throw new Error('Invalid date format');
+                }
+    
+                setFormData({
+                    name: response.campaignName || '',
+                    organizer: 'AFPHumano',
+                    address: 'Winston churchill, 39',
+                    description: response.description || '',
+                    startDate: startDate.toISOString().split('T')[0],
+                    startTime: startDate.toTimeString().split(' ')[0].slice(0, 5),
+                    endDate: endDate.toISOString().split('T')[0],
+                    endTime: endDate.toTimeString().split(' ')[0].slice(0, 5),
+                    image: response.image || null,
+                });
+                setIsLoading(false);
             } catch (error) {
-                setError('Failed to fetch campaign data');
-            } finally {
+                console.error('Failed to fetch campaign data:', error);
+                setError('Failed to fetch campaign data: ' + error.message);
                 setIsLoading(false);
             }
         };
-
+    
         fetchCampaign();
     }, [campaignId]);
-
     const handleBack = () => {
         navigate(-1);
     };
@@ -104,11 +87,33 @@ function ModifyCampaigns() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
-        setNotification("¡Campaña actualizada!");
-        setTimeout(() => setNotification(""), 2000);
+        try {
+            const campaignData = new FormData();
+            campaignData.append('CampaignID', campaignId);
+            campaignData.append('AddressID', 1);
+            campaignData.append('OrganizerID', 1);
+            campaignData.append('CampaignName', formData.name);
+            campaignData.append('Description', formData.description);
+            
+            const startTimestamp = new Date(`${formData.startDate}T${formData.startTime}`).toISOString();
+            const endTimestamp = new Date(`${formData.endDate}T${formData.endTime}`).toISOString();
+            
+            campaignData.append('StartTimestamp', startTimestamp);
+            campaignData.append('EndTimestamp', endTimestamp);
+            
+            if (formData.image instanceof File) {
+                campaignData.append('Image', formData.image);
+            }
+    
+            await updateCampaign(campaignId, campaignData);
+            setNotification("¡Campaña actualizada!");
+            setTimeout(() => setNotification(""), 2000);
+        } catch (error) {
+            console.error('Error updating campaign:', error);
+            setNotification("Error al actualizar la campaña");
+        }
     };
 
     if (isLoading) {
@@ -230,7 +235,7 @@ function ModifyCampaigns() {
                                 accept="image/*"
                             />
                             <div className="file-input-text">
-                                {formData.image ? formData.image : 'Ningn archivo seleccionado'}
+                                {formData.image ? formData.image : 'Ningún archivo seleccionado'}
                             </div>
                             <div className="file-input-icon">
                                 <FileImageFilled className='file-input-icon' />
@@ -240,8 +245,8 @@ function ModifyCampaigns() {
                     <div className="button-container">
                         <button type="submit" className="accept-button-blood-inventory">Actualizar</button>
                     </div>
+                    {notification    && <div className="notification">{notification}</div>}
                 </form>
-                {notification && <div className="notification">{notification}</div>}
             </div>
             <Footer />
         </div>

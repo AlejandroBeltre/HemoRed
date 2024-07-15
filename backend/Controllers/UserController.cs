@@ -170,11 +170,7 @@ public class UserController(HemoRedContext _hemoredContext, IOptions<JwtOptions>
             signingCredentials: creds
         );
 
-        return Ok(new
-        {
-            token = new JwtSecurityTokenHandler().WriteToken(token),
-            role = userFromDB.UserRole
-        });
+        return Ok(new { userId = userFromDB.DocumentNumber, userFromDB.Email, userFromDB.UserRole });
     }
 
     [HttpPut("{documentNumber}")]

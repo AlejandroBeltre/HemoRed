@@ -1,9 +1,10 @@
-  import './addBloodBank.css';
+import './addBloodBank.css';
 import React, { useState } from 'react';
 import Headers from '../components/header';
 import Footer from '../components/footer';
 import { ArrowLeftOutlined, FileImageFilled } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { createBloodBank } from '../api';
 
 const EnterpriseSchedule = ({ schedule, setSchedule }) => {
   const handleTimeChange = (type, value) => {
@@ -79,19 +80,28 @@ function AddBloodBank() {
       phoneNumber: value
     });
   };
+
   const [notification, setNotification] = useState("");
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setNotification("¡Banco de sangre creado!");
-    setTimeout(() => setNotification(""), 2000);
-    setFormData({
-      name: '',
-      address: '',
-      phoneNumber: '',
-      image: null,
-      schedule: {}
-    })
+    
+    try {
+      // Create the blood bank with a fixed addressID of 1
+      const bloodBankData = {
+        AddressID: 1,
+        BloodBankName: formData.name,
+        AvailableHours: '9AM-5PM', // Replace with actual value
+        Phone: formData.phoneNumber, // Replace with actual value
+        image: formData.image
+      };
+      await createBloodBank(bloodBankData);
+      
+      setNotification("¡Bancos de sangres actualizados!");
+      setTimeout(() => setNotification(""), 2000);
+    } catch (error) {
+      console.error('Error creating blood bank:', error);
+      setNotification("Error al actualizar los bancos de sangre");
+    }
   };
 
   return (
@@ -166,7 +176,6 @@ function AddBloodBank() {
             <button type="submit" className="accept-button-blood-inventory">Crear</button>
           </div>
           {notification && <div className="notification">{notification}</div>}
-
         </form>
       </div>
       <Footer />

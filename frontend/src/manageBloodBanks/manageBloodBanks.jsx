@@ -4,12 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../components/footer';
 import Headers from '../components/header';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import Crisney from '../assets/images/CrisNey.png';
-import NewYork from '../assets/images/NewYork.png';
-import SanDiego from '../assets/images/SanDiego.png';
+import { getBloodBanks, getAddressById } from '../api'; // Make sure to import getAddressById
 
 const BloodTypeDisplay = ({ type }) => {
-    const navigate = useNavigate();
     return (
         <div className='blood-type-display'>
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#BF2C32">
@@ -18,39 +15,29 @@ const BloodTypeDisplay = ({ type }) => {
             <span className='blood-type-bank-manage'>{type}</span>
         </div>
     );
-}
+};
 
-const BloodBankCard = ({ bank, toggleActiveStatus }) => {
+const BloodBankCard = ({ bank, address, toggleActiveStatus }) => {
     const navigate = useNavigate();
     const navigateToEditPage = () => {
-        navigate(`/manageBloodBanks/modifyBloodBank/${bank.id}`);
-    }
+        navigate(`/manageBloodBanks/modifyBloodBank/${bank.bloodBankID}`);
+    };
     return (
         <div className="blood-bank-card">
             <div className="card-header">
-                <img src={bank.logo} alt={`${bank.name} logo`} className="blood-bank-logo" />
-                <h2 className="blood-inventory-bank-name">{bank.name}</h2>
-                <span className={`bank-status ${bank.isActive ? 'status-active' : 'status-inactive'}`}>
-                    {bank.isActive ? 'Activo' : 'Inactivo'}
-                </span>
+                {bank.image ? (
+                    <img src={bank.image} alt={`${bank.bloodBankName} logo`} className="blood-bank-logo" />
+                ) : (
+                    <div className="no-image">Imagen no disponible</div>
+                )}
             </div>
-            <div className="blood-inventory-card-content">
-                <p className="bank-info">{bank.address}</p>
-                <p className="bank-info">{bank.phoneNumber}</p>
-                <p className="bank-info">{bank.schedule}</p>
-                <div className="blood-types-grid">
-                    {bank.bloodTypes.map((bloodType) => (
-                        <BloodTypeDisplay key={bloodType.type} type={bloodType.type} />
-                    ))}
-                </div>
+            <div className="card-content">
+                <h2 className="blood-inventory-bank-name">{bank.bloodBankName}</h2>
+                <p className="bank-info">Dirección: {address ? `${address.street}, ${address.buildingNumber}` : 'Loading...'}</p>
+                <p className="bank-info">Teléfono: {bank.phone}</p>
+                <p className="bank-info">Horas Disponibles: {bank.availableHours}</p>
             </div>
             <div className="button-group">
-                <button 
-                    className={`toggle-active-button ${bank.isActive ? 'deactivate' : 'activate'}`} 
-                    onClick={() => toggleActiveStatus(bank.id)}
-                >
-                    {bank.isActive ? 'Desactivar' : 'Activar'}
-                </button>
                 <button className="edit-button-manage-blood-banks" onClick={navigateToEditPage}>Editar</button>
             </div>
         </div>
@@ -58,96 +45,61 @@ const BloodBankCard = ({ bank, toggleActiveStatus }) => {
 };
 
 function ManageBloodBanks() {
-    const [bloodBanks, setBloodBanks] = useState([
-        {
-            id: 1,
-            name: "Blood Bank of Alaska",
-            isActive: true,
-            address: "1215 Airport Heights Dr, Anchorage, AK 99508, USA",
-            phoneNumber: "+1 (907) 222-5630",
-            schedule: "7:00AM - 7:00PM",
-            logo: Crisney,
-            bloodTypes: [
-                { type: "A+" },
-                { type: "A-" },
-                { type: "B+" },
-                { type: "B-" },
-                { type: "AB+" },
-                { type: "AB-" },
-                { type: "O+" },
-                { type: "O-" },
-            ]
-        },
-        {
-            id: 2,
-            name: "New York Blood Center",
-            isActive: false,
-            address: "619 W 54th St, New York, NY 10019",
-            phoneNumber: "1-800-000-0000",
-            schedule: "9:00AM - 7:00PM",
-            logo: NewYork,
-            bloodTypes: [
-                { type: "A+" },
-                { type: "A-" },
-                { type: "B+" },
-                { type: "B-" },
-                { type: "AB+" },
-                { type: "AB-" },
-                { type: "O+" },
-                { type: "O-" },
-            ]
-        },
-        {
-            id: 3,
-            name: "San Diego Blood Bank",
-            isActive: true,
-            address: "3636 Gateway Center Ave, San Diego, CA 92102, USA",
-            phoneNumber: "+1 (619) 400-8251",
-            schedule: "6:30AM - 5:00PM",
-            logo: SanDiego,
-            bloodTypes: [
-                { type: "A+" },
-                { type: "A-" },
-                { type: "B+" },
-                { type: "B-" },
-                { type: "AB+" },
-                { type: "AB-" },
-                { type: "O+" },
-                { type: "O-" },
-            ]
-        }
-    ]);
-
+    const [bloodBanks, setBloodBanks] = useState([]);
+    const [addresses, setAddresses] = useState({});
     const [searchTerm, setSearchTerm] = useState('');
-    const [filteredBanks, setFilteredBanks] = useState(bloodBanks);
+    const [filteredBanks, setFilteredBanks] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Update filtered banks whenever bloodBanks or searchTerm changes
+        const fetchBloodBanks = async () => {
+            try {
+                const response = await getBloodBanks();
+                setBloodBanks(response.data);
+                setFilteredBanks(response.data);
+
+                // Fetch addresses
+                const addressPromises = response.data.map(bank => getAddressById(bank.addressID));
+                const addressResponses = await Promise.all(addressPromises);
+                const addressData = addressResponses.reduce((acc, addressResponse) => {
+                    acc[addressResponse.data.addressID] = addressResponse.data;
+                    return acc;
+                }, {});
+                setAddresses(addressData);
+            } catch (error) {
+                console.error('Error fetching blood banks:', error);
+            }
+        };
+
+        fetchBloodBanks();
+    }, []);
+
+    useEffect(() => {
         const filtered = bloodBanks.filter(bank => 
-            bank.name.toLowerCase().includes(searchTerm.toLowerCase())
+            bank.bloodBankName.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredBanks(filtered);
     }, [bloodBanks, searchTerm]);
 
-    
     const toggleActiveStatus = (id) => {
         const updatedBanks = bloodBanks.map(bank => {
-            if (bank.id === id) {
+            if (bank.bloodBankID === id) {
                 return { ...bank, isActive: !bank.isActive };
             }
             return bank;
         });
         setBloodBanks(updatedBanks);
+        setFilteredBanks(updatedBanks.filter(bank => bank.bloodBankName.toLowerCase().includes(searchTerm.toLowerCase())));
     };
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    const navigate = useNavigate();
     const navigateToAddBloodPage = () => {
         navigate('/manageBloodBanks/addBloodBank');
     };
+
     const handleBack = () => {
         navigate(-1);
     };
@@ -166,33 +118,22 @@ function ManageBloodBanks() {
                         placeholder="Banco de sangre"
                         className='blood-banks-filtering'
                     />
-                    {searchTerm && (
-                        <div className="search-results">
-                        {filteredBanks.map((bank) => (
-                        <div 
-                            key={bank.id} 
-                            onClick={() => navigateToAddBloodPage(bank.id)}
-                            className="search-result-item"
-                        >
-                        </div>
+                    <button onClick={navigateToAddBloodPage} className="add-blood-btn">Añadir banco</button>
+                </div>
+                <div className='blood-bank-inventory-grid'>
+                    {filteredBanks.map((bank) => (
+                        <BloodBankCard 
+                            key={`${bank.bloodBankID}-${bank.isActive}`} 
+                            bank={bank} 
+                            address={addresses[bank.addressID]}
+                            toggleActiveStatus={toggleActiveStatus} 
+                        />
                     ))}
                 </div>
-            )}
-            <button onClick={navigateToAddBloodPage} className="add-blood-btn">Añadir banco</button>
+            </div>
+            <Footer />
         </div>
-        <div className='blood-bank-inventory-grid'>
-            {filteredBanks.map((bank) => (
-                <BloodBankCard 
-                    key={`${bank.id}-${bank.isActive}`} 
-                    bank={bank} 
-                    toggleActiveStatus={toggleActiveStatus} 
-                />
-            ))}
-        </div>
-    </div>
-    <Footer />
-</div>
-);
+    );
 }
 
 export default ManageBloodBanks;

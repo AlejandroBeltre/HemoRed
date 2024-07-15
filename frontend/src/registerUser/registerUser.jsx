@@ -5,22 +5,25 @@ import Headers from '../components/header';
 import { ArrowLeftOutlined, EyeOutlined, EyeInvisibleOutlined, FileImageFilled } from '@ant-design/icons';
 import './registerUser.css'
 import { UserContext } from '../UserContext';
+import { registerUser } from '../api';
 
 function RegisterUser() {
     const [notification, setNotification] = useState("");
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [formData, setFormData] = useState({
-        documentType: 'passport',
         documentNumber: '',
+        documentType: 0, // 0 for passport, 1 for cedula
+        bloodTypeID: 1, // Default to first blood type, adjust as needed
+        addressID: null, // You'll need to handle address creation separately
         fullName: '',
-        phoneNumber: '+1',
         email: '',
-        direction: '',
-        birthDate: '',
-        bloodType: '',
-        gender: '',
-        profilePicture: null,
         password: '',
+        birthDate: '',
+        gender: 0, // 0 for male, 1 for female
+        phone: '',
+        userRole: 0, // 0 for regular user, 1 for admin
+        lastDonationDate: null,
+        image: null
     });
 
     useEffect(() => {
@@ -82,13 +85,13 @@ function RegisterUser() {
 
         setFormData({
             ...formData,
-            phoneNumber: value
+            phone: value
         });
 
         // Save form data to sessionStorage
         sessionStorage.setItem('formData', JSON.stringify({
             ...formData,
-            phoneNumber: value
+            phone: value
         }));
     };
 
@@ -107,42 +110,70 @@ function RegisterUser() {
 
         if (name === "documentNumber") {
             handleDocumentNumberChange(e);
-        } else if (name === "phoneNumber") {
+        } else if (name === "phone") {
             handlePhoneNumberChange(e);
         } else if (name === "fullName") {
             handleFullNameChange(e);
         } else if (type === "file") {
-            // Handle file input changes
             setFormData({
                 ...formData,
-                [name]: files[0] // Assuming you want to handle only the first file
+                [name]: files[0]
+            });
+        } else if (name === "documentType") {
+            setFormData({
+                ...formData,
+                [name]: parseInt(value)
             });
         } else {
-            // Handle other input changes normally
             setFormData({
                 ...formData,
-                [name]: value
+                [name]: type === "number" ? parseInt(value) : value
             });
-            sessionStorage.setItem('formData', JSON.stringify({
-                ...formData,
-                [name]: value
-            }));
         }
+
+        // Update sessionStorage
+        sessionStorage.setItem('formData', JSON.stringify({
+            ...formData,
+            [name]: type === "number" || name === "documentType" ? parseInt(value) : value
+        }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-
-        // Save final form data to sessionStorage
-        sessionStorage.setItem('formData', JSON.stringify(formData));
-
-        // Here you can simulate an API call
-        setTimeout(() => {
-            alert('Registration successful!');
-            sessionStorage.setItem('registeredUser', JSON.stringify(formData));
-            sessionStorage.removeItem('formData');
+        
+        // Prepare data for API
+        const dataToSend = {
+            documentNumber: formData.documentNumber,
+            documentType: parseInt(formData.documentType),
+            bloodTypeID: parseInt(formData.bloodTypeID),
+            addressID: parseInt(formData.addressID) || 1, // Defaulting to 1 if not provided
+            fullName: formData.fullName,
+            email: formData.email,
+            password: formData.password,
+            birthDate: formData.birthDate,
+            gender: parseInt(formData.gender),
+            phone: formData.phone.replace(/\D/g, ''), // Remove non-digit characters
+            userRole: 0, // Default to regular user
+        };
+    
+        // If there's an image, add it to formData
+        if (formData.image) {
+            dataToSend.image = formData.image;
+        }
+    
+        try {
+            const response = await registerUser(dataToSend);
+            setNotification("Registration successful!");
             navigate('/loginUser');
-        }, 1000);
+        } catch (error) {
+            setNotification(error.message || "Registration failed. Please try again.");
+        }
+    };
+    const handleFileChange = (e) => {
+        setFormData({
+            ...formData,
+            image: e.target.files[0]
+        });
     };
 
     const handleKeyPress = (event) => {
@@ -167,16 +198,15 @@ function RegisterUser() {
                     <p>Con tu donación, puedes transformar el futuro de quienes más lo necesitan. ¡Haz la diferencia hoy!</p>
                     <form onSubmit={handleSubmit} className="register-form">
                         <div className="form-group">
-                            {notification && <div className="notification">{notification}</div>}
                             <label>Tipo de documento:</label>
                             <div className="radio-group">
                                 <label>
                                     <input
                                         type="radio"
                                         name="documentType"
-                                        value="passport"
-                                        checked={formData.documentType === 'passport'}
-                                        onChange={handleChange}
+                                        value="0"
+                                        checked={formData.documentType === 0}
+                                        onChange={(e) => setFormData({ ...formData, documentType: parseInt(e.target.value) })}
                                     />
                                     Pasaporte
                                 </label>
@@ -184,21 +214,21 @@ function RegisterUser() {
                                     <input
                                         type="radio"
                                         name="documentType"
-                                        value="cedula"
-                                        checked={formData.documentType === 'cedula'}
-                                        onChange={handleChange}
+                                        value="1"
+                                        checked={formData.documentType === 1}
+                                        onChange={(e) => setFormData({ ...formData, documentType: parseInt(e.target.value) })}
                                     />
                                     Cédula
                                 </label>
                             </div>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="direction">Dirección:</label>
+                            <label htmlFor="addressID">Dirección:</label>
                             <input
                                 type="text"
-                                id="direction"
-                                name="direction"
-                                value={formData.direction}
+                                id="addressID"
+                                name="addressID"
+                                value={formData.addressID}
                                 onChange={handleChange}
                             />
                         </div>
@@ -211,7 +241,7 @@ function RegisterUser() {
                                 value={formData.documentNumber}
                                 onChange={handleChange}
                                 required
-                                placeholder={formData.documentType === 'passport' ? 'Número de pasaporte' : 'Número de cédula'}
+                                placeholder={formData.documentType === 0 ? 'Número de pasaporte' : 'Número de cédula'}
                             />
                         </div>
                         <div className="form-group">
@@ -248,55 +278,55 @@ function RegisterUser() {
                                     required
                                 >
                                     <option value="">Seleccionar</option>
-                                    <option value="male">Masculino</option>
-                                    <option value="female">Femenino</option>
+                                    <option value="0">Masculino</option>
+                                    <option value="1">Femenino</option>
                                 </select>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="bloodType">Tipo de sangre:</label>
+                                <label htmlFor="bloodTypeID">Tipo de sangre:</label>
                                 <select
-                                    id="bloodType"
-                                    name="bloodType"
-                                    value={formData.bloodType}
+                                    id="bloodTypeID"
+                                    name="bloodTypeID"
+                                    value={formData.bloodTypeID}
                                     onChange={handleChange}
                                     required
                                 >
                                     <option value="">Seleccionar</option>
-                                    <option value="A+">A+</option>
-                                    <option value="A-">A-</option>
-                                    <option value="B+">B+</option>
-                                    <option value="B-">B-</option>
-                                    <option value="AB+">AB+</option>
-                                    <option value="AB-">AB-</option>
-                                    <option value="O+">O+</option>
-                                    <option value="O-">O-</option>
+                                    <option value="1">A+</option>
+                                    <option value="2">A-</option>
+                                    <option value="3">B+</option>
+                                    <option value="4">B-</option>
+                                    <option value="5">AB+</option>
+                                    <option value="6">AB-</option>
+                                    <option value="7">O+</option>
+                                    <option value="8">O-</option>
                                 </select>
                             </div>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="phoneNumber">Número telefónico:</label>
+                            <label htmlFor="phone">Número telefónico:</label>
                             <input
                                 type="tel"
-                                id="phoneNumber"
-                                name="phoneNumber"
-                                value={formData.phoneNumber}
+                                id="phone"
+                                name="phone"
+                                value={formData.phone}
                                 onChange={handleChange}
                                 onKeyPress={handleKeyPress}
                                 required
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="profilePicture">Foto de perfil:</label>
+                            <label htmlFor="image">Foto de perfil:</label>
                             <div className="file-input">
                                 <input
                                     type="file"
-                                    id="profilePicture"
-                                    name="profilePicture"
+                                    id="image"
+                                    name="image"
                                     onChange={handleChange}
                                     accept="image/*"
                                 />
                                 <div className="file-input-text">
-                                    {formData.profilePicture ? formData.profilePicture.name : 'Ningún archivo seleccionado'}
+                                    {formData.image ? formData.image.name : 'Ningún archivo seleccionado'}
                                 </div>
                                 <div className="file-input-icon">
                                     <FileImageFilled className='file-input-icon' />
@@ -330,6 +360,11 @@ function RegisterUser() {
                                 </button>
                             </div>
                         </div>
+                        <input
+                            type="hidden"
+                            name="userRole"
+                            value="1"  // 0 for regular user
+                        />
                         <button type="submit" className="register-button">Registrarse</button>
                     </form>
                     <p className="login-link">

@@ -1,11 +1,12 @@
-import React, { Component, useState, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import Footer from '../components/footer'
-import Headers from '../components/header'
-import { ArrowLeftOutlined, EyeOutlined, EyeInvisibleOutlined} from '@ant-design/icons'
-import loginPhoto from '../assets/images/loginPhoto.png'
-import './loginUser.css'
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Footer from '../components/footer';
+import Headers from '../components/header';
+import { ArrowLeftOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import loginPhoto from '../assets/images/loginPhoto.png';
+import './loginUser.css';
 import { UserContext } from '../UserContext';
+import { loginUser, getUserById } from '../api';
 
 function LoginUser() {
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -15,6 +16,7 @@ function LoginUser() {
         password: ''
     });
     const [errors, setErrors] = useState({});
+    const [notification, setNotification] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -36,22 +38,34 @@ function LoginUser() {
         return newErrors;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const formErrors = validateForm();
         if (Object.keys(formErrors).length > 0) {
             setErrors(formErrors);
         } else {
-            const registeredUser = JSON.parse(sessionStorage.getItem('registeredUser'));
-            if (registeredUser && registeredUser.email === formData.email && registeredUser.password === formData.password) {
+            try {
+                // First, authenticate the user
+                const loginResponse = await loginUser(formData);
                 console.log('Login successful');
-                setUser(registeredUser);
+                
+                // Then, fetch the full user details
+                const userData = await getUserById(loginResponse.userId);
+                
+                // Store user data in localStorage
+                localStorage.setItem('currentUser', JSON.stringify(userData));
+                
+                // Update UserContext
+                setUser(userData);
+                
                 navigate('/');
-            } else {
+            } catch (error) {
                 setErrors({ email: 'Invalid email or password' });
+                setNotification(error.message || "Login failed. Please try again.");
             }
         }
     };
+
 
     return (
       <div>
@@ -94,6 +108,7 @@ function LoginUser() {
                 <button type="submit" className="submit-button">Iniciar sesión</button>
                 <p className='no-account'><Link to="/registerUser" style={{color: 'inherit'}}>¿No tienes cuenta?</Link></p>
                 </form>
+                {notification && <div className="notification">{notification}</div>}
             </div>
             <div className="image-container">
                 <img src={loginPhoto} alt="Office worker at desk" className='image'/>
@@ -102,6 +117,6 @@ function LoginUser() {
         <Footer />
       </div>
     )
-  }
+}
 
 export default LoginUser;
