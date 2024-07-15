@@ -3,12 +3,15 @@ import Footer from '../components/footer';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import './participateCampaign.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
+import { getAddressById } from '../api'; // Import necessary API functions
+import { UserContext } from '../UserContext';
 
 function ParticipateCampaign() {
     const location = useLocation();
     const campaign = location.state?.campaign || {};
+    const { user } = useContext(UserContext); // Get the user from context
     const [formData, setFormData] = useState({
         campaignName: campaign.name || '',
         fullName: '',
@@ -30,6 +33,34 @@ function ParticipateCampaign() {
             }));
         }
     }, [campaign]);
+
+    useEffect(() => {
+        if (user) {
+            setFormData(prevData => ({
+                ...prevData,
+                fullName: user.fullName || '',
+                phoneNumber: user.phone || '+1',
+                documentType: user.documentType || 'passport',
+                documentNumber: user.documentNumber || '',
+                bloodType: user.bloodTypeId ? user.bloodTypeId.toString() : '',
+                birthDate: user.birthDate || '',
+            }));
+
+            if (user.addressId) {
+                const fetchAddress = async () => {
+                    try {
+                        const response = await getAddressById(user.addressId);
+                        // You can use the address data if needed
+                        console.log('User address:', response.data);
+                    } catch (error) {
+                        console.error('Error fetching address:', error);
+                    }
+                };
+
+                fetchAddress();
+            }
+        }
+    }, [user]);
 
     const handlePhoneNumberChange = (event) => {
         let { value } = event.target;

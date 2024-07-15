@@ -94,12 +94,24 @@ export const updateBloodBank = (id, data) => {
 };
 export const deleteBloodBank = (id) => api.delete(`/BloodBank/${id}`);
 
-// Blood Inventory API calls
-export const getBloodInventory = () => api.get('/BloodInventory');
-export const addBloodToInventory = (blood) => api.post('/BloodInventory', blood);
-export const getBloodInventoryById = (id) => api.get(`/BloodInventory/${id}`);
-export const updateBloodInventory = (id, blood) => api.put(`/BloodInventory/${id}`, blood);
-export const deleteBloodInventory = (id) => api.delete(`/BloodInventory/${id}`);
+// Blood Bag API calls
+export const getBloodBags = () => api.get('/BloodBag');
+export const createBloodBag = async (bloodBag) => {
+    try {
+        const response = await api.post('/BloodBag', bloodBag, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Blood bag creation error:', error.response || error);
+        throw error.response?.data || error.message;
+    }
+};
+export const getBloodBagById = (id) => api.get(`/BloodBag/${id}`);
+export const updateBloodBag = (id, bloodBag) => api.put(`/BloodBag/${id}`, bloodBag);
+export const deleteBloodBag = (id) => api.delete(`/BloodBag/${id}`);
 
 // Campaign API calls
 export const getCampaigns = async () => {
@@ -122,7 +134,15 @@ export const getCampaigns = async () => {
     }
 };
 export const createCampaign = (campaign) => api.post('/Campaign', campaign);
-export const getCampaignById = (id) => api.get(`/Campaign/${id}`);
+export const getCampaignById = async (id) => {
+    try {
+        const response = await api.get(`/Campaign/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching campaign:', error.response || error);
+        throw error.response?.data || error.message;
+    }
+};
 export const updateCampaign = (id, campaign) => api.put(`/Campaign/${id}`, campaign);
 export const deleteCampaign = (id) => api.delete(`/Campaign/${id}`);
 
@@ -159,13 +179,6 @@ export const createAddress = async (addressData) => {
 };
 export const updateAddress = (id, address) => api.put(`/Address/${id}`, address);
 export const deleteAddress = (id) => api.delete(`/Address/${id}`);
-
-// Blood Bag API calls
-export const getBloodBags = () => api.get('/BloodBag');
-export const getBloodBagById = (id) => api.get(`/BloodBag/${id}`);
-export const createBloodBag = (bloodBag) => api.post('/BloodBag', bloodBag);
-export const updateBloodBag = (id, bloodBag) => api.put(`/BloodBag/${id}`, bloodBag);
-export const deleteBloodBag = (id) => api.delete(`/BloodBag/${id}`);
 
 // Blood Type API calls
 export const getBloodTypes = () => api.get('/BloodType');

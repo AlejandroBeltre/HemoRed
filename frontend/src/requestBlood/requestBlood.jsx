@@ -41,7 +41,6 @@ function RequestBlood() {
                 addressID: user.addressID || '',
                 documentNumber: user.documentNumber,
                 bloodType: user.bloodTypeID || '',
-                // Keep other fields as they are
             }));
 
             if (user.addressID) {

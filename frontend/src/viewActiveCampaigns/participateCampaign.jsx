@@ -3,10 +3,13 @@ import Footer from '../components/footer';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import './participateCampaign.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
+import { getAddressById, getCampaigns } from '../api'; // Import necessary API functions
+import { UserContext } from '../UserContext';
 
 function ParticipateCampaign() {
+    const { user } = useContext(UserContext); // Get the user from context
     const [formData, setFormData] = useState({
         campaignName: '',
         fullName: '',
@@ -19,7 +22,7 @@ function ParticipateCampaign() {
         isDonorCandidate: false,
         isAwareOfProcess: false,
     });
-
+    const [campaigns, setCampaigns] = useState([]);
     const handlePhoneNumberChange = (event) => {
         let { value } = event.target;
         value = value.replace(/[^\d]/g, '');
@@ -90,25 +93,55 @@ function ParticipateCampaign() {
         }
     };
 
+    useEffect(() => {
+        const fetchCampaigns = async () => {
+            try {
+                const response = await getCampaigns();
+                setCampaigns(response);
+            } catch (error) {
+                console.error('Error fetching campaigns:', error);
+            }
+        };
+
+        fetchCampaigns();
+    }, []);
+
+    useEffect(() => {
+        if (user) {
+            setFormData(prevData => ({
+                ...prevData,
+                fullName: user.fullName || '',
+                phoneNumber: user.phone || '+1',
+                documentType: user.documentType === 1 ? 'cedula' : 'passport',
+                documentNumber: user.documentNumber || '',
+                bloodType: user.bloodTypeID || '',
+                birthDate: user.birthDate ? new Date(user.birthDate).toISOString().split('T')[0] : '',
+            }));
+
+            if (user.addressId) {
+                const fetchAddress = async () => {
+                    try {
+                        const response = await getAddressById(user.addressId);
+                        // You can use the address data if needed
+                        console.log('User address:', response.data);
+                    } catch (error) {
+                        console.error('Error fetching address:', error);
+                    }
+                };
+
+                fetchAddress();
+            }
+        }
+    }, [user]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form submitted:', formData);
-        setNotification("¡Formulario enviado!");
-        setTimeout(() => setNotification(""), 2000);
-
-        setFormData({
-            campaignName: '',
-            fullName: '',
-            documentType: 'passport',
-            documentNumber: '',
-            phoneNumber: '+1',
-            birthDate: '',
-            bloodType: '',
-            medicalCondition: '',
-            isDonorCandidate: false,
-            isAwareOfProcess: false,
-        })
-        // navigate('/somewhere'); // Uncomment and set the correct path if needed
+        setNotification("¡Formulario enviado! Gracias por participar en la campaña.");
+        setTimeout(() => {
+            setNotification("");
+            navigate(-1); // Navigate back after showing the notification
+        }, 3000);
     };
 
     const handleBack = () => {
@@ -133,9 +166,11 @@ function ParticipateCampaign() {
                             required
                         >
                             <option value="">Seleccionar</option>
-                            <option value="campaign1">Campaña 1</option>
-                            <option value="campaign2">Campaña 2</option>
-                            {/* Add more options as needed */}
+                            {campaigns.map(campaign => (
+                                <option key={campaign.name} value={campaign.name}>
+                                    {campaign.name}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
@@ -222,15 +257,15 @@ function ParticipateCampaign() {
                             onChange={handleChange}
                             required
                         >
-                            <option value="">Seleccionar</option>
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
+                            <option value="0">Seleccionar</option>
+                            <option value="1">A+</option>
+                            <option value="2">A-</option>
+                            <option value="3">B+</option>
+                            <option value="5">B-</option>
+                            <option value="6">AB+</option>
+                            <option value="7">AB-</option>
+                            <option value="8">O+</option>
+                            <option value="9">O-</option>
                         </select>
                     </div>
 
