@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "S2guIOG7589vjDR3uUUns6DOBVhoP+1jCVNaBvShTTcTsyuzJKPoLfgxzcaxTJZDiYZaCeONW6daRQ8WMBtZ4A==",
+  "dgSpecHash": "GhfNrLPdgIs=",
   "success": true,
   "projectFilePath": "C:\\Users\\aleja\\Desktop\\Code\\HemoRed\\Backend.Tests\\Backend.Tests.csproj",
   "expectedPackageFiles": [
@@ -214,7 +214,10 @@
     "C:\\Users\\aleja\\.nuget\\packages\\xunit.core\\2.9.0\\xunit.core.2.9.0.nupkg.sha512",
     "C:\\Users\\aleja\\.nuget\\packages\\xunit.extensibility.core\\2.9.0\\xunit.extensibility.core.2.9.0.nupkg.sha512",
     "C:\\Users\\aleja\\.nuget\\packages\\xunit.extensibility.execution\\2.9.0\\xunit.extensibility.execution.2.9.0.nupkg.sha512",
-    "C:\\Users\\aleja\\.nuget\\packages\\zstdsharp.port\\0.8.0\\zstdsharp.port.0.8.0.nupkg.sha512"
+    "C:\\Users\\aleja\\.nuget\\packages\\zstdsharp.port\\0.8.0\\zstdsharp.port.0.8.0.nupkg.sha512",
+    "C:\\Users\\aleja\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.13\\microsoft.netcore.app.ref.8.0.13.nupkg.sha512",
+    "C:\\Users\\aleja\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.13\\microsoft.windowsdesktop.app.ref.8.0.13.nupkg.sha512",
+    "C:\\Users\\aleja\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.13\\microsoft.aspnetcore.app.ref.8.0.13.nupkg.sha512"
   ],
   "logs": []
 }
