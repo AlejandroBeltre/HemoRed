@@ -5,7 +5,7 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies without using cache
+# Install dependencies
 RUN npm install
 
 # Copy all files
@@ -22,7 +22,8 @@ RUN npm run build:railway
 RUN npm install -g serve
 
 # Set the command to serve the built application
-CMD ["serve", "-s", "build", "-l", "80"]
+# Use a shell form to access environment variables
+CMD serve -s build -l ${PORT:-80}
 
 # Expose port 80
 EXPOSE 80
