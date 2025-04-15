@@ -6,7 +6,6 @@ buildCommand = "dotnet publish -c Release -o out"
 startCommand = "dotnet out/backend.dll"
 healthcheckPath = "/"
 healthcheckTimeout = 100
-restartPolicyType = "on-failure"
 
 [nixpacks]
 dotnet-version = "8.0"
