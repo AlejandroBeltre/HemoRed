@@ -5,8 +5,14 @@ WORKDIR /app
 COPY *.csproj ./
 RUN dotnet restore
 
-# Copy all files and build
+# Copy everything else
 COPY . ./
+
+# IMPORTANT: Override the global.json file to use available SDK
+RUN rm -f global.json && \
+    echo '{"sdk":{"version":"9.0.203","rollForward":"latestFeature"}}' > global.json
+
+# Now build
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
