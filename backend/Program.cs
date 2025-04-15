@@ -23,6 +23,10 @@ namespace backend
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Set the port from the PORT environment variable for Railway
+            string port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+            builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
             builder.Services.AddAuthorization();
 
             // Add JWT configuration
@@ -44,7 +48,7 @@ namespace backend
                         ValidAudience = jwtOptions.Audience,
                         IssuerSigningKey = new SymmetricSecurityKey(signingKeyBytes)
                     };
-                }); 
+                });
 
             builder.Services.AddAuthorization(options =>
             {
@@ -60,12 +64,18 @@ namespace backend
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddControllers();
 
+            // Update CORS policy to include both local and production URLs
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll", builder =>{
-                    builder.WithOrigins("http://localhost:3000")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder.WithOrigins(
+                        "http://localhost:3000",
+                        "https://hemored-production.up.railway.app",
+                        "https://*.railway.app"
+                    )
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
                 });
             });
 
@@ -104,11 +114,17 @@ namespace backend
 
             var app = builder.Build();
 
+            // Ensure the uploads directory exists
+            var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+            if (!Directory.Exists(uploadsDir))
+            {
+                Directory.CreateDirectory(uploadsDir);
+            }
+
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "uploads")),
+                FileProvider = new PhysicalFileProvider(uploadsDir),
                 RequestPath = "/uploads"
             });
 
@@ -119,8 +135,21 @@ namespace backend
                 app.UseSwaggerUI();
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                // Always enable Swagger in Railway for API testing
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
             app.UseRouting();
-            app.UseHttpsRedirection();
+
+            // Railway is already handling HTTPS, so we can skip this in production
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+            }
+
             app.UseAuthentication();
             app.UseAuthorization();
 
