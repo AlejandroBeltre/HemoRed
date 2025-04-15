@@ -56,7 +56,7 @@ namespace backend
             });
 
             // Configure DbContext with connection string from appsettings.json
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") ?? builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<HemoRedContext>(options =>
                 options.UseMySQL(connectionString));
 
