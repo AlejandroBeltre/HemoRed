@@ -1,17 +1,20 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-# Copy csproj and restore dependencies
+# Copy csproj and fix the duplicate items issue
 COPY *.csproj ./
+RUN sed -i '/Enums\/allEnums.cs/d' *.csproj || true
+
+# Restore dependencies
 RUN dotnet restore
 
-# Copy entire project directory structure with all files 
+# Copy all files
 COPY . ./
 
-# Verify Enums directory and file exists (for debugging)
+# Verify Enums directory exists
 RUN ls -la Enums/
 
-# Override global.json with SDK version available in container
+# Override global.json
 RUN echo '{"sdk":{"version":"9.0.203","rollForward":"latestFeature"}}' > global.json
 
 # Build the application
@@ -21,10 +24,10 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 COPY --from=build /app/out .
 
-# Ensure the uploads directory exists
+# Ensure uploads directory exists
 RUN mkdir -p /app/uploads
 
-# Set environment variables
+# Environment setup
 ENV PORT=8080
 EXPOSE 8080
 
