@@ -1,30 +1,29 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-# Copy csproj first
+# Copy everything EXCEPT global.json first
 COPY *.csproj ./
+COPY [!g]* ./
+COPY Controllers/ ./Controllers/
+COPY Models/ ./Models/
+COPY DTO/ ./DTO/
+COPY Context/ ./Context/
+COPY classes/ ./classes/
 
-# Force target framework to match available runtime
-RUN sed -i 's/net8.0/net9.0/g' *.csproj
+# Create a new global.json that matches the available SDK
+RUN echo '{"sdk":{"version":"9.0.203","rollForward":"latestFeature"}}' > global.json
 
-# Restore dependencies
+# Restore and build
 RUN dotnet restore
-
-# Copy everything else
-COPY . ./
-
-# Build the application
 RUN dotnet publish -c Release -o out
 
-# Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 COPY --from=build /app/out .
 
-# Ensure the uploads directory exists
+# Create uploads directory
 RUN mkdir -p /app/uploads
 
-# Set environment variables
 ENV PORT=8080
 EXPOSE 8080
 
