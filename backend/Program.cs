@@ -72,7 +72,8 @@ namespace backend
                     builder.WithOrigins(
                         "http://localhost:3000",
                         "https://hemored-production.up.railway.app",
-                        "https://*.railway.app"
+                        "https://*.railway.app",
+                        "https://hemo-red.vercel.app"
                     )
                     .AllowAnyHeader()
                     .AllowAnyMethod();
