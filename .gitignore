@@ -5,3 +5,7 @@ frontend/README.md
 .vscode
 .idea
 .vs
+e2eTests/reports/
+e2eTests/*.log
+e2eTests/__pycache__/
+e2eTests/**/__pycache__/
