@@ -45,8 +45,7 @@ public partial class HemoRedContext : DbContext
     public virtual DbSet<TblUserEula> TblUserEulas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("Server=68.183.104.77;Port=3306;UserID=root;Password=AsuntadorSupremo1234;Database=HemoRedDB;");
+        => optionsBuilder.UseMySQL("Server=shortline.proxy.rlwy.net;Port=16308;UserID=root;Password=aMBlbokRwNYfMpIzOMovRkNbQhlEjdeL;Database=HemoRedDB;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

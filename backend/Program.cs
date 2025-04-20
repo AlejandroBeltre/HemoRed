@@ -24,7 +24,7 @@ namespace backend
             var builder = WebApplication.CreateBuilder(args);
 
             // Set the port from the PORT environment variable for Railway
-            string port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+            string port = Environment.GetEnvironmentVariable("PORT") ?? "16308";
             builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
             builder.Services.AddAuthorization();
