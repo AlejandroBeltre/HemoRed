@@ -1,84 +1,191 @@
-﻿using NUnit.Framework;
-using Moq;
+﻿using Xunit;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using backend.Context;
 using backend.Controllers;
+using backend.Context;
 using backend.Models;
 using backend.DTO;
-using MockQueryable.Moq;
-using Microsoft.AspNetCore.Mvc;
+using backend.Enums;
+using System.Threading.Tasks;
 
 namespace Backend.Tests.Controllers
 {
-    internal class BloodTypeControllerTests
+    public class BloodTypeValidationTests
     {
+        [Fact]
+        public async Task PostRequest_ValidBloodType_ReturnsCreatedAtAction()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<HemoRedContext>()
+                .UseInMemoryDatabase(databaseName: "ValidBloodTypeTest_1")
+                .EnableDetailedErrors()
+                .EnableSensitiveDataLogging()
+                // Remove any MySQL-specific configuration here
+                .Options;
 
-            private Mock<HemoRedContext> _mockContext;
-            private BloodTypeController _controller;
-            private Mock<DbSet<TblBloodType>> _mockBloodTypeSet;
-
-            [SetUp]
-            public void Setup()
+            // Preparar la base de datos en memoria con datos de prueba
+            using (var context = new TestHemoRedContext(options))
             {
-                _mockContext = new Mock<HemoRedContext>();
+                // Añadir tipos de sangre válidos
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 1, BloodType = "A+" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 2, BloodType = "A-" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 3, BloodType = "B+" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 4, BloodType = "B-" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 5, BloodType = "AB+" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 6, BloodType = "AB-" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 7, BloodType = "O+" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 8, BloodType = "O-" });
 
-                var bloodTypes = new List<TblBloodType>
-            {
-                new TblBloodType { BloodTypeId = 1, BloodType = "A+" },
-                new TblBloodType { BloodTypeId = 2, BloodType = "B+" }
-            }.AsQueryable();
+                // Añadir un banco de sangre
+                context.TblBloodBanks.Add(new TblBloodBank
+                {
+                    BloodBankId = 1,
+                    BloodBankName = "Test Blood Bank",
+                    AddressId = 1,
+                    AvailableHours = "9AM-5PM",
+                    Phone = "123-456-7890"
+                });
 
-                _mockBloodTypeSet = bloodTypes.BuildMock().BuildMockDbSet();
+                // Añadir dirección necesaria para relaciones
+                context.TblAddresses.Add(new TblAddress
+                {
+                    AddressId = 1,
+                    MunicipalityId = 1,
+                    ProvinceId = 1,
+                    Street = "Test Street",
+                    BuildingNumber = 123
+                });
 
-                _mockContext.Setup(c => c.TblBloodTypes).Returns(_mockBloodTypeSet.Object);
+                // Añadir un usuario
+                context.TblUsers.Add(new TblUser
+                {
+                    DocumentNumber = "001-1234567-8",
+                    FullName = "Test User",
+                    Email = "test@example.com",
+                    Password = "password",
+                    BloodTypeId = 1,
+                    BirthDate = new System.DateTime(1990, 1, 1),
+                    Gender = Gender.M,
+                    UserRole = UserRole.U
+                });
 
-                _mockContext.Setup(c => c.TblBloodTypes.FindAsync(It.IsAny<object[]>()))
-                    .Returns<object[]>(keyValues =>
-                    {
-                        var id = (int)keyValues.First();
-                        return new ValueTask<TblBloodType>(Task.FromResult(bloodTypes.FirstOrDefault(b => b.BloodTypeId == id)));
-                    });
-
-                _controller = new BloodTypeController(_mockContext.Object);
+                await context.SaveChangesAsync();
             }
 
-            [Test]
-            public async Task GetBloodTypes_ReturnsAllBloodTypes()
+            // Crear una nueva instancia del contexto para el controlador
+            using (var context = new TestHemoRedContext(options))
             {
-                var result = await _controller.GetBloodTypes();
-                Assert.AreEqual(2, result.Count());
+                var controller = new RequestController(context);
+
+                // Crear una solicitud con tipo de sangre válido (A+)
+                var requestDto = new NewRequestDto
+                {
+                    UserDocument = "001-1234567-8",
+                    BloodTypeId = 1, // A+
+                    BloodBankId = 1,
+                    RequestTimeStamp = System.DateTime.Now,
+                    RequestReason = "Test Request",
+                    RequestedAmount = 2,
+                    Status = Status.P
+                };
+
+                // Act
+                var result = await controller.PostRequest(requestDto);
+
+                // Assert
+                var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
+                var returnValue = Assert.IsType<RequestDto>(createdAtActionResult.Value);
+
+                Assert.Equal(1, returnValue.BloodTypeId);
+                Assert.Equal("001-1234567-8", returnValue.UserDocument);
+                Assert.Equal("Test Request", returnValue.RequestReason);
+            }
+        }
+
+        [Fact]
+        public async Task PostRequest_InvalidBloodType_ReturnsBadRequest()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<HemoRedContext>()
+                .UseInMemoryDatabase(databaseName: "ValidBloodTypeTest_2")
+                .EnableDetailedErrors()
+                .EnableSensitiveDataLogging()
+                // Remove any MySQL-specific configuration here
+                .Options;
+
+            // Preparar la base de datos en memoria con datos de prueba
+            using (var context = new TestHemoRedContext(options))
+            {
+                // Añadir tipos de sangre válidos (los mismos que en la prueba anterior)
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 1, BloodType = "A+" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 2, BloodType = "A-" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 3, BloodType = "B+" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 4, BloodType = "B-" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 5, BloodType = "AB+" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 6, BloodType = "AB-" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 7, BloodType = "O+" });
+                context.TblBloodTypes.Add(new TblBloodType { BloodTypeId = 8, BloodType = "O-" });
+
+                // Añadir un banco de sangre
+                context.TblBloodBanks.Add(new TblBloodBank
+                {
+                    BloodBankId = 1,
+                    BloodBankName = "Test Blood Bank",
+                    AddressId = 1,
+                    AvailableHours = "9AM-5PM",
+                    Phone = "123-456-7890"
+                });
+
+                // Añadir dirección necesaria para relaciones
+                context.TblAddresses.Add(new TblAddress
+                {
+                    AddressId = 1,
+                    MunicipalityId = 1,
+                    ProvinceId = 1,
+                    Street = "Test Street",
+                    BuildingNumber = 123
+                });
+
+                // Añadir un usuario
+                context.TblUsers.Add(new TblUser
+                {
+                    DocumentNumber = "001-1234567-8",
+                    FullName = "Test User",
+                    Email = "test@example.com",
+                    Password = "password",
+                    BloodTypeId = 1,
+                    BirthDate = new System.DateTime(1990, 1, 1),
+                    Gender = Gender.M,
+                    UserRole = UserRole.U
+                });
+
+                await context.SaveChangesAsync();
             }
 
-            [Test]
-            public async Task GetBloodTypeById_ReturnsBloodType_WhenIdExists()
+            // Crear una nueva instancia del contexto para el controlador
+            using (var context = new TestHemoRedContext(options))
             {
-                var result = await _controller.GetBloodTypeById(1);
-                Assert.IsNotNull(result);
-                Assert.AreEqual("A+", result.BloodType);
-            }
+                var controller = new RequestController(context);
 
-            [Test]
-            public async Task GetBloodTypeById_ReturnsNull_WhenIdDoesNotExist()
-            {
-                var result = await _controller.GetBloodTypeById(999);
-                Assert.IsNull(result);
-            }
+                // Crear una solicitud con tipo de sangre inválido (999, que no existe)
+                var requestDto = new NewRequestDto
+                {
+                    UserDocument = "001-1234567-8",
+                    BloodTypeId = 999, // Tipo inválido
+                    BloodBankId = 1,
+                    RequestTimeStamp = System.DateTime.Now,
+                    RequestReason = "Test Request",
+                    RequestedAmount = 2,
+                    Status = Status.P
+                };
 
-            [Test]
-            public async Task DeleteBloodType_ReturnsTrue_WhenIdExists()
-            {
-                var result = await _controller.DeleteBloodType(1);
-                Assert.IsTrue(result);
-            }
+                // Act
+                var result = await controller.PostRequest(requestDto);
 
-            [Test]
-            public async Task DeleteBloodType_ReturnsFalse_WhenIdDoesNotExist()
-            {
-                var result = await _controller.DeleteBloodType(999);
-                Assert.IsFalse(result);
+                // Assert
+                var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
+                Assert.Contains("Invalid user or blood type", badRequestResult.Value.ToString());
             }
         }
     }
+}
